@@ -1,0 +1,36 @@
+{
+  "name": "swaggest/php-code-builder",
+  "type": "library",
+  "description": "PHP code generation library",
+  "keywords": ["library"],
+  "homepage": "https://github.com/swaggest/php-code-builder",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Viacheslav Poturaev",
+      "email": "vearutop@gmail.com",
+      "homepage": "https://github.com/vearutop"
+    }
+  ],
+  "require": {
+    "swaggest/code-builder": "dev-master",
+    "php": ">=5.3.0"
+  },
+  "require-dev": {
+    "codeclimate/php-test-reporter": "0.1.2",
+    "phpunit/phpunit": "4.8.23"
+  },
+  "autoload": {
+    "psr-4": {
+      "Swaggest\\PhpCodeBuilder\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Swaggest\\PhpCodeBuilder\\Tests\\": "tests/src/"
+    }
+  },
+  "scripts": {
+    "test": "php -dxdebug.coverage_enable=1 ./vendor/bin/phpunit --coverage-text"
+  }
+}
