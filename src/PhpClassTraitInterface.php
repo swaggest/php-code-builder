@@ -8,7 +8,7 @@ abstract class PhpClassTraitInterface extends PhpTemplate implements PhpAnyType
     protected $name;
     private $namespace;
 
-    /** @var PhpPhpClass */
+    /** @var PhpClass */
     private $extends;
 
     protected function renderExtends()
@@ -45,5 +45,57 @@ PHP;
         return $this->getReference();
     }
 
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 
+    /**
+     * @param mixed $name
+     * @return PhpClassTraitInterface
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNamespace()
+    {
+        return $this->namespace;
+    }
+
+    /**
+     * @param mixed $namespace
+     * @return PhpClassTraitInterface
+     */
+    public function setNamespace($namespace)
+    {
+        $this->namespace = $namespace;
+        return $this;
+    }
+
+    /**
+     * @return PhpClass
+     */
+    public function getExtends()
+    {
+        return $this->extends;
+    }
+
+    /**
+     * @param PhpClass $extends
+     * @return PhpClassTraitInterface
+     */
+    public function setExtends($extends)
+    {
+        $this->extends = $extends;
+        return $this;
+    }
 }

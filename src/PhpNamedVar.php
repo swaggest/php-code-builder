@@ -3,8 +3,12 @@
 namespace Swaggest\PhpCodeBuilder;
 
 
-class PhpNamedVar extends PhpTemplate
+use Swaggest\PhpCodeBuilder\Traits\Description;
+
+class PhpNamedVar
 {
+    use Description;
+
     /** @var string */
     private $name;
 
@@ -58,19 +62,26 @@ class PhpNamedVar extends PhpTemplate
         return $this;
     }
 
-
-
-
-    protected function toString()
-    {
-        // TODO: Implement toString() method.
-    }
-
     public function renderArgumentType()
     {
         if ($this->type) {
-            return $this->type->renderArgumentType();
+            return $this->type->renderArgumentType() . ' ';
         }
         return '';
+    }
+
+    public function renderPhpDocValue($withName = false)
+    {
+        $tagValue = '';
+        if ($this->type) {
+            $tagValue .= $this->type->renderPhpDocType();
+        }
+        if ($withName) {
+            $tagValue .= ' $' . $this->name;
+        }
+        if ($this->description) {
+            $tagValue .= ' ' . $this->description;
+        }
+        return trim($tagValue);
     }
 }

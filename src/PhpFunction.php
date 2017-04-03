@@ -3,14 +3,17 @@
 namespace Swaggest\PhpCodeBuilder;
 
 
+use Swaggest\PhpCodeBuilder\Traits\Description;
+use Swaggest\PhpCodeBuilder\Traits\StaticFlag;
+use Swaggest\PhpCodeBuilder\Traits\Visibility;
+
 class PhpFunction extends PhpTemplate
 {
-    const VIS_PUBLIC = 'public';
-    const VIS_PROTECTED = 'protected';
-    const VIS_PRIVATE = 'private';
+    use Visibility;
+    use StaticFlag;
+    use Description;
 
     private $name;
-    private $visibility;
 
     /** @var PhpNamedVar[] */
     private $arguments = array();
@@ -22,7 +25,6 @@ class PhpFunction extends PhpTemplate
     private $phpDoc;
 
 
-    private $isStatic;
 
     /**
      * PhpFunction constructor.
@@ -42,17 +44,34 @@ class PhpFunction extends PhpTemplate
         return <<<PHP
 {$this->headToString()}
 {
-{$this->tabLines($this->body)}}
+{$this->indentLines($this->body)}}
+
+
 PHP;
     }
 
     public function headToString()
     {
         return <<<PHP
-{$this->renderVisibility()}{$this->renderIsStatic()}function {$this->name}({$this->renderArguments()})
+{$this->renderPhpDoc()}{$this->renderVisibility()}{$this->renderIsStatic()}function {$this->name}({$this->renderArguments()})
 PHP;
 
 
+    }
+
+    private function renderPhpDoc()
+    {
+        $result = new PhpDoc();
+        if ($this->description) {
+            $result->add(null, $this->description);
+        }
+        foreach ($this->arguments as $argument) {
+            $result->add(PhpDoc::TAG_PARAM, $argument->renderPhpDocValue(true));
+        }
+        if ($this->result && $returnType = $this->result->renderPhpDocType()) {
+            $result->add(PhpDoc::TAG_RETURN, $returnType);
+        }
+        return (string)$result;
     }
 
     private function renderArguments()
@@ -67,23 +86,6 @@ PHP;
         return $result;
     }
 
-    private function renderVisibility()
-    {
-        if ($this->visibility) {
-            return $this->visibility . ' ';
-        } else {
-            return '';
-        }
-    }
-
-    private function renderIsStatic()
-    {
-        if ($this->isStatic) {
-            return 'static ';
-        } else {
-            return '';
-        }
-    }
 
     public function addArgument(PhpNamedVar $argument)
     {
@@ -109,5 +111,14 @@ PHP;
         return $this;
     }
 
+    /**
+     * @param PhpAnyType $result
+     * @return PhpFunction
+     */
+    public function setResult(PhpAnyType $result = null)
+    {
+        $this->result = $result;
+        return $this;
+    }
 
 }
