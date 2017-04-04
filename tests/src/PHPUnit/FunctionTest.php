@@ -5,7 +5,7 @@ namespace Swaggest\PhpCodeBuilder\Tests\PHPUnit;
 use Swaggest\PhpCodeBuilder\PhpFlags;
 use Swaggest\PhpCodeBuilder\PhpFunction;
 use Swaggest\PhpCodeBuilder\PhpNamedVar;
-use Swaggest\PhpCodeBuilder\PhpScalarType;
+use Swaggest\PhpCodeBuilder\PhpStdType;
 
 class FunctionTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,7 +27,7 @@ PHP;
     {
         $function = new PhpFunction('test');
         $function
-            ->addArgument(new PhpNamedVar('arg1'))->addArgument(new PhpNamedVar('arg2', PhpScalarType::int()));
+            ->addArgument(new PhpNamedVar('arg1'))->addArgument(new PhpNamedVar('arg2', PhpStdType::int()));
         $function->setBody(<<<'PHP'
 echo $arg1;
 print_r($arg2);

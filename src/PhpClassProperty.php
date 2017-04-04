@@ -57,7 +57,7 @@ class PhpClassProperty extends PhpTemplate
     protected function toString()
     {
         return <<<PHP
-{$this->renderPhpDoc()}{$this->renderVisibility()}{$this->renderIsStatic()} \${$this->namedVar->getName()};
+{$this->renderPhpDoc()}{$this->renderVisibility()}{$this->renderIsStatic()}\${$this->namedVar->getName()};
 
 
 PHP;

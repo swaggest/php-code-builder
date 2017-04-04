@@ -64,8 +64,8 @@ class PhpNamedVar
 
     public function renderArgumentType()
     {
-        if ($this->type) {
-            return $this->type->renderArgumentType() . ' ';
+        if ($this->type && $type = $this->type->renderArgumentType()) {
+            return $type . ' ';
         }
         return '';
     }

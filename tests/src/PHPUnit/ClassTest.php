@@ -7,7 +7,7 @@ use Swaggest\PhpCodeBuilder\PhpClassProperty;
 use Swaggest\PhpCodeBuilder\PhpFlags;
 use Swaggest\PhpCodeBuilder\PhpFunction;
 use Swaggest\PhpCodeBuilder\PhpNamedVar;
-use Swaggest\PhpCodeBuilder\PhpScalarType;
+use Swaggest\PhpCodeBuilder\PhpStdType;
 
 class ClassTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,12 +17,12 @@ class ClassTest extends \PHPUnit_Framework_TestCase
         $class->setName('Uno');
         $class->setNamespace('My\\Test');
 
-        $class->addProperty(new PhpClassProperty('some', PhpScalarType::string(), PhpFlags::VIS_PRIVATE));
+        $class->addProperty(new PhpClassProperty('some', PhpStdType::string(), PhpFlags::VIS_PRIVATE));
 
         $class->addProperty(
             (new PhpClassProperty(
                 'someInt',
-                PhpScalarType::int(),
+                PhpStdType::int(),
                 PhpFlags::VIS_PROTECTED
             ))->setDescription('A sample int property')
         );

@@ -71,6 +71,14 @@ PHP;
         return $this->namespace;
     }
 
+    public function setFullyQualifiedName($fqn)
+    {
+        $path = explode('\\', $fqn);
+        $this->name = array_pop($path);
+        $this->namespace = implode('\\', $path);
+        return $this;
+    }
+
     /**
      * @param mixed $namespace
      * @return PhpClassTraitInterface
