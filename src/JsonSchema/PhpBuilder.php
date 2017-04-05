@@ -72,17 +72,25 @@ class PhpBuilder
 
         $this->generatedClasses->attach($schema, $generatedClass);
 
-        $schemaBuilder = new SchemaBuilder();
-
         foreach ($schema->properties->toArray() as $name => $property) {
+            $propertyName = PhpCode::makePhpName($name);
+
+            $schemaBuilder = new SchemaBuilder($property, '$properties->' . $propertyName, $path . '->' . $name, $this);
+            if ($propertyName != $name) {
+                $schemaBuilder->setDataName($name);
+            }
             $phpProperty = new PhpClassProperty($name, $this->getType($property, $path . '->' . $name));
             $class->addProperty($phpProperty);
-            $class->addMethod(new Getter($phpProperty));
-            $class->addMethod(new Setter($phpProperty));
+            //$class->addMethod(new Getter($phpProperty));
+            //$class->addMethod(new Setter($phpProperty));
             $body->addSnippet(
-                $schemaBuilder->build($property, '$properties->' . $name)
+                $schemaBuilder->build()
             );
         }
+
+        $schemaBuilder = new SchemaBuilder($schema, '$ownerSchema', $path, $this);
+        $schemaBuilder->setSkipProperties(true);
+        $body->addSnippet($schemaBuilder->build());
 
         $setupProperties->setBody($body);
 

@@ -30,7 +30,8 @@ class SwaggerSchemaGenerateTest extends \PHPUnit_Framework_TestCase
             if ($class->path === '#') {
                 $class->class->setName('SwaggerSchema');
             } else {
-                $class->class->setName(PhpCode::makePhpName($class->path, false));
+                $path = str_replace('#/definitions/', '', $class->path);
+                $class->class->setName(PhpCode::makePhpName($path, false));
             }
             $phpCode->addSnippet($class->class);
             $phpCode->addSnippet("\n\n");

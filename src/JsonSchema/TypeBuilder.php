@@ -94,7 +94,6 @@ class TypeBuilder
                 $this->path . '->' . 'additionalProperties')
             ));
         }
-
     }
 
     private function typeSwitch($type)
