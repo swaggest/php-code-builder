@@ -12,6 +12,8 @@ use Swaggest\PhpCodeBuilder\PhpFunction;
 use Swaggest\PhpCodeBuilder\PhpNamedVar;
 use Swaggest\PhpCodeBuilder\PhpStdType;
 use Swaggest\PhpCodeBuilder\PhpCode;
+use Swaggest\PhpCodeBuilder\Property\Getter;
+use Swaggest\PhpCodeBuilder\Property\Setter;
 use Swaggest\PhpCodeBuilder\Types\OrType;
 
 class PhpBuilder
@@ -32,73 +34,18 @@ class PhpBuilder
      */
     public function getType(Schema $schema, array $path = array())
     {
-        if (is_array($schema->type)) {
-            $orType = new OrType();
-            foreach ($schema->type as $type) {
-                $orType->add($this->typeSwitch($type, $schema, $path));
-            }
-        } elseif ($schema->type) {
-            return $this->typeSwitch($schema->type, $schema, $path);
+        $typeBuilder = new TypeBuilder($schema, $path, $this);
+        return $typeBuilder->build();
+    }
+
+
+    public function getClass(Schema $schema, array $path)
+    {
+        if ($this->generatedClasses->contains($schema)) {
+            return $this->generatedClasses[$schema]->class;
+        } else {
+            return $this->makeClass($schema, $path)->class;
         }
-        return PhpStdType::mixed();
-    }
-
-
-    private function typeSwitch($type, Schema $schema, array $path)
-    {
-        switch ($type) {
-            case Type::INTEGER:
-                return PhpStdType::int();
-
-            case Type::NUMBER:
-                return PhpStdType::float();
-
-            case TYPE::BOOLEAN:
-                return PhpStdType::bool();
-
-            case Type::STRING:
-                return PhpStdType::string();
-
-            case Type::OBJECT:
-                return $this->typeObject($schema, $path);
-
-            case Type::ARR:
-                return PhpStdType::arr();
-
-            case Type::NULL:
-                return PhpStdType::null();
-
-            default:
-                return PhpStdType::mixed();
-        }
-    }
-
-    private function typeObject(Schema $schema, $path)
-    {
-        if ($schema->properties !== null) {
-            if ($this->generatedClasses->contains($schema)) {
-                return $this->generatedClasses[$schema]->class;
-            } else {
-                return $this->makeClass($schema, $path)->class;
-            }
-        }
-
-        return PhpStdType::object();
-    }
-
-    private function typeArray(Schema $schema, $path)
-    {
-        // todo implement as above
-
-    }
-
-    /**
-     * @param Properties|static $properties
-     * @param Schema $ownerSchema
-     */
-    public static function setUpProperties($properties, Schema $ownerSchema)
-    {
-        $properties->level3 = Schema::integer();
     }
 
     private function makeClass(Schema $schema, array $path)
@@ -133,9 +80,10 @@ class PhpBuilder
         foreach ($schema->properties->toArray() as $name => $property) {
             $propertyPath = $path;
             $propertyPath[] = $name;
-            $class->addProperty(
-                new PhpClassProperty($name, $this->getType($property, $propertyPath))
-            );
+            $phpProperty = new PhpClassProperty($name, $this->getType($property, $propertyPath));
+            $class->addProperty($phpProperty);
+            $class->addMethod(new Getter($phpProperty));
+            $class->addMethod(new Setter($phpProperty));
             $body->addSnippet(
                 $schemaBuilder->build($property, '$properties->' . $name)
             );
