@@ -25,7 +25,8 @@ class PhpNamespaces extends PhpTemplate
 
     private function makeShortName($fqn)
     {
-        return array_pop(explode('\\', $fqn));
+        $path = explode('\\', $fqn);
+        return array_pop($path);
     }
 
     public function getReference($fullyQualifiedName)
@@ -40,6 +41,10 @@ class PhpNamespaces extends PhpTemplate
     {
         $result = '';
         foreach ($this->namespaces as $namespace => $as) {
+            $short = $this->makeShortName($namespace);
+            if ($short === $as) {
+                $as = '';
+            }
             $renderAs = $as ? ' as ' . $as : '';
             $result .= <<<PHP
 use {$namespace}{$renderAs};

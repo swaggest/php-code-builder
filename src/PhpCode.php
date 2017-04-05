@@ -40,4 +40,31 @@ class PhpCode extends PhpTemplate
         }
         return $result;
     }
+
+
+    public static function toCamelCase($string, $lowerFirst = false)
+    {
+        $result = implode('', array_map('ucfirst', explode('_', $string)));
+        if (!$result) {
+            return '';
+        }
+        if ($lowerFirst) {
+            $result[0] = strtolower($result[0]);
+        }
+        return $result;
+    }
+
+
+    public static function makePhpName($rawName, $lowerFirst = true)
+    {
+        $phpName = preg_replace("/([^a-zA-Z0-9_]+)/", "_", $rawName);
+        $phpName = self::toCamelCase($phpName, $lowerFirst);
+        if (!$phpName) {
+            $phpName = 'property' . substr(md5($rawName), 0, 6);
+        } elseif (is_numeric($phpName[0])) {
+            $phpName = 'property' . $phpName;
+        }
+        return $phpName;
+    }
+
 }

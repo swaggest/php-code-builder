@@ -6,13 +6,14 @@ namespace Swaggest\PhpCodeBuilder\JsonSchema;
 use Swaggest\JsonSchema\Constraint\Type;
 use Swaggest\JsonSchema\Schema;
 use Swaggest\PhpCodeBuilder\PhpStdType;
+use Swaggest\PhpCodeBuilder\Types\ArrayOf;
 use Swaggest\PhpCodeBuilder\Types\OrType;
 
 class TypeBuilder
 {
     /** @var Schema */
     private $schema;
-    /** @var array */
+    /** @var string */
     private $path;
     /** @var PhpBuilder */
     private $phpBuilder;
@@ -22,10 +23,10 @@ class TypeBuilder
     /**
      * TypeBuilder constructor.
      * @param Schema $schema
-     * @param array $path
+     * @param $path
      * @param PhpBuilder $phpBuilder
      */
-    public function __construct(Schema $schema, array $path, PhpBuilder $phpBuilder)
+    public function __construct(Schema $schema, $path, PhpBuilder $phpBuilder)
     {
         $this->schema = $schema;
         $this->path = $path;
@@ -52,6 +53,47 @@ class TypeBuilder
 
     private function processArrayType()
     {
+        $schema = $this->schema;
+
+        $pathItems = 'items';
+        if ($schema->items instanceof Schema) {
+            $items = array();
+            $additionalItems = $schema->items;
+        } elseif ($schema->items === null) { // items defaults to empty schema so everything is valid
+            $items = array();
+            $additionalItems = true;
+        } else { // listed items
+            $items = $schema->items;
+            $additionalItems = $schema->additionalItems;
+            $pathItems = 'additionalItems';
+        }
+
+        if ($items !== null || $additionalItems !== null) {
+            $itemsLen = is_array($items) ? count($items) : 0;
+            $index = 0;
+            if ($index < $itemsLen) {
+            } else {
+                if ($additionalItems instanceof Schema) {
+                    $this->result->add(new ArrayOf($this->phpBuilder->getType($additionalItems, $this->path . '->' . $pathItems)));
+                }
+            }
+        }
+    }
+
+    private function processObjectType()
+    {
+        if ($this->schema->patternProperties !== null) {
+            foreach ($this->schema->patternProperties as $pattern => $schema) {
+                $this->result->add(new ArrayOf($this->phpBuilder->getType($schema, $this->path . '->' . $pattern)));
+            }
+        }
+
+        if ($this->schema->additionalProperties instanceof Schema) {
+            $this->result->add(new ArrayOf($this->phpBuilder->getType(
+                $this->schema->additionalProperties,
+                $this->path . '->' . 'additionalProperties')
+            ));
+        }
 
     }
 
@@ -93,13 +135,6 @@ class TypeBuilder
         return PhpStdType::object();
     }
 
-    private function typeArray(Schema $schema, $path)
-    {
-        // todo implement as above
-
-    }
-
-
     /**
      * @return OrType
      */
@@ -108,11 +143,12 @@ class TypeBuilder
         $this->result = new OrType();
 
         if ($this->schema->ref !== null) {
-            $this->result->add($this->phpBuilder->getType($this->schema->ref->getSchema(), array($this->schema->ref->ref)));
+            $this->result->add($this->phpBuilder->getType($this->schema->ref->getSchema(), $this->schema->ref->ref));
         }
 
         $this->processLogicType();
         $this->processArrayType();
+        $this->processObjectType();
 
         if (is_array($this->schema->type)) {
             foreach ($this->schema->type as $type) {

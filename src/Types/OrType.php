@@ -32,9 +32,26 @@ class OrType implements PhpAnyType
         return implode('|', array_keys($index));
     }
 
+    /**
+     * @return string
+     */
+    public function renderArrayPhpDocType()
+    {
+        $index = array();
+        foreach ($this->types as $type) {
+            $phpDocType = $type->renderPhpDocType();
+            if ($phpDocType) {
+                $index[$phpDocType . '[]'] = 1;
+            }
+        }
+        return implode('|', array_keys($index));
+    }
+
+
     public function add(PhpAnyType $type)
     {
         $this->types[] = $type;
         return $this;
     }
+
 }

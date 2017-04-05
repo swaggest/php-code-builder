@@ -2,7 +2,6 @@
 
 namespace Swaggest\PhpCodeBuilder\JsonSchema;
 
-use Swaggest\JsonSchema\Constraint\Type;
 use Swaggest\JsonSchema\Schema;
 use Swaggest\PhpCodeBuilder\PhpAnyType;
 use Swaggest\PhpCodeBuilder\PhpClass;
@@ -10,11 +9,9 @@ use Swaggest\PhpCodeBuilder\PhpClassProperty;
 use Swaggest\PhpCodeBuilder\PhpFlags;
 use Swaggest\PhpCodeBuilder\PhpFunction;
 use Swaggest\PhpCodeBuilder\PhpNamedVar;
-use Swaggest\PhpCodeBuilder\PhpStdType;
 use Swaggest\PhpCodeBuilder\PhpCode;
 use Swaggest\PhpCodeBuilder\Property\Getter;
 use Swaggest\PhpCodeBuilder\Property\Setter;
-use Swaggest\PhpCodeBuilder\Types\OrType;
 
 class PhpBuilder
 {
@@ -29,17 +26,17 @@ class PhpBuilder
 
     /**
      * @param Schema $schema
-     * @param array $path
+     * @param string $path
      * @return PhpAnyType
      */
-    public function getType(Schema $schema, array $path = array())
+    public function getType(Schema $schema, $path = '#')
     {
         $typeBuilder = new TypeBuilder($schema, $path, $this);
         return $typeBuilder->build();
     }
 
 
-    public function getClass(Schema $schema, array $path)
+    public function getClass(Schema $schema, $path)
     {
         if ($this->generatedClasses->contains($schema)) {
             return $this->generatedClasses[$schema]->class;
@@ -48,7 +45,7 @@ class PhpBuilder
         }
     }
 
-    private function makeClass(Schema $schema, array $path)
+    private function makeClass(Schema $schema, $path)
     {
         $generatedClass = new GeneratedClass();
         $generatedClass->schema = $schema;
@@ -78,9 +75,7 @@ class PhpBuilder
         $schemaBuilder = new SchemaBuilder();
 
         foreach ($schema->properties->toArray() as $name => $property) {
-            $propertyPath = $path;
-            $propertyPath[] = $name;
-            $phpProperty = new PhpClassProperty($name, $this->getType($property, $propertyPath));
+            $phpProperty = new PhpClassProperty($name, $this->getType($property, $path . '->' . $name));
             $class->addProperty($phpProperty);
             $class->addMethod(new Getter($phpProperty));
             $class->addMethod(new Setter($phpProperty));

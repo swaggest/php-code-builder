@@ -32,7 +32,11 @@ class ArrayOf implements PhpAnyType
      */
     public function renderPhpDocType()
     {
-
+        if ($this->type instanceof OrType) {
+            return $this->type->renderArrayPhpDocType();
+        } else {
+            return $this->type->renderPhpDocType() . '[]';
+        }
     }
 
 

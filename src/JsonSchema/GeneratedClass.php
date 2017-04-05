@@ -13,6 +13,6 @@ class GeneratedClass
     /** @var Schema */
     public $schema;
 
-    /** @var string[] */
+    /** @var string */
     public $path;
 }
