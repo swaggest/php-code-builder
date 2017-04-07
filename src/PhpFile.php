@@ -36,13 +36,14 @@ class PhpFile extends PhpTemplate
             self::setCurrentPhpFile($prev);
         });
 
+        $this->namespaces->setFileNamespace($this->namespace);
         $code = $this->code->toString();
         $result = <<<PHP
 <?php
 
 {$this->renderNamespace()}{$this->namespaces}
 
-{$this->code}
+{$code}
 PHP;
         return $result;
 
@@ -50,7 +51,9 @@ PHP;
 
     private function renderNamespace()
     {
-        return '';
+        return $this->namespace
+            ? "namespace " . $this->namespace . ";\n\n"
+            : '';
 
     }
 

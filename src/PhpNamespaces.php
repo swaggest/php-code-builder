@@ -5,6 +5,7 @@ namespace Swaggest\PhpCodeBuilder;
 
 class PhpNamespaces extends PhpTemplate
 {
+    private $fileNamespace = '';
     private $namespaces = array();
     private $shortNames = array();
 
@@ -39,6 +40,7 @@ class PhpNamespaces extends PhpTemplate
 
     protected function toString()
     {
+        $fileNamespaceLen = strlen($this->fileNamespace);
         $result = '';
         foreach ($this->namespaces as $namespace => $as) {
             $short = $this->makeShortName($namespace);
@@ -46,11 +48,24 @@ class PhpNamespaces extends PhpTemplate
                 $as = '';
             }
             $renderAs = $as ? ' as ' . $as : '';
+            if (!$renderAs and substr($namespace, 0, $fileNamespaceLen) === $this->fileNamespace) {
+                continue;
+            }
             $result .= <<<PHP
 use {$namespace}{$renderAs};
 
 PHP;
         }
         return $result;
+    }
+
+    /**
+     * @param string $fileNamespace
+     * @return PhpNamespaces
+     */
+    public function setFileNamespace($fileNamespace)
+    {
+        $this->fileNamespace = $fileNamespace;
+        return $this;
     }
 }

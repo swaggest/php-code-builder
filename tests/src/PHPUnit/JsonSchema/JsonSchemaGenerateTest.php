@@ -3,28 +3,40 @@
 namespace Swaggest\PhpCodeBuilder\Tests\PHPUnit\JsonSchema;
 
 
+use Swaggest\JsonSchema\RemoteRef\Preloaded;
 use Swaggest\JsonSchema\SchemaLoader;
 use Swaggest\PhpCodeBuilder\JsonSchema\PhpBuilder;
+use Swaggest\PhpCodeBuilder\PhpCode;
+use Swaggest\PhpCodeBuilder\PhpFile;
 
 class JsonSchemaGenerateTest extends \PHPUnit_Framework_TestCase
 {
     public function testJsonSchemaGenerate()
     {
+        $loader = SchemaLoader::create();
+        $loader->setRemoteRefProvider(new Preloaded());
+
         $schemaData = json_decode(file_get_contents(__DIR__ . '/../../../../../json-schema/spec/json-schema.json'));
-        $schema = SchemaLoader::create()->readSchema($schemaData);
+
+        $schema = $loader->readSchema($schemaData);
 
         $builder = new PhpBuilder();
         $builder->getType($schema);
 
-        $index = 0;
-
+        $phpFile = new PhpFile();
+        $phpCode = $phpFile->getCode();
         foreach ($builder->getGeneratedClasses() as $class) {
-            $class->class->setName('Beech' . ++$index);
+            if ($class->path === '#') {
+                $class->class->setName('JsonSchema');
+            } else {
+                $path = str_replace('#/definitions/', '', $class->path);
+                $class->class->setName(PhpCode::makePhpName($path, false));
+            }
+            $phpCode->addSnippet($class->class);
+            $phpCode->addSnippet("\n\n");
         }
 
-        foreach ($builder->getGeneratedClasses() as $class) {
-            echo $class->class;
-        }
+        echo $phpFile;
 
 
     }

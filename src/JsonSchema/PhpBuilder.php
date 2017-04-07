@@ -13,6 +13,9 @@ use Swaggest\PhpCodeBuilder\PhpCode;
 use Swaggest\PhpCodeBuilder\Property\Getter;
 use Swaggest\PhpCodeBuilder\Property\Setter;
 
+/**
+ * @todo properly process $ref, $schema property names
+ */
 class PhpBuilder
 {
     /** @var \SplObjectStorage|GeneratedClass[] */
@@ -47,6 +50,9 @@ class PhpBuilder
 
     private function makeClass(Schema $schema, $path)
     {
+        if (empty($path)) {
+            throw new Exception('Empty path');
+        }
         $generatedClass = new GeneratedClass();
         $generatedClass->schema = $schema;
 
@@ -76,16 +82,17 @@ class PhpBuilder
             $propertyName = PhpCode::makePhpName($name);
 
             $schemaBuilder = new SchemaBuilder($property, '$properties->' . $propertyName, $path . '->' . $name, $this);
-            if ($propertyName != $name) {
-                $schemaBuilder->setDataName($name);
-            }
-            $phpProperty = new PhpClassProperty($name, $this->getType($property, $path . '->' . $name));
+            $phpProperty = new PhpClassProperty($propertyName, $this->getType($property, $path . '->' . $name));
             $class->addProperty($phpProperty);
-            //$class->addMethod(new Getter($phpProperty));
-            //$class->addMethod(new Setter($phpProperty));
+            $class->addMethod(new Getter($phpProperty));
+            $class->addMethod(new Setter($phpProperty));
             $body->addSnippet(
                 $schemaBuilder->build()
             );
+            if ($propertyName != $name) {
+                $body->addSnippet('$ownerSchema->addPropertyMapping(' . var_export($name, 1) . ', self::names()->'
+                    . $propertyName . ");\n");
+            }
         }
 
         $schemaBuilder = new SchemaBuilder($schema, '$ownerSchema', $path, $this);
