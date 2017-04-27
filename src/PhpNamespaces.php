@@ -40,7 +40,6 @@ class PhpNamespaces extends PhpTemplate
 
     protected function toString()
     {
-        $fileNamespaceLen = strlen($this->fileNamespace);
         $result = '';
         foreach ($this->namespaces as $namespace => $as) {
             $short = $this->makeShortName($namespace);
@@ -48,7 +47,7 @@ class PhpNamespaces extends PhpTemplate
                 $as = '';
             }
             $renderAs = $as ? ' as ' . $as : '';
-            if (!$renderAs and substr($namespace, 0, $fileNamespaceLen) === $this->fileNamespace) {
+            if (!$renderAs && $namespace === $this->fileNamespace . '\\' . $short) {
                 continue;
             }
             $result .= <<<PHP

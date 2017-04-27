@@ -6,6 +6,7 @@ namespace Swaggest\PhpCodeBuilder;
 class PhpDoc extends PhpTemplate
 {
     const TAG_PARAM = 'param';
+    const TAG_FILE = 'file';
     const TAG_VAR = 'var';
     const TAG_PROPERTY = 'property';
     const TAG_RETURN = 'return';
@@ -24,7 +25,7 @@ class PhpDoc extends PhpTemplate
         foreach ($this->tags as $tag) {
             if ($tag->name) {
                 $result .= <<<PHP
- * @{$tag->name} {$tag->value}
+ * @{$tag->name} {$this->padLines(' * ', $tag->value)}
 
 PHP;
             } else {

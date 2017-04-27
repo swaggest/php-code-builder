@@ -7,6 +7,7 @@ use Swaggest\CodeBuilder\PlaceholderString;
 use Swaggest\JsonSchema\Constraint\Type;
 use Swaggest\JsonSchema\Schema;
 use Swaggest\JsonSchema\SchemaLoader;
+use Swaggest\JsonSchema\Structure\ObjectItem;
 use Swaggest\PhpCodeBuilder\PhpCode;
 use Swaggest\PhpCodeBuilder\Types\ReferenceTypeOf;
 
@@ -205,6 +206,9 @@ class SchemaBuilder
             SchemaLoader::ANY_OF => 1,
             SchemaLoader::ONE_OF => 1,
             SchemaLoader::NOT => 1,
+            'definitions' => 1,
+            'fromRef' => 1,
+            'originPath' => 1,
         );
         $schemaData = SchemaLoader::create()->dumpSchema($this->schema);
         foreach ((array)$schemaData as $key => $value) {
@@ -212,8 +216,17 @@ class SchemaBuilder
                 continue;
             }
 
+            //$this->result->addSnippet('/* ' . print_r($value, 1) . '*/' . "\n");
+            //echo "{$this->varName}->{$key}\n";
+            if ($value instanceof ObjectItem) {
+                //$value = $value->jsonSerialize();
+                $export = 'new \stdClass()';
+            } else {
+                $export = var_export($value, 1);
+            }
+
             $this->result->addSnippet(
-                "{$this->varName}->{$key} = " . var_export($value, 1) . ";\n"
+                "{$this->varName}->{$key} = " . $export . ";\n"
             );
         }
     }
@@ -256,12 +269,14 @@ class SchemaBuilder
             if (!$path) {
                 throw new Exception('Empty ref path');
             }
-            return (new self($this->schema->ref->getSchema(), $this->varName, $path, $this->phpBuilder))->build();
+            return (new self($this->schema->ref->getData(), $this->varName, $path, $this->phpBuilder))->build();
         }
 
         if ($this->processNamedClass()) {
             return $this->result;
         }
+
+
 
         $this->processType();
         $this->processObject();

@@ -2,7 +2,7 @@
 
 namespace Swaggest\PhpCodeBuilder\JsonSchema;
 
-use Swaggest\JsonSchema\Schema;
+use Swaggest\JsonSchema\JsonSchema;
 use Swaggest\PhpCodeBuilder\PhpAnyType;
 use Swaggest\PhpCodeBuilder\PhpClass;
 use Swaggest\PhpCodeBuilder\PhpClassProperty;
@@ -27,19 +27,22 @@ class PhpBuilder
         $this->generatedClasses = new \SplObjectStorage();
     }
 
+    public $buildGetters = false;
+    public $buildSetters = false;
+
     /**
-     * @param Schema $schema
+     * @param JsonSchema $schema
      * @param string $path
      * @return PhpAnyType
      */
-    public function getType(Schema $schema, $path = '#')
+    public function getType(JsonSchema $schema, $path = '#')
     {
         $typeBuilder = new TypeBuilder($schema, $path, $this);
         return $typeBuilder->build();
     }
 
 
-    public function getClass(Schema $schema, $path)
+    public function getClass(JsonSchema $schema, $path)
     {
         if ($this->generatedClasses->contains($schema)) {
             return $this->generatedClasses[$schema]->class;
@@ -48,7 +51,7 @@ class PhpBuilder
         }
     }
 
-    private function makeClass(Schema $schema, $path)
+    private function makeClass(JsonSchema $schema, $path)
     {
         if (empty($path)) {
             throw new Exception('Empty path');
@@ -78,14 +81,21 @@ class PhpBuilder
 
         $this->generatedClasses->attach($schema, $generatedClass);
 
-        foreach ($schema->properties->toArray() as $name => $property) {
+        foreach ($schema->properties as $name => $property) {
             $propertyName = PhpCode::makePhpName($name);
 
             $schemaBuilder = new SchemaBuilder($property, '$properties->' . $propertyName, $path . '->' . $name, $this);
             $phpProperty = new PhpClassProperty($propertyName, $this->getType($property, $path . '->' . $name));
+            if ($property->description) {
+                $phpProperty->setDescription($property->description);
+            }
             $class->addProperty($phpProperty);
-            $class->addMethod(new Getter($phpProperty));
-            $class->addMethod(new Setter($phpProperty));
+            if ($this->buildGetters) {
+                $class->addMethod(new Getter($phpProperty));
+            }
+            if ($this->buildSetters) {
+                $class->addMethod(new Setter($phpProperty));
+            }
             $body->addSnippet(
                 $schemaBuilder->build()
             );

@@ -25,7 +25,7 @@ class PhpCode extends PhpTemplate
         return $this;
     }
 
-    public function toString()
+    protected function toString()
     {
         $result = '';
         if ($this->snippets === null) {
@@ -33,7 +33,7 @@ class PhpCode extends PhpTemplate
         }
         foreach ($this->snippets as $code) {
             if ($code instanceof ClosureString) {
-                $result .= $code->toString();
+                $result .= $code->render();
             } else {
                 $result .= $code;
             }

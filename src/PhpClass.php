@@ -35,7 +35,7 @@ PHP;
     {
         $result = '';
         foreach ($this->properties as $property) {
-            $result .= $property->toString();
+            $result .= $property->render();
         }
         return $result;
     }
@@ -44,7 +44,7 @@ PHP;
     {
         $result = '';
         foreach ($this->methods as $method) {
-            $result .= $method->toString();
+            $result .= $method->render();
         }
         return $result;
     }

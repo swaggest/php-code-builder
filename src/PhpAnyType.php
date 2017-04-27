@@ -13,4 +13,6 @@ interface PhpAnyType
      * @return string
      */
     public function renderPhpDocType();
+
+
 }

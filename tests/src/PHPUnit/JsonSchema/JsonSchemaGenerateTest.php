@@ -24,6 +24,9 @@ class JsonSchemaGenerateTest extends \PHPUnit_Framework_TestCase
         $builder->getType($schema);
 
         $phpFile = new PhpFile();
+        $namespace = 'Swaggest\\JsonSchema';
+        $phpFile->setNamespace($namespace);
+
         $phpCode = $phpFile->getCode();
         foreach ($builder->getGeneratedClasses() as $class) {
             if ($class->path === '#') {
@@ -32,9 +35,17 @@ class JsonSchemaGenerateTest extends \PHPUnit_Framework_TestCase
                 $path = str_replace('#/definitions/', '', $class->path);
                 $class->class->setName(PhpCode::makePhpName($path, false));
             }
+
+            $class->class->setNamespace($namespace);
             $phpCode->addSnippet($class->class);
             $phpCode->addSnippet("\n\n");
         }
+
+        $dir = __DIR__ . '/../../../../../json-schema/src';
+        if (!file_exists($dir)) {
+            mkdir($dir, 0777, true);
+        }
+        file_put_contents($dir . '/JsonSchema.php', (string)$phpFile);
 
         echo $phpFile;
 

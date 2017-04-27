@@ -4,6 +4,7 @@ namespace Swaggest\PhpCodeBuilder\JsonSchema;
 
 
 use Swaggest\JsonSchema\Constraint\Type;
+use Swaggest\JsonSchema\JsonSchema;
 use Swaggest\JsonSchema\Schema;
 use Swaggest\PhpCodeBuilder\PhpStdType;
 use Swaggest\PhpCodeBuilder\Types\ArrayOf;
@@ -11,7 +12,7 @@ use Swaggest\PhpCodeBuilder\Types\OrType;
 
 class TypeBuilder
 {
-    /** @var Schema */
+    /** @var JsonSchema */
     private $schema;
     /** @var string */
     private $path;
@@ -26,7 +27,7 @@ class TypeBuilder
      * @param $path
      * @param PhpBuilder $phpBuilder
      */
-    public function __construct(Schema $schema, $path, PhpBuilder $phpBuilder)
+    public function __construct(JsonSchema $schema, $path, PhpBuilder $phpBuilder)
     {
         $this->schema = $schema;
         $this->path = $path;
@@ -111,8 +112,9 @@ class TypeBuilder
             case Type::STRING:
                 return PhpStdType::string();
 
+            /*
             case Type::OBJECT:
-                return $this->typeObject($this->schema, $this->path);
+                return PhpStdType::object();*/
 
             case Type::ARR:
                 return PhpStdType::arr();
@@ -125,13 +127,12 @@ class TypeBuilder
         }
     }
 
-    private function typeObject(Schema $schema, $path)
+    private function processNamedClass(JsonSchema $schema, $path)
     {
         if ($schema->properties !== null) {
-            return $this->phpBuilder->getClass($schema, $path);
+            $class = $this->phpBuilder->getClass($schema, $path);
+            $this->result->add($class);
         }
-
-        return PhpStdType::object();
     }
 
     /**
@@ -142,9 +143,11 @@ class TypeBuilder
         $this->result = new OrType();
 
         if ($this->schema->ref !== null) {
-            $this->result->add($this->phpBuilder->getType($this->schema->ref->getSchema(), $this->schema->ref->ref));
+            $this->result->add($this->phpBuilder->getType($this->schema->ref->getData(), $this->schema->ref->ref));
         }
 
+
+        $this->processNamedClass($this->schema, $this->path);
         $this->processLogicType();
         $this->processArrayType();
         $this->processObjectType();
@@ -156,6 +159,7 @@ class TypeBuilder
         } elseif ($this->schema->type) {
             $this->result->add($this->typeSwitch($this->schema->type));
         }
+
         return $this->result;
 
     }

@@ -39,18 +39,27 @@ class OrType implements PhpAnyType
     {
         $index = array();
         foreach ($this->types as $type) {
-            $phpDocType = $type->renderPhpDocType();
-            if ($phpDocType) {
-                $index[$phpDocType . '[]'] = 1;
+            if ($type instanceof OrType) {
+                $phpDocType = $type->renderArrayPhpDocType();
+                if ($phpDocType) {
+                    $index[$phpDocType] = 1;
+                }
+            } else {
+                $phpDocType = $type->renderPhpDocType();
+                if ($phpDocType) {
+                    $index[$phpDocType . '[]'] = 1;
+                }
             }
         }
         return implode('|', array_keys($index));
     }
 
 
-    public function add(PhpAnyType $type)
+    public function add(PhpAnyType $type = null)
     {
-        $this->types[] = $type;
+        if ($type !== null) {
+            $this->types[] = $type;
+        }
         return $this;
     }
 
