@@ -13,7 +13,7 @@
     }
   ],
   "require": {
-    "swaggest/code-builder": "dev-master",
+    "swaggest/code-builder": "^0.2.0|dev-master",
     "php": ">=5.3.0"
   },
   "require-dev": {
