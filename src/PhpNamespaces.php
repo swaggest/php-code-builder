@@ -3,6 +3,8 @@
 namespace Swaggest\PhpCodeBuilder;
 
 
+use Swaggest\PhpCodeBuilder\JsonSchema\Palette;
+
 class PhpNamespaces extends PhpTemplate
 {
     private $fileNamespace = '';
@@ -33,7 +35,11 @@ class PhpNamespaces extends PhpTemplate
     public function getReference($fullyQualifiedName)
     {
         if (!isset($this->namespaces[$fullyQualifiedName])) {
-            $this->add($fullyQualifiedName);
+            if ($fullyQualifiedName === Palette::schemaClass()->getFullyQualifiedName()) {
+                $this->add($fullyQualifiedName, 'JsonBasicSchema');
+            } else {
+                $this->add($fullyQualifiedName);
+            }
         }
         return $this->namespaces[$fullyQualifiedName];
     }
