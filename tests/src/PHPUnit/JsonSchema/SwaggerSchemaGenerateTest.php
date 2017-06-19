@@ -3,9 +3,11 @@
 namespace Swaggest\PhpCodeBuilder\Tests\PHPUnit\JsonSchema;
 
 
+use Swaggest\JsonSchema\Context;
 use Swaggest\JsonSchema\JsonSchema;
 use Swaggest\JsonSchema\ProcessingOptions;
 use Swaggest\JsonSchema\RemoteRef\Preloaded;
+use Swaggest\JsonSchema\Schema;
 use Swaggest\PhpCodeBuilder\JsonSchema\PhpBuilder;
 use Swaggest\PhpCodeBuilder\PhpCode;
 use Swaggest\PhpCodeBuilder\PhpFile;
@@ -20,11 +22,11 @@ class SwaggerSchemaGenerateTest extends \PHPUnit_Framework_TestCase
         $refProvider = new Preloaded();
         $refProvider->setSchemaData('http://swagger.io/v2/schema.json', $schemaData);
 
-        $options = new ProcessingOptions();
+        $options = new Context();
         $options->setRemoteRefProvider($refProvider);
 
 
-        $swaggerSchema = JsonSchema::importToSchema($schemaData, $options);
+        $swaggerSchema = Schema::import($schemaData, $options);
 
         $builder = new PhpBuilder();
         $builder->getType($swaggerSchema); // #->paths->^/->get->parameters->items

@@ -3,6 +3,7 @@
 namespace Swaggest\PhpCodeBuilder\JsonSchema;
 
 use Swaggest\JsonSchema\JsonSchema;
+use Swaggest\JsonSchema\Schema;
 use Swaggest\PhpCodeBuilder\PhpAnyType;
 use Swaggest\PhpCodeBuilder\PhpClass;
 use Swaggest\PhpCodeBuilder\PhpClassProperty;
@@ -51,7 +52,7 @@ class PhpBuilder
         }
     }
 
-    private function makeClass(JsonSchema $schema, $path)
+    private function makeClass(Schema $schema, $path)
     {
         if (empty($path)) {
             throw new Exception('Empty path');

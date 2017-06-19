@@ -97,10 +97,17 @@ class SchemaBuilder
             && $this->schema->properties !== null
         ) {
             $class = $this->phpBuilder->getClass($this->schema, $this->path);
-            $this->result->addSnippet(
-                new PlaceholderString("{$this->varName} = ::class::schema();\n",
-                    array('::class' => new ReferenceTypeOf($class)))
-            );
+            if ($this->schema->id === 'http://json-schema.org/draft-04/schema#') {
+                $this->result->addSnippet(
+                    new PlaceholderString("{$this->varName} = ::class::schema();\n",
+                        array('::class' => new ReferenceTypeOf(Palette::schemaClass())))
+                );
+            } else {
+                $this->result->addSnippet(
+                    new PlaceholderString("{$this->varName} = ::class::schema();\n",
+                        array('::class' => new ReferenceTypeOf($class)))
+                );
+            }
             return true;
         }
         return false;
@@ -194,23 +201,27 @@ class SchemaBuilder
 
     private function processOther()
     {
-        $skip = array(
-            SchemaLoader::TYPE => 1,
-            SchemaLoader::REF => 1,
-            SchemaLoader::ITEMS => 1,
-            SchemaLoader::ADDITIONAL_ITEMS => 1,
-            SchemaLoader::PROPERTIES => 1,
-            SchemaLoader::ADDITIONAL_PROPERTIES => 1,
-            SchemaLoader::PATTERN_PROPERTIES => 1,
-            SchemaLoader::ALL_OF => 1, // @todo process
-            SchemaLoader::ANY_OF => 1,
-            SchemaLoader::ONE_OF => 1,
-            SchemaLoader::NOT => 1,
-            'definitions' => 1,
-            'fromRef' => 1,
-            'originPath' => 1,
-        );
-        $schemaData = SchemaLoader::create()->dumpSchema($this->schema);
+        static $skip = null;
+        if ($skip === null) {
+            $names = Schema::names();
+            $skip = array(
+                (string)$names->type => 1,
+                '$ref' => 1,
+                (string)$names->items => 1,
+                (string)$names->additionalItems => 1,
+                (string)$names->properties => 1,
+                (string)$names->additionalProperties => 1,
+                (string)$names->patternProperties => 1,
+                (string)$names->allOf => 1, // @todo process
+                (string)$names->anyOf => 1,
+                (string)$names->oneOf => 1,
+                (string)$names->not => 1,
+                (string)$names->definitions => 1,
+                (string)$names->fromRef => 1,
+                (string)$names->originPath => 1,
+            );
+        }
+        $schemaData = Schema::export($this->schema);
         foreach ((array)$schemaData as $key => $value) {
             if (isset($skip[$key])) {
                 continue;
@@ -221,10 +232,13 @@ class SchemaBuilder
             if ($value instanceof ObjectItem) {
                 //$value = $value->jsonSerialize();
                 $export = 'new \stdClass()';
+            } elseif ($value instanceof \stdClass) {
+                $export = '(object)' . var_export((array)$value, 1);
             } else {
                 $export = var_export($value, 1);
             }
 
+            $key = PhpCode::makePhpName($key);
             $this->result->addSnippet(
                 "{$this->varName}->{$key} = " . $export . ";\n"
             );
@@ -264,8 +278,8 @@ class SchemaBuilder
     {
         $this->result = new PhpCode();
 
-        if ($this->schema->ref !== null) {
-            $path = $this->schema->ref->ref;
+        if ($this->schema->ref !== null) { // TODO!
+            $path = $this->schema->ref;
             if (!$path) {
                 throw new Exception('Empty ref path');
             }

@@ -56,7 +56,7 @@ class TypeBuilder
     {
         $schema = $this->schema;
 
-        $pathItems = 'items';
+        $pathItems = (string)Schema::names()->items;
         if ($schema->items instanceof Schema) {
             $items = array();
             $additionalItems = $schema->items;
@@ -66,7 +66,7 @@ class TypeBuilder
         } else { // listed items
             $items = $schema->items;
             $additionalItems = $schema->additionalItems;
-            $pathItems = 'additionalItems';
+            $pathItems = (string)Schema::names()->additionalItems;
         }
 
         if ($items !== null || $additionalItems !== null) {
@@ -92,7 +92,7 @@ class TypeBuilder
         if ($this->schema->additionalProperties instanceof Schema) {
             $this->result->add(new ArrayOf($this->phpBuilder->getType(
                 $this->schema->additionalProperties,
-                $this->path . '->' . 'additionalProperties')
+                $this->path . '->' . (string)Schema::names()->additionalProperties)
             ));
         }
     }
@@ -140,10 +140,13 @@ class TypeBuilder
      */
     public function build()
     {
+        $schema = $this->schema;
+
         $this->result = new OrType();
 
-        if ($this->schema->ref !== null) {
-            $this->result->add($this->phpBuilder->getType($this->schema->ref->getData(), $this->schema->ref->ref));
+        if (null !== $path = $this->schema->getFromRef()) {
+            $this->path = $this->schema->getFromRef();
+            //$this->result->add($this->phpBuilder->getType($this->schema->ref->getData(), $this->schema->ref->ref));
         }
 
 
