@@ -43,7 +43,6 @@ class JsonSchemaGenerateTest extends \PHPUnit_Framework_TestCase
 
             if (!isset($classesDone[$class->class->getName()])) {
                 $className = $class->class->getName();
-                //$class->class = str_replace('JsonSchema::schema()', 'static::schema()', $class->class->render());
                 $phpCode->addSnippet($class->class);
                 $phpCode->addSnippet("\n\n");
 

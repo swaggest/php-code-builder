@@ -104,6 +104,8 @@ class PhpBuilder
                 $body->addSnippet('$ownerSchema->addPropertyMapping(' . var_export($name, 1) . ', self::names()->'
                     . $propertyName . ");\n");
             }
+
+            $class->addMethod(new Setter($phpProperty, true));
         }
 
         $schemaBuilder = new SchemaBuilder($schema, '$ownerSchema', $path, $this);
