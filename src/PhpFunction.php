@@ -24,6 +24,7 @@ class PhpFunction extends PhpTemplate
     private $body;
     private $phpDoc;
 
+    public $skipCodeCoverage = false;
 
 
     /**
@@ -41,11 +42,16 @@ class PhpFunction extends PhpTemplate
 
     protected function toString()
     {
+        $tail = '';
+        if ($this->skipCodeCoverage) {
+            $tail = (new PhpDoc)->add(PhpDoc::TAG_CODE_COVERAGE_IGNORE_END);
+        }
+
         return <<<PHP
 {$this->headToString()}
 {
 {$this->indentLines($this->body)}}
-
+$tail
 
 PHP;
     }
@@ -70,6 +76,9 @@ PHP;
         }
         if ($this->result && $returnType = $this->result->renderPhpDocType()) {
             $result->add(PhpDoc::TAG_RETURN, $returnType);
+        }
+        if ($this->skipCodeCoverage) {
+            $result->add(PhpDoc::TAG_CODE_COVERAGE_IGNORE_START);
         }
         return (string)$result;
     }

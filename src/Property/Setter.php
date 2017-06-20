@@ -22,6 +22,8 @@ class Setter extends PhpFunction
             PhpFlags::VIS_PUBLIC
         );
 
+        $this->skipCodeCoverage = true;
+
         $this->addArgument($property->getNamedVar());
 
         $body = <<<PHP
