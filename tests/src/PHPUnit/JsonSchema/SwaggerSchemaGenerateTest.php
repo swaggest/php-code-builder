@@ -5,7 +5,6 @@ namespace Swaggest\PhpCodeBuilder\Tests\PHPUnit\JsonSchema;
 
 use Swaggest\JsonSchema\Context;
 use Swaggest\JsonSchema\JsonSchema;
-use Swaggest\JsonSchema\ProcessingOptions;
 use Swaggest\JsonSchema\RemoteRef\Preloaded;
 use Swaggest\JsonSchema\Schema;
 use Swaggest\PhpCodeBuilder\JsonSchema\PhpBuilder;

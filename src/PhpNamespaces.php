@@ -36,7 +36,7 @@ class PhpNamespaces extends PhpTemplate
     {
         if (!isset($this->namespaces[$fullyQualifiedName])) {
             if ($fullyQualifiedName === Palette::schemaClass()->getFullyQualifiedName()) {
-                $this->add($fullyQualifiedName/*, 'JsonBasicSchema'*/);
+                $this->add($fullyQualifiedName, 'JsonBasicSchema');
             } else {
                 $this->add($fullyQualifiedName);
             }
