@@ -44,7 +44,7 @@ class PhpFunction extends PhpTemplate
     {
         $tail = '';
         if ($this->skipCodeCoverage) {
-            $tail = (new PhpDoc)->add(PhpDoc::TAG_CODE_COVERAGE_IGNORE_END);
+            $tail = (new PhpDocTag(PhpDoc::TAG_CODE_COVERAGE_IGNORE_END))->render() . "\n";
         }
 
         return <<<PHP
