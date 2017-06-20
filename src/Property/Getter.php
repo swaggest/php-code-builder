@@ -18,6 +18,8 @@ class Getter extends PhpFunction
         $name = $property->getNamedVar()->getName();
         parent::__construct('get' . ucfirst($name), PhpFlags::VIS_PUBLIC);
 
+        $this->skipCodeCoverage = true;
+
         $this->setResult($property->getNamedVar()->getType());
         $this->setBody(
             <<<PHP
