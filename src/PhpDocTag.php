@@ -21,8 +21,9 @@ class PhpDocTag extends PhpTemplate
 
     protected function toString()
     {
+        $value = $this->value ? ' ' . $this->value : '';
         return <<<PHP
-/** @{$this->name} {$this->value} */
+/** @{$this->name}{$value} */
 PHP;
 
     }

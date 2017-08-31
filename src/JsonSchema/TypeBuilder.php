@@ -114,7 +114,8 @@ class TypeBuilder
 
             /*
             case Type::OBJECT:
-                return PhpStdType::object();*/
+                return PhpStdType::object();
+            */
 
             case Type::ARR:
                 return PhpStdType::arr();

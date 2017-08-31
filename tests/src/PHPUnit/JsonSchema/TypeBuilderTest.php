@@ -30,7 +30,7 @@ class TypeBuilderTest extends \PHPUnit_Framework_TestCase
 }
 JSON
         );
-        $schema = JsonSchema::importToSchema($schemaData);
+        $schema = JsonSchema::import($schemaData);
         $phpBuilder = new PhpBuilder();
         $type = $phpBuilder->getType($schema);
 
@@ -50,6 +50,18 @@ class Untitled1 extends Swaggest\JsonSchema\Structure\ClassStructure {
 		$properties->maximum = Swaggest\JsonSchema\Schema::number();
 		$ownerSchema->type = 'object';
 	}
+
+	/**
+	 * @param float $maximum
+	 * @return $this
+	 * @codeCoverageIgnoreStart
+	 */
+	public function setMaximum($maximum)
+	{
+		$this->maximum = $maximum;
+		return $this;
+	}
+	/** @codeCoverageIgnoreEnd */
 }
 PHP
             , (string)$gen[0]->class);

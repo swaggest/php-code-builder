@@ -27,8 +27,9 @@ class PhpDoc extends PhpTemplate
         $result = '';
         foreach ($this->tags as $tag) {
             if ($tag->name) {
+                $value = $tag->value ? $this->padLines(' * ', ' ' . $tag->value) : '';
                 $result .= <<<PHP
- * @{$tag->name} {$this->padLines(' * ', $tag->value)}
+ * @{$tag->name}{$value}
 
 PHP;
             } else {
