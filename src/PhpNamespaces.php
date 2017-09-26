@@ -48,6 +48,7 @@ class PhpNamespaces extends PhpTemplate
     {
         $result = '';
         foreach ($this->namespaces as $namespace => $as) {
+            $namespace = trim($namespace, '\\');
             $short = $this->makeShortName($namespace);
             if ($short === $as) {
                 $as = '';

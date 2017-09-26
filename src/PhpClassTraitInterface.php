@@ -3,13 +3,39 @@
 namespace Swaggest\PhpCodeBuilder;
 
 
+use Swaggest\PhpCodeBuilder\Traits\Description;
+
 abstract class PhpClassTraitInterface extends PhpTemplate implements PhpAnyType
 {
+    use Description;
+
     protected $name;
     private $namespace;
 
     /** @var PhpClass */
     private $extends;
+
+    /** @var PhpDoc */
+    private $phpDoc;
+
+    /**
+     * @return PhpDoc
+     */
+    public function getPhpDoc()
+    {
+        if ($this->phpDoc === null) {
+            $this->phpDoc = new PhpDoc();
+        }
+        return $this->phpDoc;
+    }
+
+    protected function renderHeadComment()
+    {
+        if ($this->description) {
+            $this->getPhpDoc()->prepend('', $this->description);
+        }
+        return $this->phpDoc;
+    }
 
     protected function renderExtends()
     {
@@ -106,4 +132,18 @@ PHP;
         $this->extends = $extends;
         return $this;
     }
+
+    /**
+     * Create instance by fully qualified name
+     *
+     * @param $fqn
+     * @return static
+     */
+    public static function byFQN($fqn)
+    {
+        $c = new static;
+        $c->setFullyQualifiedName($fqn);
+        return $c;
+    }
+
 }

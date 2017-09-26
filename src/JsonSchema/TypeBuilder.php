@@ -23,11 +23,11 @@ class TypeBuilder
 
     /**
      * TypeBuilder constructor.
-     * @param Schema $schema
+     * @param JsonSchema|Schema $schema
      * @param $path
      * @param PhpBuilder $phpBuilder
      */
-    public function __construct(JsonSchema $schema, $path, PhpBuilder $phpBuilder)
+    public function __construct($schema, $path, PhpBuilder $phpBuilder)
     {
         $this->schema = $schema;
         $this->path = $path;
@@ -57,7 +57,7 @@ class TypeBuilder
         $schema = $this->schema;
 
         $pathItems = (string)Schema::names()->items;
-        if ($schema->items instanceof Schema) {
+        if ($this->isSchema($schema->items)) {
             $items = array();
             $additionalItems = $schema->items;
         } elseif ($schema->items === null) { // items defaults to empty schema so everything is valid
@@ -74,11 +74,15 @@ class TypeBuilder
             $index = 0;
             if ($index < $itemsLen) {
             } else {
-                if ($additionalItems instanceof Schema) {
+                if ($this->isSchema($additionalItems)) {
                     $this->result->add(new ArrayOf($this->phpBuilder->getType($additionalItems, $this->path . '->' . $pathItems)));
                 }
             }
         }
+    }
+
+    private function isSchema($var) {
+        return $var instanceof Schema || $var instanceof \Swaggest\JsonSchema\SwaggerSchema\Schema;
     }
 
     private function processObjectType()
@@ -89,7 +93,7 @@ class TypeBuilder
             }
         }
 
-        if ($this->schema->additionalProperties instanceof Schema) {
+        if ($this->isSchema($this->schema->additionalProperties)) {
             $this->result->add(new ArrayOf($this->phpBuilder->getType(
                 $this->schema->additionalProperties,
                 $this->path . '->' . (string)Schema::names()->additionalProperties)
@@ -128,7 +132,11 @@ class TypeBuilder
         }
     }
 
-    private function processNamedClass(JsonSchema $schema, $path)
+    /**
+     * @param JsonSchema $schema
+     * @param $path
+     */
+    private function processNamedClass($schema, $path)
     {
         if ($schema->properties !== null) {
             $class = $this->phpBuilder->getClass($schema, $path);
@@ -141,8 +149,6 @@ class TypeBuilder
      */
     public function build()
     {
-        $schema = $this->schema;
-
         $this->result = new OrType();
 
         if (null !== $path = $this->schema->getFromRef()) {

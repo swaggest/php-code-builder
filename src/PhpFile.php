@@ -62,7 +62,7 @@ PHP;
     private function renderNamespace()
     {
         return $this->namespace
-            ? "namespace " . $this->namespace . ";\n\n"
+            ? "namespace " . trim($this->namespace, '\\') . ";\n\n"
             : '';
 
     }

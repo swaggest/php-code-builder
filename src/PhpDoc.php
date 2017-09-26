@@ -22,6 +22,17 @@ class PhpDoc extends PhpTemplate
         return $this;
     }
 
+    public function prepend($name, $value = '')
+    {
+        array_unshift($this->tags, new PhpDocTag($name, $value));
+        return $this;
+    }
+
+    public function isEmpty()
+    {
+        return empty($this->tags);
+    }
+
     protected function toString()
     {
         $result = '';

@@ -3,7 +3,6 @@
 namespace Swaggest\PhpCodeBuilder\JsonSchema;
 
 use Swaggest\JsonSchema\JsonSchema;
-use Swaggest\JsonSchema\Schema;
 use Swaggest\PhpCodeBuilder\PhpAnyType;
 use Swaggest\PhpCodeBuilder\PhpClass;
 use Swaggest\PhpCodeBuilder\PhpClassProperty;
@@ -36,14 +35,20 @@ class PhpBuilder
      * @param string $path
      * @return PhpAnyType
      */
-    public function getType(JsonSchema $schema, $path = '#')
+    public function getType($schema, $path = '#')
     {
         $typeBuilder = new TypeBuilder($schema, $path, $this);
         return $typeBuilder->build();
     }
 
 
-    public function getClass(JsonSchema $schema, $path)
+    /**
+     * @param JsonSchema|\Swaggest\JsonSchema\SwaggerSchema\Schema $schema
+     * @param $path
+     * @return PhpClass
+     * @throws Exception
+     */
+    public function getClass($schema, $path)
     {
         if ($this->generatedClasses->contains($schema)) {
             return $this->generatedClasses[$schema]->class;
@@ -52,7 +57,13 @@ class PhpBuilder
         }
     }
 
-    private function makeClass(Schema $schema, $path)
+    /**
+     * @param JsonSchema $schema
+     * @param $path
+     * @return GeneratedClass
+     * @throws Exception
+     */
+    private function makeClass($schema, $path)
     {
         if (empty($path)) {
             throw new Exception('Empty path');
@@ -61,7 +72,7 @@ class PhpBuilder
         $generatedClass->schema = $schema;
 
         $class = new PhpClass();
-        $class->setName('Untitled' . ++$this->untitledIndex);
+        $class->setName(PhpCode::makePhpName($path, false));
         $class->setExtends(Palette::classStructureClass());
 
 
@@ -82,30 +93,30 @@ class PhpBuilder
 
         $this->generatedClasses->attach($schema, $generatedClass);
 
-        foreach ($schema->properties as $name => $property) {
-            $propertyName = PhpCode::makePhpName($name);
+        if ($schema->properties) {
+            foreach ($schema->properties as $name => $property) {
+                $propertyName = PhpCode::makePhpName($name);
 
-            $schemaBuilder = new SchemaBuilder($property, '$properties->' . $propertyName, $path . '->' . $name, $this);
-            $phpProperty = new PhpClassProperty($propertyName, $this->getType($property, $path . '->' . $name));
-            if ($property->description) {
-                $phpProperty->setDescription($property->description);
+                $schemaBuilder = new SchemaBuilder($property, '$properties->' . $propertyName, $path . '->' . $name, $this);
+                $phpProperty = new PhpClassProperty($propertyName, $this->getType($property, $path . '->' . $name));
+                if ($property->description) {
+                    $phpProperty->setDescription($property->description);
+                }
+                $class->addProperty($phpProperty);
+                if ($this->buildGetters) {
+                    $class->addMethod(new Getter($phpProperty));
+                }
+                if ($this->buildSetters) {
+                    $class->addMethod(new Setter($phpProperty, true));
+                }
+                $body->addSnippet(
+                    $schemaBuilder->build()
+                );
+                if ($propertyName != $name) {
+                    $body->addSnippet('$ownerSchema->addPropertyMapping(' . var_export($name, 1) . ', self::names()->'
+                        . $propertyName . ");\n");
+                }
             }
-            $class->addProperty($phpProperty);
-            if ($this->buildGetters) {
-                $class->addMethod(new Getter($phpProperty));
-            }
-            if ($this->buildSetters) {
-                $class->addMethod(new Setter($phpProperty));
-            }
-            $body->addSnippet(
-                $schemaBuilder->build()
-            );
-            if ($propertyName != $name) {
-                $body->addSnippet('$ownerSchema->addPropertyMapping(' . var_export($name, 1) . ', self::names()->'
-                    . $propertyName . ");\n");
-            }
-
-            $class->addMethod(new Setter($phpProperty, true));
         }
 
         $schemaBuilder = new SchemaBuilder($schema, '$ownerSchema', $path, $this);

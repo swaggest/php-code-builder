@@ -4,7 +4,6 @@ namespace Swaggest\PhpCodeBuilder;
 
 class PhpClass extends PhpClassTraitInterface
 {
-
     /** @var PhpInterface[] */
     private $implements;
 
@@ -25,7 +24,7 @@ class PhpClass extends PhpClassTraitInterface
         $content = $this->indentLines(trim($content));
 
         return <<<PHP
-{$this->renderIsAbstract()}class {$this->name}{$this->renderExtends()} {
+{$this->renderHeadComment()}{$this->renderIsAbstract()}class {$this->name}{$this->renderExtends()} {
 $content
 }
 PHP;

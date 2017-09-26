@@ -5,8 +5,8 @@ namespace Swaggest\PhpCodeBuilder\JsonSchema;
 
 use Swaggest\CodeBuilder\PlaceholderString;
 use Swaggest\JsonSchema\Constraint\Type;
+use Swaggest\JsonSchema\JsonSchema;
 use Swaggest\JsonSchema\Schema;
-use Swaggest\JsonSchema\SchemaLoader;
 use Swaggest\JsonSchema\Structure\ObjectItem;
 use Swaggest\PhpCodeBuilder\PhpCode;
 use Swaggest\PhpCodeBuilder\Types\ReferenceTypeOf;
@@ -30,12 +30,12 @@ class SchemaBuilder
 
     /**
      * SchemaBuilder constructor.
-     * @param Schema $schema
+     * @param JsonSchema|Schema $schema
      * @param string $varName
      * @param $path
      * @param PhpBuilder $phpBuilder
      */
-    public function __construct(Schema $schema, $varName, $path, PhpBuilder $phpBuilder)
+    public function __construct($schema, $varName, $path, PhpBuilder $phpBuilder)
     {
         $this->schema = $schema;
         $this->varName = $varName;

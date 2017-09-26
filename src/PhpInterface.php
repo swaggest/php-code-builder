@@ -8,7 +8,7 @@ class PhpInterface extends PhpClassTraitInterface
     protected function toString()
     {
         return <<<PHP
-interface {$this->name}{$this->renderExtends()} {
+{$this->renderHeadComment()}interface {$this->name}{$this->renderExtends()} {
 }
 PHP;
 
