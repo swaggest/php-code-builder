@@ -8,7 +8,9 @@ use Swaggest\JsonSchema\Constraint\Type;
 use Swaggest\JsonSchema\JsonSchema;
 use Swaggest\JsonSchema\Schema;
 use Swaggest\JsonSchema\Structure\ObjectItem;
+use Swaggest\PhpCodeBuilder\PhpClass;
 use Swaggest\PhpCodeBuilder\PhpCode;
+use Swaggest\PhpCodeBuilder\PhpConstant;
 use Swaggest\PhpCodeBuilder\Types\ReferenceTypeOf;
 
 class SchemaBuilder
@@ -27,6 +29,9 @@ class SchemaBuilder
 
     /** @var bool */
     private $skipProperties;
+
+    /** @var PhpClass */
+    private $saveEnumConstInClass;
 
     /**
      * SchemaBuilder constructor.
@@ -199,6 +204,34 @@ class SchemaBuilder
         }
     }
 
+    private function processEnum()
+    {
+        if (!empty($this->schema->enum)) {
+            $this->result->addSnippet(
+                "{$this->varName}->enum = array(\n"
+            );
+            foreach ($this->schema->enum as $enumItem) {
+                $name = PhpCode::makePhpConstantName($enumItem);
+                $value = var_export($enumItem, true);
+                if ($this->saveEnumConstInClass !== null && is_scalar($enumItem)) {
+                    $this->saveEnumConstInClass->addConstant(new PhpConstant($name, $enumItem));
+                    $this->result->addSnippet(
+                        "    self::$name,\n"
+                    );
+                } else {
+                    $this->result->addSnippet(
+                        "    $value,\n"
+                    );
+                }
+
+            }
+            $this->result->addSnippet(
+                ");\n"
+            );
+
+        }
+    }
+
     private function processOther()
     {
         static $skip = null;
@@ -217,6 +250,7 @@ class SchemaBuilder
                 (string)$names->oneOf => 1,
                 (string)$names->not => 1,
                 (string)$names->definitions => 1,
+                (string)$names->enum => 1,
                 (string)$names->fromRef => 1,
                 (string)$names->originPath => 1,
             );
@@ -291,11 +325,11 @@ class SchemaBuilder
         }
 
 
-
         $this->processType();
         $this->processObject();
         $this->processArray();
         $this->processLogic();
+        $this->processEnum();
         $this->processOther();
 
         return $this->result;
@@ -304,10 +338,22 @@ class SchemaBuilder
 
     /**
      * @param boolean $skipProperties
+     * @return $this
      */
     public function setSkipProperties($skipProperties)
     {
         $this->skipProperties = $skipProperties;
+        return $this;
+    }
+
+    /**
+     * @param PhpClass $saveEnumConstInClass
+     * @return $this
+     */
+    public function setSaveEnumConstInClass($saveEnumConstInClass)
+    {
+        $this->saveEnumConstInClass = $saveEnumConstInClass;
+        return $this;
     }
 
 

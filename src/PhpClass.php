@@ -16,9 +16,12 @@ class PhpClass extends PhpClassTraitInterface
     /** @var PhpFunction[] */
     private $methods = array();
 
+    /** @var PhpConstant[] */
+    private $constants = array();
+
     protected function toString()
     {
-        $content = $this->renderProperties()
+        $content = $this->renderConstants() . $this->renderProperties()
             . $this->renderMethods();
 
         $content = $this->indentLines(trim($content));
@@ -28,6 +31,15 @@ class PhpClass extends PhpClassTraitInterface
 $content
 }
 PHP;
+    }
+
+    private function renderConstants()
+    {
+        $result = '';
+        foreach ($this->constants as $name => $constant) {
+            $result .= $constant->render();
+        }
+        return $result;
     }
 
     private function renderProperties()
@@ -57,6 +69,12 @@ PHP;
     public function addMethod(PhpFunction $function)
     {
         $this->methods[] = $function;
+        return $this;
+    }
+
+    public function addConstant(PhpConstant $constant)
+    {
+        $this->constants[] = $constant;
         return $this;
     }
 

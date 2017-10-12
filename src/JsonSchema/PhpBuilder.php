@@ -29,6 +29,7 @@ class PhpBuilder
 
     public $buildGetters = false;
     public $buildSetters = false;
+    public $makeEnumConstants = false;
 
     /**
      * @param JsonSchema $schema
@@ -98,6 +99,9 @@ class PhpBuilder
                 $propertyName = PhpCode::makePhpName($name);
 
                 $schemaBuilder = new SchemaBuilder($property, '$properties->' . $propertyName, $path . '->' . $name, $this);
+                if ($this->makeEnumConstants) {
+                    $schemaBuilder->setSaveEnumConstInClass($class);
+                }
                 $phpProperty = new PhpClassProperty($propertyName, $this->getType($property, $path . '->' . $name));
                 if ($property->description) {
                     $phpProperty->setDescription($property->description);
@@ -139,5 +143,7 @@ class PhpBuilder
         }
         return $result;
     }
+
+
 
 }

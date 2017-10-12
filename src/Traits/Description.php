@@ -3,6 +3,8 @@
 namespace Swaggest\PhpCodeBuilder\Traits;
 
 
+use Swaggest\PhpCodeBuilder\PhpDoc;
+
 trait Description
 {
     /** @var string */
@@ -24,6 +26,17 @@ trait Description
     {
         $this->description = $description;
         return $this;
+    }
+
+    private function renderDescriptionAsPhpDoc()
+    {
+        if ($this->description) {
+            $doc = new PhpDoc();
+            $doc->add(null, $this->description);
+            return $doc->render();
+        } else {
+            return '';
+        }
     }
 
 }

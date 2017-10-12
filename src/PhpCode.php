@@ -41,7 +41,6 @@ class PhpCode extends PhpTemplate
         return $result;
     }
 
-
     public static function toCamelCase($string, $lowerFirst = false)
     {
         $result = implode('', array_map('ucfirst', explode('_', $string)));
@@ -65,6 +64,18 @@ class PhpCode extends PhpTemplate
             $phpName = 'property' . $phpName;
         }
         return $phpName;
+    }
+
+    public static function makePhpConstantName($rawName)
+    {
+        $phpName = preg_replace("/([^a-zA-Z0-9_]+)/", "_", $rawName);
+
+        if (!$phpName) {
+            $phpName = 'const_' . substr(md5($rawName), 0, 6);
+        } elseif (is_numeric($phpName[0])) {
+            $phpName = 'const_' . $phpName;
+        }
+        return strtoupper($phpName);
     }
 
 }
