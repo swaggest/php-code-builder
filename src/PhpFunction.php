@@ -21,9 +21,10 @@ class PhpFunction extends PhpTemplate
     /** @var PhpAnyType */
     private $result;
 
-    private $body;
-    private $phpDoc;
+    /** @var PhpAnyType */
+    private $throws;
 
+    private $body;
     public $skipCodeCoverage = false;
 
 
@@ -77,6 +78,9 @@ PHP;
         if ($this->result && $returnType = $this->result->renderPhpDocType()) {
             $result->add(PhpDoc::TAG_RETURN, $returnType);
         }
+        if ($this->throws && $throwsType = $this->throws->renderPhpDocType()) {
+            $result->add(PhpDoc::TAG_THROWS, $throwsType);
+        }
         if ($this->skipCodeCoverage) {
             $result->add(PhpDoc::TAG_CODE_COVERAGE_IGNORE_START);
         }
@@ -129,5 +133,17 @@ PHP;
         $this->result = $result;
         return $this;
     }
+
+    /**
+     * @param PhpAnyType $throws
+     * @return PhpFunction
+     */
+    public function setThrows($throws)
+    {
+        $this->throws = $throws;
+        return $this;
+    }
+
+
 
 }
