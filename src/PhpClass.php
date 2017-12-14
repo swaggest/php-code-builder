@@ -74,7 +74,13 @@ PHP;
 
     public function addConstant(PhpConstant $constant)
     {
-        $this->constants[] = $constant;
+        if (array_key_exists($constant->getName(), $this->constants)) {
+            if ($this->constants[$constant->getName()]->getValue() !== $constant->getValue()) {
+                throw new Exception('Duplicate const with different value');
+            }
+        } else {
+            $this->constants[$constant->getName()] = $constant;
+        }
         return $this;
     }
 

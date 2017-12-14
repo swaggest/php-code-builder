@@ -197,7 +197,7 @@ class SchemaBuilder
                             "{$this->varName}->{$pathItems}",
                             $this->path . '->' . $pathItems,
                             $this->phpBuilder
-                        ))->build()
+                        ))->setSaveEnumConstInClass($this->saveEnumConstInClass)->build()
                     );
                 }
             }
@@ -301,7 +301,7 @@ class SchemaBuilder
                             "{$this->varName}->{$logic}[{$index}]",
                             $this->path . "->{$logic}[{$index}]",
                             $this->phpBuilder
-                        ))->build()
+                        ))->setSaveEnumConstInClass($this->saveEnumConstInClass)->build()
                     );
                 }
             }

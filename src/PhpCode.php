@@ -66,9 +66,15 @@ class PhpCode extends PhpTemplate
         return $phpName;
     }
 
+    private static $keywords = array('__halt_compiler', 'abstract', 'and', 'array', 'as', 'break', 'callable', 'case', 'catch', 'class', 'clone', 'const', 'continue', 'declare', 'default', 'die', 'do', 'echo', 'else', 'elseif', 'empty', 'enddeclare', 'endfor', 'endforeach', 'endif', 'endswitch', 'endwhile', 'eval', 'exit', 'extends', 'final', 'for', 'foreach', 'function', 'global', 'goto', 'if', 'implements', 'include', 'include_once', 'instanceof', 'insteadof', 'interface', 'isset', 'list', 'namespace', 'new', 'or', 'print', 'private', 'protected', 'public', 'require', 'require_once', 'return', 'static', 'switch', 'throw', 'trait', 'try', 'unset', 'use', 'var', 'while', 'xor');
+
     public static function makePhpConstantName($rawName)
     {
         $phpName = preg_replace("/([^a-zA-Z0-9_]+)/", "_", $rawName);
+
+        if (in_array(strtolower($phpName), self::$keywords)) {
+            $phpName = '_' . $phpName;
+        }
 
         if (!$phpName) {
             $phpName = 'const_' . substr(md5($rawName), 0, 6);

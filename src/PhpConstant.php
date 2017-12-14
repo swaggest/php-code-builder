@@ -24,6 +24,21 @@ class PhpConstant extends PhpTemplate
         $this->value = $value;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 
     protected function toString()
     {
