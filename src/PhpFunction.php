@@ -51,7 +51,7 @@ class PhpFunction extends PhpTemplate
         return <<<PHP
 {$this->headToString()}
 {
-{$this->indentLines($this->body)}}
+{$this->indentLines(trim($this->body) . "\n")}}
 $tail
 
 PHP;
