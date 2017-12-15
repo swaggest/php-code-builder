@@ -30,6 +30,7 @@ class PhpBuilder
     public $buildGetters = false;
     public $buildSetters = false;
     public $makeEnumConstants = false;
+    public $skipSchemaDescriptions = false;
 
     /**
      * @param JsonSchema $schema
@@ -99,6 +100,9 @@ class PhpBuilder
                 $propertyName = PhpCode::makePhpName($name);
 
                 $schemaBuilder = new SchemaBuilder($property, '$properties->' . $propertyName, $path . '->' . $name, $this);
+                if ($this->skipSchemaDescriptions) {
+                    $schemaBuilder->skipProperty(JsonSchema::names()->description);
+                }
                 if ($this->makeEnumConstants) {
                     $schemaBuilder->setSaveEnumConstInClass($class);
                 }
@@ -124,6 +128,9 @@ class PhpBuilder
         }
 
         $schemaBuilder = new SchemaBuilder($schema, '$ownerSchema', $path, $this);
+        if ($this->skipSchemaDescriptions) {
+            $schemaBuilder->skipProperty(JsonSchema::names()->description);
+        }
         $schemaBuilder->setSkipProperties(true);
         $body->addSnippet($schemaBuilder->build());
 

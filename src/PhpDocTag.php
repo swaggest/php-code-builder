@@ -21,10 +21,19 @@ class PhpDocTag extends PhpTemplate
 
     protected function toString()
     {
-        $value = $this->value ? ' ' . $this->value : '';
-        return <<<PHP
+        $value = trim($this->value);
+        $value = $value ? ' ' . $value : '';
+        if (strpos($value, "\n") !== false) {
+            return <<<PHP
+/**
+ * @{$this->name}{$this->padLines(' * ', $value)}
+ */
+PHP;
+        } else {
+            return <<<PHP
 /** @{$this->name}{$value} */
 PHP;
+        }
 
     }
 }

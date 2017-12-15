@@ -138,7 +138,7 @@ class SchemaBuilder
         if ($this->schema->additionalProperties !== null) {
             if ($this->schema->additionalProperties instanceof Schema) {
                 $this->result->addSnippet(
-                    (new SchemaBuilder(
+                    $this->copyTo(new SchemaBuilder(
                         $this->schema->additionalProperties,
                         "{$this->varName}->additionalProperties",
                         $this->path . '->additionalProperties',
@@ -156,7 +156,7 @@ class SchemaBuilder
             foreach ($this->schema->patternProperties as $pattern => $property) {
                 $patternExp = var_export($pattern, true);
                 $this->result->addSnippet(
-                    (new SchemaBuilder(
+                    $this->copyTo(new SchemaBuilder(
                         $property,
                         "{$this->varName}->patternProperties[{$patternExp}]",
                         $this->path . '->patternProperties[{$pattern}]',
@@ -192,12 +192,12 @@ class SchemaBuilder
             } else {
                 if ($additionalItems instanceof Schema) {
                     $this->result->addSnippet(
-                        (new SchemaBuilder(
+                        $this->copyTo(new SchemaBuilder(
                             $additionalItems,
                             "{$this->varName}->{$pathItems}",
                             $this->path . '->' . $pathItems,
                             $this->phpBuilder
-                        ))->setSaveEnumConstInClass($this->saveEnumConstInClass)->build()
+                        ))->build()
                     );
                 }
             }
@@ -232,6 +232,21 @@ class SchemaBuilder
         }
     }
 
+    private $skip = [];
+
+    public function skipProperty($name)
+    {
+        $this->skip[$name] = 1;
+        return $this;
+    }
+
+    private function copyTo(SchemaBuilder $schemaBuilder)
+    {
+        $schemaBuilder->skip = $this->skip;
+        $schemaBuilder->saveEnumConstInClass = $this->saveEnumConstInClass;
+        return $schemaBuilder;
+    }
+
     private function processOther()
     {
         static $skip = null;
@@ -260,6 +275,9 @@ class SchemaBuilder
             if (isset($skip[$key])) {
                 continue;
             }
+            if (isset($this->skip[$key])) {
+                continue;
+            }
 
             //$this->result->addSnippet('/* ' . print_r($value, 1) . '*/' . "\n");
             //echo "{$this->varName}->{$key}\n";
@@ -268,6 +286,8 @@ class SchemaBuilder
                 $export = 'new \stdClass()';
             } elseif ($value instanceof \stdClass) {
                 $export = '(object)' . var_export((array)$value, 1);
+            } elseif (is_string($value)) {
+                $export = '"' . str_replace(array("\n", "\r", "\t"), array('\n', '\r', '\t'), addslashes($value)) . '"';
             } else {
                 $export = var_export($value, 1);
             }
@@ -283,7 +303,7 @@ class SchemaBuilder
     {
         if ($this->schema->not !== null) {
             $this->result->addSnippet(
-                (new SchemaBuilder(
+                $this->copyTo(new SchemaBuilder(
                     $this->schema->not,
                     "{$this->varName}->not",
                     $this->path . '->not',
@@ -296,12 +316,12 @@ class SchemaBuilder
             if ($this->schema->$logic !== null) {
                 foreach ($this->schema->$logic as $index => $schema) {
                     $this->result->addSnippet(
-                        (new SchemaBuilder(
+                        $this->copyTo(new SchemaBuilder(
                             $schema,
                             "{$this->varName}->{$logic}[{$index}]",
                             $this->path . "->{$logic}[{$index}]",
                             $this->phpBuilder
-                        ))->setSaveEnumConstInClass($this->saveEnumConstInClass)->build()
+                        ))->build()
                     );
                 }
             }
