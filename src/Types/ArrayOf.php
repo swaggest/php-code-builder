@@ -11,6 +11,14 @@ class ArrayOf implements PhpAnyType
     private $type;
 
     /**
+     * @return PhpAnyType
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
      * ArrayOf constructor.
      * @param PhpAnyType $type
      */

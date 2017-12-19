@@ -3,6 +3,7 @@
 namespace Swaggest\PhpCodeBuilder\JsonSchema;
 
 use Swaggest\JsonSchema\JsonSchema;
+use Swaggest\PhpCodeBuilder\Exception;
 use Swaggest\PhpCodeBuilder\PhpAnyType;
 use Swaggest\PhpCodeBuilder\PhpClass;
 use Swaggest\PhpCodeBuilder\PhpClassProperty;
@@ -31,6 +32,7 @@ class PhpBuilder
     public $buildSetters = false;
     public $makeEnumConstants = false;
     public $skipSchemaDescriptions = false;
+    public $defaultNamespace;
 
     /**
      * @param JsonSchema $schema
@@ -76,7 +78,9 @@ class PhpBuilder
         $class = new PhpClass();
         $class->setName(PhpCode::makePhpName($path, false));
         $class->setExtends(Palette::classStructureClass());
-
+        if ($this->defaultNamespace) {
+            $class->setNamespace($this->defaultNamespace);
+        }
 
         $setupProperties = new PhpFunction('setUpProperties');
         $setupProperties
@@ -94,6 +98,9 @@ class PhpBuilder
         $generatedClass->path = $path;
 
         $this->generatedClasses->attach($schema, $generatedClass);
+        if (null !== $this->dynamicIterator) {
+            $this->dynamicIterator->push($generatedClass);
+        }
 
         if ($schema->properties) {
             foreach ($schema->properties as $name => $property) {
@@ -127,7 +134,7 @@ class PhpBuilder
             }
         }
 
-        $schemaBuilder = new SchemaBuilder($schema, '$ownerSchema', $path, $this);
+        $schemaBuilder = new SchemaBuilder($schema, '$ownerSchema', $path, $this, false);
         if ($this->skipSchemaDescriptions) {
             $schemaBuilder->skipProperty(JsonSchema::names()->description);
         }
@@ -139,6 +146,9 @@ class PhpBuilder
         return $generatedClass;
     }
 
+    /** @var DynamicIterator */
+    private $dynamicIterator;
+
     /**
      * @return GeneratedClass[]
      */
@@ -148,9 +158,63 @@ class PhpBuilder
         foreach ($this->generatedClasses as $schema) {
             $result[] = $this->generatedClasses[$schema];
         }
-        return $result;
+        $iterator = new DynamicIterator($result);
+        $this->dynamicIterator = $iterator;
+        return $iterator;
+    }
+}
+
+
+class DynamicIterator implements \Iterator{
+    private $rows;
+    private $current;
+    private $key;
+    private $valid;
+
+    public function push($item)
+    {
+        $this->rows[] = $item;
+        return $this;
+    }
+
+    /**
+     * DynamicIterator constructor.
+     * @param $rows
+     */
+    public function __construct($rows = array())
+    {
+        $this->rows = $rows;
     }
 
 
+    public function current()
+    {
+        return $this->current;
+    }
 
+    public function next()
+    {
+        if (empty($this->rows)) {
+            $this->valid = false;
+            return;
+        }
+        $this->current = array_shift($this->rows);
+        $this->valid = true;
+        ++$this->key;
+    }
+
+    public function key()
+    {
+        return $this->key;
+    }
+
+    public function valid()
+    {
+        return $this->valid;
+    }
+
+    public function rewind()
+    {
+        $this->next();
+    }
 }

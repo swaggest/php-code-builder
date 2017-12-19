@@ -19,6 +19,9 @@ class SchemaBuilder
     private $schema;
     /** @var string */
     private $varName;
+    /** @var bool */
+    private $createVarName;
+
     /** @var PhpBuilder */
     private $phpBuilder;
     /** @var string */
@@ -39,47 +42,58 @@ class SchemaBuilder
      * @param string $varName
      * @param $path
      * @param PhpBuilder $phpBuilder
+     * @param bool $createVarName
      */
-    public function __construct($schema, $varName, $path, PhpBuilder $phpBuilder)
+    public function __construct($schema, $varName, $path, PhpBuilder $phpBuilder, $createVarName = true)
     {
         $this->schema = $schema;
         $this->varName = $varName;
         $this->phpBuilder = $phpBuilder;
         $this->path = $path;
+        $this->createVarName = $createVarName;
     }
 
     private function processType()
     {
-
-        $result = "{$this->varName} = ";
-
         if ($this->schema->type !== null) {
             switch ($this->schema->type) {
                 case Type::INTEGER:
-                    $result .= '::schema::integer();';
+                    $result = $this->createVarName
+                        ? "{$this->varName} = ::schema::integer();"
+                        : "{$this->varName}->type = ::schema::INTEGER;";
                     break;
 
                 case Type::NUMBER:
-                    $result .= '::schema::number();';
+                    $result = $this->createVarName
+                        ? "{$this->varName} = ::schema::number();"
+                        : "{$this->varName}->type = ::schema::NUMBER;";
                     break;
 
                 case Type::BOOLEAN:
-                    $result .= '::schema::boolean();';
+                    $result = $this->createVarName
+                        ? "{$this->varName} = ::schema::boolean();"
+                        : "{$this->varName}->type = ::schema::BOOLEAN;";
                     break;
 
                 case Type::STRING:
-                    $result .= '::schema::string();';
+                    $result = $this->createVarName
+                        ? "{$this->varName} = ::schema::string();"
+                        : "{$this->varName}->type = ::schema::STRING;";
                     break;
 
                 case Type::ARR:
-                    $result .= '::schema::arr();';
+                    $result = $this->createVarName
+                        ? "{$this->varName} = ::schema::arr();"
+                        : "{$this->varName}->type = ::schema::_ARRAY;";
                     break;
 
                 case Type::OBJECT:
                     return;
 
                 case Type::NULL:
-                    $result .= '::schema::null();';
+                    $result = $this->createVarName
+                        ? "{$this->varName} = ::schema::null();"
+                        : "{$this->varName}->type = ::schema::NULL;";
                     break;
 
                 default:
@@ -87,12 +101,16 @@ class SchemaBuilder
                     throw new Exception('Unknown type');
             }
         } else {
-            $result .= 'new ::schema();';
+            if ($this->createVarName) {
+                $result = 'new ::schema();';
+            }
         }
 
-        $this->result->addSnippet(
-            new PlaceholderString($result . "\n", array('::schema' => new ReferenceTypeOf(Palette::schemaClass())))
-        );
+        if (isset($result)) {
+            $this->result->addSnippet(
+                new PlaceholderString($result . "\n", array('::schema' => new ReferenceTypeOf(Palette::schemaClass())))
+            );
+        }
     }
 
     private function processNamedClass()
