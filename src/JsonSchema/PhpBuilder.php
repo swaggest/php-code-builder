@@ -32,7 +32,11 @@ class PhpBuilder
     public $buildSetters = false;
     public $makeEnumConstants = false;
     public $skipSchemaDescriptions = false;
-    public $defaultNamespace;
+
+    /** @var PhpBuilderClassCreatedHook */
+    public $classCreatedHook;
+
+    public $baseNamespace;
 
     /**
      * @param JsonSchema $schema
@@ -77,10 +81,10 @@ class PhpBuilder
 
         $class = new PhpClass();
         $class->setName(PhpCode::makePhpName($path, false));
-        $class->setExtends(Palette::classStructureClass());
-        if ($this->defaultNamespace) {
-            $class->setNamespace($this->defaultNamespace);
+        if ($this->classCreatedHook !== null) {
+            $this->classCreatedHook->process($class, $path, $schema);
         }
+        $class->setExtends(Palette::classStructureClass());
 
         $setupProperties = new PhpFunction('setUpProperties');
         $setupProperties
