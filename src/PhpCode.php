@@ -2,7 +2,7 @@
 
 namespace Swaggest\PhpCodeBuilder;
 
-use Swaggest\CodeBuilder\ClosureString;
+use Swaggest\CodeBuilder\AbstractTemplate;
 
 class PhpCode extends PhpTemplate
 {
@@ -32,7 +32,7 @@ class PhpCode extends PhpTemplate
             return '';
         }
         foreach ($this->snippets as $code) {
-            if ($code instanceof ClosureString) {
+            if ($code instanceof AbstractTemplate) {
                 $result .= $code->render();
             } else {
                 $result .= $code;
