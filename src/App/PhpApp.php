@@ -35,9 +35,7 @@ class PhpApp extends App
         $this->builder = $builder;
         return $this;
     }
-
-    private $files = array();
-
+    
     public function addClass(PhpClassTraitInterface $class)
     {
         //$this->classes[] = $class;
@@ -78,32 +76,4 @@ class PhpApp extends App
         $this->phpFiles[$relativePath][] = $file;
         return $this;
     }
-
-    public function store($path) {
-        $path = rtrim($path, '/') . '/';
-
-        foreach ($this->files as $filepath => $contents) {
-            $this->putContents($path . $filepath, $contents);
-        }
-
-        $this->clearOldFiles($path);
-    }
-
-    public function clearOldFiles($path)
-    {
-        $rii = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
-
-        /** @var \RecursiveDirectoryIterator $file */
-        foreach ($rii as $file) {
-            if ($file->isDir()) {
-                continue;
-            }
-
-            $filepath = $this->getAbsoluteFilename($file->getPathname());
-            if (!isset($this->storedFilesList[$filepath])) {
-                unlink($filepath);
-            }
-        }
-    }
-
 }
