@@ -2,17 +2,23 @@
 
 namespace Swaggest\PhpCodeBuilder\JsonSchema;
 
+use Swaggest\CodeBuilder\PlaceholderString;
+use Swaggest\JsonSchema\Context;
 use Swaggest\JsonSchema\JsonSchema;
 use Swaggest\PhpCodeBuilder\Exception;
 use Swaggest\PhpCodeBuilder\PhpAnyType;
 use Swaggest\PhpCodeBuilder\PhpClass;
 use Swaggest\PhpCodeBuilder\PhpClassProperty;
+use Swaggest\PhpCodeBuilder\PhpDoc;
+use Swaggest\PhpCodeBuilder\PhpDocType;
 use Swaggest\PhpCodeBuilder\PhpFlags;
 use Swaggest\PhpCodeBuilder\PhpFunction;
 use Swaggest\PhpCodeBuilder\PhpNamedVar;
 use Swaggest\PhpCodeBuilder\PhpCode;
 use Swaggest\PhpCodeBuilder\Property\Getter;
 use Swaggest\PhpCodeBuilder\Property\Setter;
+use Swaggest\PhpCodeBuilder\Types\ReferenceTypeOf;
+use Swaggest\PhpCodeBuilder\Types\TypeOf;
 
 /**
  * @todo properly process $ref, $schema property names
@@ -147,6 +153,20 @@ class PhpBuilder
 
         $setupProperties->setBody($body);
 
+        $phpDoc = $class->getPhpDoc();
+        $type = $this->getType($schema, $path);
+        if (!$type instanceof PhpClass) {
+            $phpDoc->add(
+                PhpDoc::TAG_METHOD,
+                new PlaceholderString(
+                    'static :type import($data, :context $options=null)',
+                    array(
+                        ':type' => new TypeOf($type, true),
+                        ':context' => new TypeOf(PhpClass::byFQN(Context::class))
+                    )
+                )
+            );
+        }
         return $generatedClass;
     }
 
@@ -169,7 +189,8 @@ class PhpBuilder
 }
 
 
-class DynamicIterator implements \Iterator{
+class DynamicIterator implements \Iterator
+{
     private $rows;
     private $current;
     private $key;

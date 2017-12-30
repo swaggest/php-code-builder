@@ -170,7 +170,7 @@ class TypeBuilder
             $this->result->add($this->typeSwitch($this->schema->type));
         }
 
-        return $this->result;
+        return $this->result->simplify();
 
     }
 }

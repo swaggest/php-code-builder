@@ -21,7 +21,7 @@ class PhpFunction extends PhpTemplate
     /** @var PhpAnyType */
     private $result;
 
-    /** @var PhpAnyType */
+    /** @var PhpAnyType[] */
     private $throws;
 
     private $body;
@@ -78,8 +78,12 @@ PHP;
         if ($this->result && $returnType = $this->result->renderPhpDocType()) {
             $result->add(PhpDoc::TAG_RETURN, $returnType);
         }
-        if ($this->throws && $throwsType = $this->throws->renderPhpDocType()) {
-            $result->add(PhpDoc::TAG_THROWS, $throwsType);
+        if ($this->throws) {
+            foreach ($this->throws as $throws) {
+                if ($throwsType = $throws->renderPhpDocType()) {
+                    $result->add(PhpDoc::TAG_THROWS, $throwsType);
+                }
+            }
         }
         if ($this->skipCodeCoverage) {
             $result->add(PhpDoc::TAG_CODE_COVERAGE_IGNORE_START);
@@ -140,7 +144,17 @@ PHP;
      */
     public function setThrows($throws)
     {
-        $this->throws = $throws;
+        $this->throws = array($throws);
+        return $this;
+    }
+
+    /**
+     * @param PhpAnyType $throws
+     * @return PhpFunction
+     */
+    public function addThrows($throws)
+    {
+        $this->throws []= $throws;
         return $this;
     }
 
