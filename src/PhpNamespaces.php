@@ -47,6 +47,7 @@ class PhpNamespaces extends PhpTemplate
     protected function toString()
     {
         $result = '';
+        ksort($this->namespaces);
         foreach ($this->namespaces as $namespace => $as) {
             $namespace = trim($namespace, '\\');
             $short = $this->makeShortName($namespace);
