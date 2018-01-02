@@ -53,6 +53,12 @@ class PhpNamespaces extends PhpTemplate
             if ($short === $as) {
                 $as = '';
             }
+            $namespacePieces = explode('\\', $namespace);
+            array_pop($namespacePieces);
+            $packageNamespace = implode('\\', $namespacePieces);
+            if ($this->fileNamespace === '\\' . $packageNamespace) {
+                continue;
+            }
             $renderAs = $as ? ' as ' . $as : '';
             if (!$renderAs && $namespace === $this->fileNamespace . '\\' . $short) {
                 continue;
