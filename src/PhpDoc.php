@@ -12,6 +12,7 @@ class PhpDoc extends PhpTemplate
     const TAG_RETURN = 'return';
     const TAG_THROWS = 'throws';
     const TAG_METHOD = 'method';
+    const TAG_SEE = 'see';
     const TAG_CODE_COVERAGE_IGNORE_START = 'codeCoverageIgnoreStart';
     const TAG_CODE_COVERAGE_IGNORE_END = 'codeCoverageIgnoreEnd';
 

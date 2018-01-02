@@ -150,6 +150,9 @@ class TypeBuilder
     public function build()
     {
         $this->result = new OrType();
+        if ($this->schema === null) {
+            throw new Exception('Null schema');
+        }
 
         if (null !== $path = $this->schema->getFromRef()) {
             $this->path = $this->schema->getFromRef();
