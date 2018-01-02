@@ -82,7 +82,7 @@ class TypeBuilder
     }
 
     private function isSchema($var) {
-        return $var instanceof Schema || $var instanceof \Swaggest\JsonSchema\SwaggerSchema\Schema;
+        return $var instanceof Schema || $var instanceof \Swaggest\SwaggerSchema\Schema;
     }
 
     private function processObjectType()

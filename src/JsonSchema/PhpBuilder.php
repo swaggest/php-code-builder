@@ -5,7 +5,7 @@ namespace Swaggest\PhpCodeBuilder\JsonSchema;
 use Swaggest\CodeBuilder\PlaceholderString;
 use Swaggest\JsonSchema\Context;
 use Swaggest\JsonSchema\JsonSchema;
-use Swaggest\JsonSchema\SwaggerSchema\Schema;
+use Swaggest\SwaggerSchema\Schema;
 use Swaggest\PhpCodeBuilder\Exception;
 use Swaggest\PhpCodeBuilder\PhpAnyType;
 use Swaggest\PhpCodeBuilder\PhpClass;
@@ -58,7 +58,7 @@ class PhpBuilder
 
 
     /**
-     * @param JsonSchema|\Swaggest\JsonSchema\SwaggerSchema\Schema $schema
+     * @param JsonSchema|\Swaggest\SwaggerSchema\Schema $schema
      * @param $path
      * @return PhpClass
      * @throws Exception
