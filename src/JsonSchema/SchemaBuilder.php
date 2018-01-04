@@ -97,8 +97,10 @@ class SchemaBuilder
                     break;
 
                 default:
-                    var_dump($this->schema->type);
-                    throw new Exception('Unknown type');
+                    $types = var_export($this->schema->type, true);
+                    $result = $this->createVarName
+                        ? "{$this->varName} = (new ::schema())->setType($types);"
+                        : "{$this->varName}->type = $types;";
             }
         } else {
             if ($this->createVarName) {
@@ -346,6 +348,10 @@ class SchemaBuilder
         }
     }
 
+    /**
+     * @return PhpCode
+     * @throws Exception
+     */
     public function build()
     {
         $this->result = new PhpCode();
