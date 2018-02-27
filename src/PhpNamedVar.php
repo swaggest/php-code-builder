@@ -15,15 +15,25 @@ class PhpNamedVar
     /** @var PhpAnyType */
     private $type;
 
+    /** @var bool */
+    private $hasDefault;
+
+    /** @var mixed */
+    private $default;
+
     /**
      * PhpNamedVar constructor.
      * @param string $name
      * @param PhpAnyType $type
+     * @param bool $hasDefault
+     * @param null $default
      */
-    public function __construct($name, PhpAnyType $type = null)
+    public function __construct($name, PhpAnyType $type = null, $hasDefault = false, $default = null)
     {
         $this->name = $name;
         $this->type = $type;
+        $this->hasDefault = $hasDefault;
+        $this->default = $default;
     }
 
     /**
@@ -60,6 +70,31 @@ class PhpNamedVar
     {
         $this->type = $type;
         return $this;
+    }
+
+    /**
+     * @param $value
+     * @return $this
+     */
+    public function setDefault($value)
+    {
+        $this->hasDefault = true;
+        $this->default = $value;
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function clearDefault()
+    {
+        $this->hasDefault = false;
+        return $this;
+    }
+
+    public function renderDefault()
+    {
+        return $this->hasDefault ? ' = ' . var_export($this->default, true) : '';
     }
 
     public function renderArgumentType()

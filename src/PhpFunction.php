@@ -95,7 +95,7 @@ PHP;
     {
         $result = '';
         foreach ($this->arguments as $argument) {
-            $result .= "{$argument->renderArgumentType()}\${$argument->getName()}, ";
+            $result .= "{$argument->renderArgumentType()}\${$argument->getName()}{$argument->renderDefault()}, ";
         }
         if ($result) {
             $result = substr($result, 0, -2);

@@ -22,6 +22,25 @@ class PhpClassProperty extends PhpTemplate
     }
 
     /**
+     * @param $value
+     * @return $this
+     */
+    public function setDefault($value)
+    {
+        $this->namedVar->setDefault($value);
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function clearDefault()
+    {
+        $this->namedVar->clearDefault();
+        return $this;
+    }
+
+    /**
      * @return PhpNamedVar
      */
     public function getNamedVar()
@@ -57,7 +76,7 @@ class PhpClassProperty extends PhpTemplate
     protected function toString()
     {
         return <<<PHP
-{$this->renderPhpDoc()}{$this->renderVisibility()}{$this->renderIsStatic()}\${$this->namedVar->getName()};
+{$this->renderPhpDoc()}{$this->renderVisibility()}{$this->renderIsStatic()}\${$this->namedVar->getName()}{$this->namedVar->renderDefault()};
 
 
 PHP;
