@@ -71,6 +71,23 @@ class PhpCode extends PhpTemplate
 
     private static $keywords = array('__halt_compiler', 'abstract', 'and', 'array', 'as', 'break', 'callable', 'case', 'catch', 'class', 'clone', 'const', 'continue', 'declare', 'default', 'die', 'do', 'echo', 'else', 'elseif', 'empty', 'enddeclare', 'endfor', 'endforeach', 'endif', 'endswitch', 'endwhile', 'eval', 'exit', 'extends', 'final', 'for', 'foreach', 'function', 'global', 'goto', 'if', 'implements', 'include', 'include_once', 'instanceof', 'insteadof', 'interface', 'isset', 'list', 'namespace', 'new', 'or', 'print', 'private', 'protected', 'public', 'require', 'require_once', 'return', 'static', 'switch', 'throw', 'trait', 'try', 'unset', 'use', 'var', 'while', 'xor');
 
+    public static function makePhpNamespaceName(array $nsItems)
+    {
+        $result = array();
+        foreach ($nsItems as $nsItem) {
+            $nsItem = self::makePhpName($nsItem, false);
+            if (!$nsItem) {
+                continue;
+            }
+            if (in_array(strtolower($nsItem), self::$keywords)) {
+                $nsItem .= 'Ns';
+            }
+            $result[] = $nsItem;
+        }
+
+        return '\\' . implode('\\', $result);
+    }
+
     public static function makePhpConstantName($rawName)
     {
         $phpName = preg_replace("/([^a-zA-Z0-9_]+)/", "_", $rawName);
