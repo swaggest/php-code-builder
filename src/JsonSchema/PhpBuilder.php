@@ -114,8 +114,14 @@ class PhpBuilder
         }
 
         if ($schema->properties) {
+            $phpNames = array();
             foreach ($schema->properties as $name => $property) {
-                $propertyName = PhpCode::makePhpName($name);
+                $i = '';
+                do {
+                    $propertyName = PhpCode::makePhpName($name . $i);
+                    $i .= 'a';
+                } while (isset($phpNames[$propertyName]));
+                $phpNames[$propertyName] = true;
 
                 $schemaBuilder = new SchemaBuilder($property, '$properties->' . $propertyName, $path . '->' . $name, $this);
                 if ($this->skipSchemaDescriptions) {
