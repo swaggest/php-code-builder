@@ -8,13 +8,6 @@ class PhpCode extends PhpTemplate
 {
     public $snippets;
 
-    public function __construct($body = null)
-    {
-        if ($body != null) {
-            $this->addSnippet($body);
-        }
-    }
-
     public function addSnippet($code, $prepend = false)
     {
         if ($prepend) {
@@ -53,6 +46,16 @@ class PhpCode extends PhpTemplate
         return $result;
     }
 
+    public static function fromCamelCase($input)
+    {
+        preg_match_all('!([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]+)!', $input, $matches);
+        $ret = $matches[0];
+        foreach ($ret as &$match) {
+            $match = $match == strtoupper($match) ? strtolower($match) : lcfirst($match);
+        }
+        return implode('_', $ret);
+    }
+
 
     public static function makePhpName($rawName, $lowerFirst = true)
     {
@@ -71,6 +74,8 @@ class PhpCode extends PhpTemplate
     public static function makePhpConstantName($rawName)
     {
         $phpName = preg_replace("/([^a-zA-Z0-9_]+)/", "_", $rawName);
+
+        $phpName = self::fromCamelCase($phpName);
 
         if (in_array(strtolower($phpName), self::$keywords)) {
             $phpName = '_' . $phpName;

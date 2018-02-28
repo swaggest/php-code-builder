@@ -7,6 +7,7 @@ use Swaggest\CodeBuilder\PlaceholderString;
 use Swaggest\JsonSchema\Constraint\Type;
 use Swaggest\JsonSchema\JsonSchema;
 use Swaggest\JsonSchema\Schema;
+use Swaggest\JsonSchema\Structure\ClassStructure;
 use Swaggest\JsonSchema\Structure\ObjectItem;
 use Swaggest\PhpCodeBuilder\PhpClass;
 use Swaggest\PhpCodeBuilder\PhpCode;
@@ -138,6 +139,9 @@ class SchemaBuilder
         return false;
     }
 
+    /**
+     * @throws Exception
+     */
     private function processObject()
     {
         if ($this->schema->type === Type::OBJECT) {
@@ -188,14 +192,18 @@ class SchemaBuilder
         }
     }
 
+    /**
+     * @throws Exception
+     */
     private function processArray()
     {
         $schema = $this->schema;
 
         $pathItems = 'items';
-        if ($schema->items instanceof Schema) {
+        if ($schema->items instanceof ClassStructure) { // todo better check for schema, `getJsonSchema` interface ?
             $items = array();
             $additionalItems = $schema->items;
+            $pathItems = 'items';
         } elseif ($schema->items === null) { // items defaults to empty schema so everything is valid
             $items = array();
             $additionalItems = true;
@@ -206,20 +214,15 @@ class SchemaBuilder
         }
 
         if ($items !== null || $additionalItems !== null) {
-            $itemsLen = is_array($items) ? count($items) : 0;
-            $index = 0;
-            if ($index < $itemsLen) {
-            } else {
-                if ($additionalItems instanceof Schema) {
-                    $this->result->addSnippet(
-                        $this->copyTo(new SchemaBuilder(
-                            $additionalItems,
-                            "{$this->varName}->{$pathItems}",
-                            $this->path . '->' . $pathItems,
-                            $this->phpBuilder
-                        ))->build()
-                    );
-                }
+            if ($additionalItems instanceof ClassStructure) {
+                $this->result->addSnippet(
+                    $this->copyTo(new SchemaBuilder(
+                        $additionalItems,
+                        "{$this->varName}->{$pathItems}",
+                        $this->path . '->' . $pathItems,
+                        $this->phpBuilder
+                    ))->build()
+                );
             }
         }
     }

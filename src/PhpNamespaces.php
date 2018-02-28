@@ -13,6 +13,9 @@ class PhpNamespaces extends PhpTemplate
 
     public function add($fullyQualifiedName, $as = null)
     {
+        if ($fullyQualifiedName[0] !== '\\') {
+            $fullyQualifiedName = '\\' . $fullyQualifiedName;
+        }
         if (null === $as) {
             $i = '';
             $short = $this->makeShortName($fullyQualifiedName);
@@ -34,6 +37,9 @@ class PhpNamespaces extends PhpTemplate
 
     public function getReference($fullyQualifiedName)
     {
+        if ($fullyQualifiedName[0] !== '\\') {
+            $fullyQualifiedName = '\\' . $fullyQualifiedName;
+        }
         if (!isset($this->namespaces[$fullyQualifiedName])) {
             if ($fullyQualifiedName === Palette::schemaClass()->getFullyQualifiedName()) {
                 $this->add($fullyQualifiedName, 'JsonBasicSchema');
