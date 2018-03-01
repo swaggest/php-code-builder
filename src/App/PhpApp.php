@@ -71,7 +71,12 @@ class PhpApp extends App
         return $this;
     }
 
-    public function addFile(PhpFile $file, $relativePath = './')
+    public function addFile($contents, $relativePath)
+    {
+        $this->files[$relativePath] = $contents;
+    }
+
+    public function addPhpFile(PhpFile $file, $relativePath = './')
     {
         $this->phpFiles[$relativePath][] = $file;
         return $this;

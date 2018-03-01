@@ -13,6 +13,14 @@ class PhpClass extends PhpClassTraitInterface
     /** @var PhpClassProperty[] */
     private $properties = array();
 
+    /**
+     * @return PhpClassProperty[]
+     */
+    public function getProperties()
+    {
+        return $this->properties;
+    }
+
     /** @var PhpFunction[] */
     private $methods = array();
 
