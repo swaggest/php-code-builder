@@ -11,14 +11,12 @@ use Swaggest\PhpCodeBuilder\PhpAnyType;
 use Swaggest\PhpCodeBuilder\PhpClass;
 use Swaggest\PhpCodeBuilder\PhpClassProperty;
 use Swaggest\PhpCodeBuilder\PhpDoc;
-use Swaggest\PhpCodeBuilder\PhpDocType;
 use Swaggest\PhpCodeBuilder\PhpFlags;
 use Swaggest\PhpCodeBuilder\PhpFunction;
 use Swaggest\PhpCodeBuilder\PhpNamedVar;
 use Swaggest\PhpCodeBuilder\PhpCode;
 use Swaggest\PhpCodeBuilder\Property\Getter;
 use Swaggest\PhpCodeBuilder\Property\Setter;
-use Swaggest\PhpCodeBuilder\Types\ReferenceTypeOf;
 use Swaggest\PhpCodeBuilder\Types\TypeOf;
 
 /**
@@ -26,6 +24,9 @@ use Swaggest\PhpCodeBuilder\Types\TypeOf;
  */
 class PhpBuilder
 {
+    const SCHEMA = 'schema';
+    const PROPERTY_NAME = 'property_name';
+
     /** @var \SplObjectStorage|GeneratedClass[] */
     private $generatedClasses;
     private $untitledIndex = 0;
@@ -131,6 +132,8 @@ class PhpBuilder
                     $schemaBuilder->setSaveEnumConstInClass($class);
                 }
                 $phpProperty = new PhpClassProperty($propertyName, $this->getType($property, $path . '->' . $name));
+                $phpProperty->addMeta($property, self::SCHEMA);
+                $phpProperty->addMeta($name, self::PROPERTY_NAME);
                 if ($property->description) {
                     $phpProperty->setDescription($property->description);
                 }

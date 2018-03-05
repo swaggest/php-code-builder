@@ -105,7 +105,7 @@ class SchemaBuilder
             }
         } else {
             if ($this->createVarName) {
-                $result = 'new ::schema();';
+                $result = "{$this->varName} = new ::schema();";
             }
         }
 
@@ -233,10 +233,14 @@ class SchemaBuilder
             $this->result->addSnippet(
                 "{$this->varName}->enum = array(\n"
             );
-            foreach ($this->schema->enum as $enumItem) {
-                $name = PhpCode::makePhpConstantName($enumItem);
+            foreach ($this->schema->enum as $i => $enumItem) {
+                if (isset($this->schema->{Schema::ENUM_NAMES_PROPERTY}[$i])) {
+                    $name = PhpCode::makePhpConstantName($this->schema->{Schema::ENUM_NAMES_PROPERTY}[$i]);
+                } else {
+                    $name = PhpCode::makePhpConstantName($enumItem);
+                }
                 $value = var_export($enumItem, true);
-                if ($this->saveEnumConstInClass !== null && is_scalar($enumItem)) {
+                if ($this->saveEnumConstInClass !== null && is_scalar($enumItem) && !is_bool($enumItem)) {
                     $this->saveEnumConstInClass->addConstant(new PhpConstant($name, $enumItem));
                     $this->result->addSnippet(
                         "    self::$name,\n"

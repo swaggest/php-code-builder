@@ -7,6 +7,13 @@ class PhpClass extends PhpClassTraitInterface
     /** @var PhpInterface[] */
     private $implements;
 
+
+    public function addImplements(PhpInterface $implements)
+    {
+        $this->implements[] = $implements;
+        return $this;
+    }
+
     /** @var boolean */
     private $isAbstract = false;
 
@@ -27,6 +34,22 @@ class PhpClass extends PhpClassTraitInterface
     /** @var PhpConstant[] */
     private $constants = array();
 
+    private function renderImplements()
+    {
+        if ($this->implements) {
+            $implements = '';
+            foreach ($this->implements as $implement) {
+                $implements .= $implement->getReference() . ', ';
+            }
+            $implements = substr($implements, 0, -2);
+            return <<<PHP
+ implements {$implements}
+PHP;
+        }
+        return '';
+
+    }
+
     protected function toString()
     {
         $content = $this->renderConstants() . $this->renderProperties()
@@ -35,7 +58,7 @@ class PhpClass extends PhpClassTraitInterface
         $content = $this->indentLines(trim($content));
 
         return <<<PHP
-{$this->renderHeadComment()}{$this->renderIsAbstract()}class {$this->name}{$this->renderExtends()} {
+{$this->renderHeadComment()}{$this->renderIsAbstract()}class {$this->name}{$this->renderExtends()}{$this->renderImplements()} {
 $content
 }
 PHP;
