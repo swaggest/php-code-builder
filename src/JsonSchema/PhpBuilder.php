@@ -2,6 +2,7 @@
 
 namespace Swaggest\PhpCodeBuilder\JsonSchema;
 
+use Swaggest\CodeBuilder\AbstractTemplate;
 use Swaggest\CodeBuilder\PlaceholderString;
 use Swaggest\JsonSchema\Context;
 use Swaggest\JsonSchema\JsonSchema;
@@ -24,7 +25,10 @@ use Swaggest\PhpCodeBuilder\Types\TypeOf;
  */
 class PhpBuilder
 {
+    const IMPORT_METHOD_PHPDOC_ID = '::import';
+
     const SCHEMA = 'schema';
+    const ORIGIN = 'origin';
     const PROPERTY_NAME = 'property_name';
 
     /** @var \SplObjectStorage|GeneratedClass[] */
@@ -104,6 +108,7 @@ class PhpBuilder
 
         $body = new PhpCode();
 
+        $class->addMeta($schema, self::SCHEMA);
         $class->addMethod($setupProperties);
 
         $generatedClass->class = $class;
@@ -174,7 +179,8 @@ class PhpBuilder
                         ':type' => new TypeOf($type, true),
                         ':context' => new TypeOf(PhpClass::byFQN(Context::class))
                     )
-                )
+                ),
+                self::IMPORT_METHOD_PHPDOC_ID
             );
         }
         return $generatedClass;
@@ -195,6 +201,15 @@ class PhpBuilder
         $iterator = new DynamicIterator($result);
         $this->dynamicIterator = $iterator;
         return $iterator;
+    }
+
+    /**
+     * @param AbstractTemplate $template
+     * @return null|Schema
+     */
+    public static function getSchemaMeta(AbstractTemplate $template)
+    {
+        return $template->getMeta(self::SCHEMA);
     }
 }
 

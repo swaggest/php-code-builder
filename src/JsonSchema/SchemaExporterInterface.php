@@ -16,10 +16,12 @@ class SchemaExporterInterface
     public static function process(PhpClass $phpClass, Schema $schema)
     {
         $schemaProperties = Schema::properties();
+        $className = PhpBuilder::getSchemaMeta($phpClass)->getFromRef();
 
         $propertiesFound = array();
         foreach ($phpClass->getProperties() as $property) {
-            $schemaName = $property->getMeta(PhpBuilder::PROPERTY_NAME);
+            $schemaName = $property->getNamedVar()->getName();
+            //$schemaName = $property->getMeta(PhpBuilder::PROPERTY_NAME);
             /** @var Schema $propertySchema */
             $propertySchema = $property->getMeta(PhpBuilder::SCHEMA);
 
@@ -31,17 +33,18 @@ class SchemaExporterInterface
                 ) {
                     $propertiesFound[] = $property->getNamedVar()->getName();
                 } else {
-                    //echo 'a';
+                    echo 'a';
                 }
+            } else {
+                //echo 'b';
             }
         }
+
         if (count($propertiesFound) > 5) {
             $func = new PhpFunction('exportSchema');
             $func->setResult(PhpClass::byFQN(Schema::class));
             $body = (new PhpCode())->addSnippet(new PlaceholderString(<<<PHP
-static \$schema;
-if (\$schema === null) {
-    \$schema = new :schema();    
+\$schema = new :schema();
 
 PHP
                 , [':schema' => new TypeOf(PhpClass::byFQN(Schema::class))]
@@ -49,18 +52,20 @@ PHP
 
             foreach ($propertiesFound as $name) {
                 $body->addSnippet(<<<PHP
-    \$schema->$name = \$this->$name;
+\$schema->$name = \$this->$name;
 
 PHP
 );
 
             }
 
-            $body->addSnippet(<<<PHP
-}
-return \$schema;
+            $body->addSnippet(<<<'PHP'
+$schema->setFromRef($this->getFromRef());
+$schema->setDocumentPath($this->getDocumentPath());
+$schema->addMeta($this, 'origin');
+return $schema;
 PHP
-);
+            );
 
             $func->setBody($body);
             $phpClass->addMethod($func);

@@ -19,9 +19,21 @@ class PhpDoc extends PhpTemplate
     /** @var PhpDocTag[] */
     private $tags = array();
 
-    public function add($name, $value = '')
+    public function add($name, $value = '', $id = null)
     {
-        $this->tags[] = new PhpDocTag($name, $value);
+        if ($id) {
+            $this->tags[$id] = new PhpDocTag($name, $value);
+        } else {
+            $this->tags[] = new PhpDocTag($name, $value);
+        }
+        return $this;
+    }
+
+    public function removeById($id)
+    {
+        if (isset($this->tags[$id])) {
+            unset($this->tags[$id]);
+        }
         return $this;
     }
 
