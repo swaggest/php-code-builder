@@ -40,10 +40,10 @@ class ClassTest extends \PHPUnit_Framework_TestCase
         $expected = <<<'PHP'
 class Uno {
 	/** @var string */
-	private  $some;
+	private $some;
 
 	/** @var int A sample int property */
-	protected  $someInt;
+	protected $someInt;
 
 	/**
 	 * A sample method

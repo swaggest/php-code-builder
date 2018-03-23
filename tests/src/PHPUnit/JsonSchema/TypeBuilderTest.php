@@ -5,6 +5,7 @@ namespace Swaggest\PhpCodeBuilder\Tests\PHPUnit\JsonSchema;
 
 use Swaggest\JsonSchema\JsonSchema;
 use Swaggest\PhpCodeBuilder\JsonSchema\PhpBuilder;
+use Swaggest\PhpCodeBuilder\PhpFile;
 
 class TypeBuilderTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,8 +35,10 @@ JSON
         $phpBuilder = new PhpBuilder();
         $type = $phpBuilder->getType($schema);
 
-        $this->assertSame('\\Untitled1', $type->renderPhpDocType());
-        $gen = $phpBuilder->getGeneratedClasses();
+        $file = new PhpFile();
+        foreach ($phpBuilder->getGeneratedClasses() as $class) {
+            $file->getCode()->addSnippet($class->class);
+        }
         $this->assertSame(<<<'PHP'
 class Untitled1 extends Swaggest\JsonSchema\Structure\ClassStructure {
 	/** @var float */
@@ -64,7 +67,10 @@ class Untitled1 extends Swaggest\JsonSchema\Structure\ClassStructure {
 	/** @codeCoverageIgnoreEnd */
 }
 PHP
-            , (string)$gen[0]->class);
+            , $file->render());
+
+        $this->assertSame('\\Untitled1', $type->renderPhpDocType());
+
     }
 
 }
