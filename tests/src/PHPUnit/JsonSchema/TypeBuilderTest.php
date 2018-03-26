@@ -2,8 +2,7 @@
 
 namespace Swaggest\PhpCodeBuilder\Tests\PHPUnit\JsonSchema;
 
-
-use Swaggest\JsonSchema\JsonSchema;
+use Swaggest\JsonSchema\Schema;
 use Swaggest\PhpCodeBuilder\JsonSchema\PhpBuilder;
 use Swaggest\PhpCodeBuilder\PhpFile;
 
@@ -31,8 +30,9 @@ class TypeBuilderTest extends \PHPUnit_Framework_TestCase
 }
 JSON
         );
-        $schema = JsonSchema::import($schemaData);
+        $schema = Schema::import($schemaData);
         $phpBuilder = new PhpBuilder();
+        $phpBuilder->buildSetters = true;
         $type = $phpBuilder->getType($schema);
 
         $file = new PhpFile();
@@ -40,17 +40,28 @@ JSON
             $file->getCode()->addSnippet($class->class);
         }
         $this->assertSame(<<<'PHP'
-class Untitled1 extends Swaggest\JsonSchema\Structure\ClassStructure {
+<?php
+/**
+ * @file ATTENTION!!! The code below was carefully crafted by a mean machine.
+ * Please consider to NOT put any emotional human-generated modifications as the splendid AI will throw them away with no mercy.
+ */
+
+use Swaggest\JsonSchema\Constraint\Properties;
+use Swaggest\JsonSchema\Schema;
+use Swaggest\JsonSchema\Structure\ClassStructure;
+
+
+class DefinitionsHeader extends ClassStructure {
 	/** @var float */
 	public $maximum;
 
 	/**
-	 * @param Swaggest\JsonSchema\Constraint\Properties|static $properties
-	 * @param Swaggest\JsonSchema\Schema $ownerSchema
+	 * @param Properties|static $properties
+	 * @param Schema $ownerSchema
 	 */
-	public static function setUpProperties($properties, Swaggest\JsonSchema\Schema $ownerSchema)
+	public static function setUpProperties($properties, Schema $ownerSchema)
 	{
-		$properties->maximum = Swaggest\JsonSchema\Schema::number();
+		$properties->maximum = Schema::number();
 		$ownerSchema->type = 'object';
 	}
 
@@ -69,7 +80,7 @@ class Untitled1 extends Swaggest\JsonSchema\Structure\ClassStructure {
 PHP
             , $file->render());
 
-        $this->assertSame('\\Untitled1', $type->renderPhpDocType());
+        $this->assertSame('\\DefinitionsHeader', $type->renderPhpDocType());
 
     }
 
