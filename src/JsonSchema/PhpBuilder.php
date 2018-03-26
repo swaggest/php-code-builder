@@ -6,7 +6,7 @@ use Swaggest\CodeBuilder\AbstractTemplate;
 use Swaggest\CodeBuilder\PlaceholderString;
 use Swaggest\JsonSchema\Context;
 use Swaggest\JsonSchema\JsonSchema;
-use Swaggest\SwaggerSchema\Schema;
+use Swaggest\JsonSchema\Schema;
 use Swaggest\PhpCodeBuilder\Exception;
 use Swaggest\PhpCodeBuilder\PhpAnyType;
 use Swaggest\PhpCodeBuilder\PhpClass;
@@ -48,12 +48,11 @@ class PhpBuilder
     /** @var PhpBuilderClassCreatedHook */
     public $classCreatedHook;
 
-    public $baseNamespace;
-
     /**
-     * @param JsonSchema|Schema $schema
+     * @param Schema $schema
      * @param string $path
      * @return PhpAnyType
+     * @throws \Swaggest\PhpCodeBuilder\JsonSchema\Exception
      */
     public function getType($schema, $path = '#')
     {
@@ -63,10 +62,11 @@ class PhpBuilder
 
 
     /**
-     * @param JsonSchema|\Swaggest\SwaggerSchema\Schema $schema
+     * @param Schema $schema
      * @param $path
      * @return PhpClass
      * @throws Exception
+     * @throws \Swaggest\PhpCodeBuilder\JsonSchema\Exception
      */
     public function getClass($schema, $path)
     {
@@ -78,10 +78,11 @@ class PhpBuilder
     }
 
     /**
-     * @param JsonSchema $schema
+     * @param Schema $schema
      * @param $path
      * @return GeneratedClass
      * @throws Exception
+     * @throws \Swaggest\PhpCodeBuilder\JsonSchema\Exception
      */
     private function makeClass($schema, $path)
     {

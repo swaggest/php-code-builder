@@ -3,6 +3,7 @@
 namespace Swaggest\PhpCodeBuilder\Tests\PHPUnit\JsonSchema;
 
 use Swaggest\JsonSchema\Schema;
+use Swaggest\JsonSchema\Structure\ClassStructure;
 use Swaggest\PhpCodeBuilder\JsonSchema\PhpBuilder;
 use Swaggest\PhpCodeBuilder\PhpFile;
 
@@ -80,8 +81,14 @@ class DefinitionsHeader extends ClassStructure {
 PHP
             , $file->render());
 
-        $this->assertSame('\\DefinitionsHeader', $type->renderPhpDocType());
+        /** @var ClassStructure $className */
+        $className = $type->renderPhpDocType();
+        $this->assertSame('\\DefinitionsHeader', $className);
 
+        eval(substr($file->render(), 6));
+        $exported = Schema::export($className::schema());
+        $this->assertSame('{"properties":{"maximum":{"type":"number"}},"type":"object"}',
+            json_encode($exported, JSON_UNESCAPED_SLASHES));
     }
 
 }
