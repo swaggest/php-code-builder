@@ -52,8 +52,7 @@ class Oauth2AccessCodeSecurity extends ClassStructure {
 		$properties->flow->enum = array(
 		    self::ACCESS_CODE,
 		);
-		$properties->scopes = Schema::object();
-		$properties->scopes->additionalProperties = Schema::string();
+		$properties->scopes = Oauth2Scopes::schema();
 		$properties->authorizationUrl = Schema::string();
 		$properties->authorizationUrl->format = "uri";
 		$properties->tokenUrl = Schema::string();
@@ -61,15 +60,15 @@ class Oauth2AccessCodeSecurity extends ClassStructure {
 		$properties->description = Schema::string();
 		$ownerSchema->type = 'object';
 		$ownerSchema->additionalProperties = false;
-		$patternProperty = new Schema();
-		$patternProperty->description = "Any property starting with x- is valid.";
-		$ownerSchema->patternProperties['^x-'] = $patternProperty;
+		$patternProperty = VendorExtension::schema();
+		$ownerSchema->setPatternProperty('^x-', $patternProperty);
 		$ownerSchema->required = array (
 		  0 => 'type',
 		  1 => 'flow',
 		  2 => 'authorizationUrl',
 		  3 => 'tokenUrl',
 		);
+		$ownerSchema->setFromRef('#/definitions/oauth2AccessCodeSecurity');
 	}
 
 	/**

@@ -16,20 +16,6 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
  * @method static Schema import($data, Context $options=null)
  */
 class Schema extends ClassStructure {
-	const _ARRAY = 'array';
-
-	const BOOLEAN = 'boolean';
-
-	const INTEGER = 'integer';
-
-	const NULL = 'null';
-
-	const NUMBER = 'number';
-
-	const OBJECT = 'object';
-
-	const STRING = 'string';
-
 	/** @var string */
 	public $ref;
 
@@ -127,79 +113,30 @@ class Schema extends ClassStructure {
 		$properties->ref = Schema1::string();
 		$ownerSchema->addPropertyMapping('$ref', self::names()->ref);
 		$properties->format = Schema1::string();
-		$properties->title = Schema1::string();
-		$properties->description = Schema1::string();
-		$properties->default = new Schema1();
-		$properties->multipleOf = Schema1::number();
-		$properties->multipleOf->minimum = 0;
-		$properties->multipleOf->exclusiveMinimum = true;
-		$properties->maximum = Schema1::number();
-		$properties->exclusiveMaximum = Schema1::boolean();
-		$properties->exclusiveMaximum->default = false;
-		$properties->minimum = Schema1::number();
-		$properties->exclusiveMinimum = Schema1::boolean();
-		$properties->exclusiveMinimum->default = false;
-		$properties->maxLength = Schema1::integer();
-		$properties->maxLength->minimum = 0;
-		$properties->minLength = new Schema1();
-		$properties->minLength->allOf[0] = Schema1::integer();
-		$properties->minLength->allOf[0]->minimum = 0;
-		$properties->minLength->allOf[1] = new Schema1();
-		$properties->minLength->allOf[1]->default = 0;
-		$properties->pattern = Schema1::string();
-		$properties->pattern->format = "regex";
-		$properties->maxItems = Schema1::integer();
-		$properties->maxItems->minimum = 0;
-		$properties->minItems = new Schema1();
-		$properties->minItems->allOf[0] = Schema1::integer();
-		$properties->minItems->allOf[0]->minimum = 0;
-		$properties->minItems->allOf[1] = new Schema1();
-		$properties->minItems->allOf[1]->default = 0;
-		$properties->uniqueItems = Schema1::boolean();
-		$properties->uniqueItems->default = false;
-		$properties->maxProperties = Schema1::integer();
-		$properties->maxProperties->minimum = 0;
-		$properties->minProperties = new Schema1();
-		$properties->minProperties->allOf[0] = Schema1::integer();
-		$properties->minProperties->allOf[0]->minimum = 0;
-		$properties->minProperties->allOf[1] = new Schema1();
-		$properties->minProperties->allOf[1]->default = 0;
-		$properties->required = Schema1::arr();
-		$properties->required->items = Schema1::string();
-		$properties->required->minItems = 1;
-		$properties->required->uniqueItems = true;
-		$properties->enum = Schema1::arr();
-		$properties->enum->minItems = 1;
-		$properties->enum->uniqueItems = true;
+		$properties->title = HttpJsonSchemaOrgDraft04SchemaPropertiesTitle::schema();
+		$properties->description = HttpJsonSchemaOrgDraft04SchemaPropertiesDescription::schema();
+		$properties->default = HttpJsonSchemaOrgDraft04SchemaPropertiesDefault::schema();
+		$properties->multipleOf = HttpJsonSchemaOrgDraft04SchemaPropertiesMultipleOf::schema();
+		$properties->maximum = HttpJsonSchemaOrgDraft04SchemaPropertiesMaximum::schema();
+		$properties->exclusiveMaximum = HttpJsonSchemaOrgDraft04SchemaPropertiesExclusiveMaximum::schema();
+		$properties->minimum = HttpJsonSchemaOrgDraft04SchemaPropertiesMinimum::schema();
+		$properties->exclusiveMinimum = HttpJsonSchemaOrgDraft04SchemaPropertiesExclusiveMinimum::schema();
+		$properties->maxLength = HttpJsonSchemaOrgDraft04SchemaDefinitionsPositiveInteger::schema();
+		$properties->minLength = HttpJsonSchemaOrgDraft04SchemaDefinitionsPositiveIntegerDefault0::schema();
+		$properties->pattern = HttpJsonSchemaOrgDraft04SchemaPropertiesPattern::schema();
+		$properties->maxItems = HttpJsonSchemaOrgDraft04SchemaDefinitionsPositiveInteger::schema();
+		$properties->minItems = HttpJsonSchemaOrgDraft04SchemaDefinitionsPositiveIntegerDefault0::schema();
+		$properties->uniqueItems = HttpJsonSchemaOrgDraft04SchemaPropertiesUniqueItems::schema();
+		$properties->maxProperties = HttpJsonSchemaOrgDraft04SchemaDefinitionsPositiveInteger::schema();
+		$properties->minProperties = HttpJsonSchemaOrgDraft04SchemaDefinitionsPositiveIntegerDefault0::schema();
+		$properties->required = HttpJsonSchemaOrgDraft04SchemaDefinitionsStringArray::schema();
+		$properties->enum = HttpJsonSchemaOrgDraft04SchemaPropertiesEnum::schema();
 		$properties->additionalProperties = new Schema1();
 		$properties->additionalProperties->anyOf[0] = Schema::schema();
 		$properties->additionalProperties->anyOf[1] = Schema1::boolean();
 		$properties->additionalProperties->default = (object)array (
 		);
-		$properties->type = new Schema1();
-		$properties->type->anyOf[0] = new Schema1();
-		$properties->type->anyOf[0]->enum = array(
-		    self::_ARRAY,
-		    self::BOOLEAN,
-		    self::INTEGER,
-		    self::NULL,
-		    self::NUMBER,
-		    self::OBJECT,
-		    self::STRING,
-		);
-		$properties->type->anyOf[1] = Schema1::arr();
-		$properties->type->anyOf[1]->items = new Schema1();
-		$properties->type->anyOf[1]->items->enum = array(
-		    self::_ARRAY,
-		    self::BOOLEAN,
-		    self::INTEGER,
-		    self::NULL,
-		    self::NUMBER,
-		    self::OBJECT,
-		    self::STRING,
-		);
-		$properties->type->anyOf[1]->minItems = 1;
-		$properties->type->anyOf[1]->uniqueItems = true;
+		$properties->type = HttpJsonSchemaOrgDraft04SchemaPropertiesType::schema();
 		$properties->items = new Schema1();
 		$properties->items->anyOf[0] = Schema::schema();
 		$properties->items->anyOf[1] = Schema1::arr();
@@ -222,10 +159,10 @@ class Schema extends ClassStructure {
 		$properties->example = new Schema1();
 		$ownerSchema->type = 'object';
 		$ownerSchema->additionalProperties = false;
-		$patternProperty = new Schema1();
-		$patternProperty->description = "Any property starting with x- is valid.";
-		$ownerSchema->patternProperties['^x-'] = $patternProperty;
+		$patternProperty = VendorExtension::schema();
+		$ownerSchema->setPatternProperty('^x-', $patternProperty);
 		$ownerSchema->description = "A deterministic version of a JSON Schema object.";
+		$ownerSchema->setFromRef('#/definitions/schema');
 	}
 
 	/**

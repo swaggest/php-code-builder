@@ -58,28 +58,12 @@ class PathItem extends ClassStructure {
 		$properties->options = Operation::schema();
 		$properties->head = Operation::schema();
 		$properties->patch = Operation::schema();
-		$properties->parameters = Schema::arr();
-		$properties->parameters->items = new Schema();
-		$properties->parameters->items->oneOf[0] = new Schema();
-		$properties->parameters->items->oneOf[0]->oneOf[0] = BodyParameter::schema();
-		$properties->parameters->items->oneOf[0]->oneOf[1] = Schema::object();
-		$properties->parameters->items->oneOf[0]->oneOf[1]->oneOf[0] = HeaderParameterSubSchema::schema();
-		$properties->parameters->items->oneOf[0]->oneOf[1]->oneOf[1] = FormDataParameterSubSchema::schema();
-		$properties->parameters->items->oneOf[0]->oneOf[1]->oneOf[2] = QueryParameterSubSchema::schema();
-		$properties->parameters->items->oneOf[0]->oneOf[1]->oneOf[3] = PathParameterSubSchema::schema();
-		$properties->parameters->items->oneOf[0]->oneOf[1]->required = array (
-		  0 => 'name',
-		  1 => 'in',
-		  2 => 'type',
-		);
-		$properties->parameters->items->oneOf[1] = JsonReference::schema();
-		$properties->parameters->description = "The parameters needed to send a valid API call.";
-		$properties->parameters->uniqueItems = true;
+		$properties->parameters = ParametersList::schema();
 		$ownerSchema->type = 'object';
 		$ownerSchema->additionalProperties = false;
-		$patternProperty = new Schema();
-		$patternProperty->description = "Any property starting with x- is valid.";
-		$ownerSchema->patternProperties['^x-'] = $patternProperty;
+		$patternProperty = VendorExtension::schema();
+		$ownerSchema->setPatternProperty('^x-', $patternProperty);
+		$ownerSchema->setFromRef('#/definitions/pathItem');
 	}
 
 	/**

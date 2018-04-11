@@ -50,13 +50,10 @@ class FileSchema extends ClassStructure {
 	public static function setUpProperties($properties, Schema $ownerSchema)
 	{
 		$properties->format = Schema::string();
-		$properties->title = Schema::string();
-		$properties->description = Schema::string();
-		$properties->default = new Schema();
-		$properties->required = Schema::arr();
-		$properties->required->items = Schema::string();
-		$properties->required->minItems = 1;
-		$properties->required->uniqueItems = true;
+		$properties->title = HttpJsonSchemaOrgDraft04SchemaPropertiesTitle::schema();
+		$properties->description = HttpJsonSchemaOrgDraft04SchemaPropertiesDescription::schema();
+		$properties->default = HttpJsonSchemaOrgDraft04SchemaPropertiesDefault::schema();
+		$properties->required = HttpJsonSchemaOrgDraft04SchemaDefinitionsStringArray::schema();
 		$properties->type = Schema::string();
 		$properties->type->enum = array(
 		    self::FILE,
@@ -67,13 +64,13 @@ class FileSchema extends ClassStructure {
 		$properties->example = new Schema();
 		$ownerSchema->type = 'object';
 		$ownerSchema->additionalProperties = false;
-		$patternProperty = new Schema();
-		$patternProperty->description = "Any property starting with x- is valid.";
-		$ownerSchema->patternProperties['^x-'] = $patternProperty;
+		$patternProperty = VendorExtension::schema();
+		$ownerSchema->setPatternProperty('^x-', $patternProperty);
 		$ownerSchema->description = "A deterministic version of a JSON Schema object.";
 		$ownerSchema->required = array (
 		  0 => 'type',
 		);
+		$ownerSchema->setFromRef('#/definitions/fileSchema');
 	}
 
 	/**

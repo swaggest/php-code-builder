@@ -53,14 +53,14 @@ class ApiKeySecurity extends ClassStructure {
 		$properties->description = Schema::string();
 		$ownerSchema->type = 'object';
 		$ownerSchema->additionalProperties = false;
-		$patternProperty = new Schema();
-		$patternProperty->description = "Any property starting with x- is valid.";
-		$ownerSchema->patternProperties['^x-'] = $patternProperty;
+		$patternProperty = VendorExtension::schema();
+		$ownerSchema->setPatternProperty('^x-', $patternProperty);
 		$ownerSchema->required = array (
 		  0 => 'type',
 		  1 => 'name',
 		  2 => 'in',
 		);
+		$ownerSchema->setFromRef('#/definitions/apiKeySecurity');
 	}
 
 	/**

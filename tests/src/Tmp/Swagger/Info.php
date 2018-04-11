@@ -52,14 +52,14 @@ class Info extends ClassStructure {
 		$properties->license = License::schema();
 		$ownerSchema->type = 'object';
 		$ownerSchema->additionalProperties = false;
-		$patternProperty = new Schema();
-		$patternProperty->description = "Any property starting with x- is valid.";
-		$ownerSchema->patternProperties['^x-'] = $patternProperty;
+		$patternProperty = VendorExtension::schema();
+		$ownerSchema->setPatternProperty('^x-', $patternProperty);
 		$ownerSchema->description = "General information about the API.";
 		$ownerSchema->required = array (
 		  0 => 'version',
 		  1 => 'title',
 		);
+		$ownerSchema->setFromRef('#/definitions/info');
 	}
 
 	/**

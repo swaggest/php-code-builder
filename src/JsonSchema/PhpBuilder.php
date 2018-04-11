@@ -93,6 +93,10 @@ class PhpBuilder
         $generatedClass->schema = $schema;
 
         $class = new PhpClass();
+        if (null !== $fromRef = $schema->getFromRef()) {
+            $path = $fromRef;
+        }
+
         $class->setName(PhpCode::makePhpName($path, false));
         if ($this->classCreatedHook !== null) {
             $this->classCreatedHook->process($class, $path, $schema);

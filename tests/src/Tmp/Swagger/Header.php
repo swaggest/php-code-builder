@@ -26,14 +26,6 @@ class Header extends ClassStructure {
 
 	const _ARRAY = 'array';
 
-	const CSV = 'csv';
-
-	const SSV = 'ssv';
-
-	const TSV = 'tsv';
-
-	const PIPES = 'pipes';
-
 	/** @var string */
 	public $type;
 
@@ -103,54 +95,29 @@ class Header extends ClassStructure {
 		);
 		$properties->format = Schema::string();
 		$properties->items = PrimitivesItems::schema();
-		$properties->collectionFormat = Schema::string();
-		$properties->collectionFormat->enum = array(
-		    self::CSV,
-		    self::SSV,
-		    self::TSV,
-		    self::PIPES,
-		);
-		$properties->collectionFormat->default = "csv";
-		$properties->default = new Schema();
-		$properties->maximum = Schema::number();
-		$properties->exclusiveMaximum = Schema::boolean();
-		$properties->exclusiveMaximum->default = false;
-		$properties->minimum = Schema::number();
-		$properties->exclusiveMinimum = Schema::boolean();
-		$properties->exclusiveMinimum->default = false;
-		$properties->maxLength = Schema::integer();
-		$properties->maxLength->minimum = 0;
-		$properties->minLength = new Schema();
-		$properties->minLength->allOf[0] = Schema::integer();
-		$properties->minLength->allOf[0]->minimum = 0;
-		$properties->minLength->allOf[1] = new Schema();
-		$properties->minLength->allOf[1]->default = 0;
-		$properties->pattern = Schema::string();
-		$properties->pattern->format = "regex";
-		$properties->maxItems = Schema::integer();
-		$properties->maxItems->minimum = 0;
-		$properties->minItems = new Schema();
-		$properties->minItems->allOf[0] = Schema::integer();
-		$properties->minItems->allOf[0]->minimum = 0;
-		$properties->minItems->allOf[1] = new Schema();
-		$properties->minItems->allOf[1]->default = 0;
-		$properties->uniqueItems = Schema::boolean();
-		$properties->uniqueItems->default = false;
-		$properties->enum = Schema::arr();
-		$properties->enum->minItems = 1;
-		$properties->enum->uniqueItems = true;
-		$properties->multipleOf = Schema::number();
-		$properties->multipleOf->minimum = 0;
-		$properties->multipleOf->exclusiveMinimum = true;
+		$properties->collectionFormat = CollectionFormat::schema();
+		$properties->default = HttpJsonSchemaOrgDraft04SchemaPropertiesDefault::schema();
+		$properties->maximum = HttpJsonSchemaOrgDraft04SchemaPropertiesMaximum::schema();
+		$properties->exclusiveMaximum = HttpJsonSchemaOrgDraft04SchemaPropertiesExclusiveMaximum::schema();
+		$properties->minimum = HttpJsonSchemaOrgDraft04SchemaPropertiesMinimum::schema();
+		$properties->exclusiveMinimum = HttpJsonSchemaOrgDraft04SchemaPropertiesExclusiveMinimum::schema();
+		$properties->maxLength = HttpJsonSchemaOrgDraft04SchemaDefinitionsPositiveInteger::schema();
+		$properties->minLength = HttpJsonSchemaOrgDraft04SchemaDefinitionsPositiveIntegerDefault0::schema();
+		$properties->pattern = HttpJsonSchemaOrgDraft04SchemaPropertiesPattern::schema();
+		$properties->maxItems = HttpJsonSchemaOrgDraft04SchemaDefinitionsPositiveInteger::schema();
+		$properties->minItems = HttpJsonSchemaOrgDraft04SchemaDefinitionsPositiveIntegerDefault0::schema();
+		$properties->uniqueItems = HttpJsonSchemaOrgDraft04SchemaPropertiesUniqueItems::schema();
+		$properties->enum = HttpJsonSchemaOrgDraft04SchemaPropertiesEnum::schema();
+		$properties->multipleOf = HttpJsonSchemaOrgDraft04SchemaPropertiesMultipleOf::schema();
 		$properties->description = Schema::string();
 		$ownerSchema->type = 'object';
 		$ownerSchema->additionalProperties = false;
-		$patternProperty = new Schema();
-		$patternProperty->description = "Any property starting with x- is valid.";
-		$ownerSchema->patternProperties['^x-'] = $patternProperty;
+		$patternProperty = VendorExtension::schema();
+		$ownerSchema->setPatternProperty('^x-', $patternProperty);
 		$ownerSchema->required = array (
 		  0 => 'type',
 		);
+		$ownerSchema->setFromRef('#/definitions/header');
 	}
 
 	/**

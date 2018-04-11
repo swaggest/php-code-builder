@@ -36,12 +36,12 @@ class Tag extends ClassStructure {
 		$properties->externalDocs = ExternalDocs::schema();
 		$ownerSchema->type = 'object';
 		$ownerSchema->additionalProperties = false;
-		$patternProperty = new Schema();
-		$patternProperty->description = "Any property starting with x- is valid.";
-		$ownerSchema->patternProperties['^x-'] = $patternProperty;
+		$patternProperty = VendorExtension::schema();
+		$ownerSchema->setPatternProperty('^x-', $patternProperty);
 		$ownerSchema->required = array (
 		  0 => 'name',
 		);
+		$ownerSchema->setFromRef('#/definitions/tag');
 	}
 
 	/**

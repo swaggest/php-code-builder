@@ -41,10 +41,10 @@ class Contact extends ClassStructure {
 		$properties->email->format = "email";
 		$ownerSchema->type = 'object';
 		$ownerSchema->additionalProperties = false;
-		$patternProperty = new Schema();
-		$patternProperty->description = "Any property starting with x- is valid.";
-		$ownerSchema->patternProperties['^x-'] = $patternProperty;
+		$patternProperty = VendorExtension::schema();
+		$ownerSchema->setPatternProperty('^x-', $patternProperty);
 		$ownerSchema->description = "Contact information for the owners of the API.";
+		$ownerSchema->setFromRef('#/definitions/contact');
 	}
 
 	/**

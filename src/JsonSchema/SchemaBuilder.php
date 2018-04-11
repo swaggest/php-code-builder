@@ -139,6 +139,30 @@ class SchemaBuilder
         return false;
     }
 
+    private function processRef()
+    {
+        if (!$this->skipProperties
+            //&& $this->schema->type === Type::OBJECT
+            && null !== $fromRef = $this->schema->getFromRef()
+        ) {
+            $class = $this->phpBuilder->getClass($this->schema, $this->path);
+            if ($this->schema->id === 'http://json-schema.org/draft-04/schema#') {
+                $this->result->addSnippet(
+                    new PlaceholderString("{$this->varName} = ::class::schema();\n",
+                        array('::class' => new ReferenceTypeOf(Palette::schemaClass())))
+                );
+            } else {
+                $this->result->addSnippet(
+                    new PlaceholderString("{$this->varName} = ::class::schema();\n",
+                        array('::class' => new ReferenceTypeOf($class)))
+                );
+            }
+            return true;
+        }
+        return false;
+    }
+
+
     /**
      * @throws Exception
      */
@@ -187,7 +211,7 @@ class SchemaBuilder
                         $this->phpBuilder
                     ))->build()
                 );
-                $this->result->addSnippet("{$this->varName}->patternProperties[{$patternExp}] = \$patternProperty;\n");
+                $this->result->addSnippet("{$this->varName}->setPatternProperty({$patternExp}, \$patternProperty);\n");
 
             }
         }
@@ -376,6 +400,9 @@ class SchemaBuilder
             return $this->result;
         }
 
+        if ($this->processRef()) {
+            return $this->result;
+        }
 
         $this->processType();
         $this->processObject();
@@ -383,9 +410,18 @@ class SchemaBuilder
         $this->processLogic();
         $this->processEnum();
         $this->processOther();
+        $this->processFromRef();
 
         return $this->result;
 
+    }
+
+    private function processFromRef()
+    {
+        if ($fromRef = $this->schema->getFromRef()) {
+            $value = var_export($fromRef, 1);
+            $this->result->addSnippet("{$this->varName}->setFromRef($value);\n");
+        }
     }
 
     /**

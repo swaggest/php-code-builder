@@ -54,14 +54,14 @@ class BodyParameter extends ClassStructure {
 		$properties->schema = Schema::schema();
 		$ownerSchema->type = 'object';
 		$ownerSchema->additionalProperties = false;
-		$patternProperty = new Schema1();
-		$patternProperty->description = "Any property starting with x- is valid.";
-		$ownerSchema->patternProperties['^x-'] = $patternProperty;
+		$patternProperty = VendorExtension::schema();
+		$ownerSchema->setPatternProperty('^x-', $patternProperty);
 		$ownerSchema->required = array (
 		  0 => 'name',
 		  1 => 'in',
 		  2 => 'schema',
 		);
+		$ownerSchema->setFromRef('#/definitions/bodyParameter');
 	}
 
 	/**

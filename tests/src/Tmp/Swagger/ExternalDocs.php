@@ -33,13 +33,13 @@ class ExternalDocs extends ClassStructure {
 		$properties->url->format = "uri";
 		$ownerSchema->type = 'object';
 		$ownerSchema->additionalProperties = false;
-		$patternProperty = new Schema();
-		$patternProperty->description = "Any property starting with x- is valid.";
-		$ownerSchema->patternProperties['^x-'] = $patternProperty;
+		$patternProperty = VendorExtension::schema();
+		$ownerSchema->setPatternProperty('^x-', $patternProperty);
 		$ownerSchema->description = "information about external documentation";
 		$ownerSchema->required = array (
 		  0 => 'url',
 		);
+		$ownerSchema->setFromRef('#/definitions/externalDocs');
 	}
 
 	/**

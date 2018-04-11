@@ -49,21 +49,20 @@ class Oauth2ApplicationSecurity extends ClassStructure {
 		$properties->flow->enum = array(
 		    self::APPLICATION,
 		);
-		$properties->scopes = Schema::object();
-		$properties->scopes->additionalProperties = Schema::string();
+		$properties->scopes = Oauth2Scopes::schema();
 		$properties->tokenUrl = Schema::string();
 		$properties->tokenUrl->format = "uri";
 		$properties->description = Schema::string();
 		$ownerSchema->type = 'object';
 		$ownerSchema->additionalProperties = false;
-		$patternProperty = new Schema();
-		$patternProperty->description = "Any property starting with x- is valid.";
-		$ownerSchema->patternProperties['^x-'] = $patternProperty;
+		$patternProperty = VendorExtension::schema();
+		$ownerSchema->setPatternProperty('^x-', $patternProperty);
 		$ownerSchema->required = array (
 		  0 => 'type',
 		  1 => 'flow',
 		  2 => 'tokenUrl',
 		);
+		$ownerSchema->setFromRef('#/definitions/oauth2ApplicationSecurity');
 	}
 
 	/**

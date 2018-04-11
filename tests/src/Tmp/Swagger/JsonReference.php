@@ -28,6 +28,7 @@ class JsonReference extends ClassStructure {
 		$ownerSchema->required = array (
 		  0 => '$ref',
 		);
+		$ownerSchema->setFromRef('#/definitions/jsonReference');
 	}
 
 	/**

@@ -37,17 +37,16 @@ class Response extends ClassStructure {
 		$properties->schema = new Schema1();
 		$properties->schema->oneOf[0] = Schema::schema();
 		$properties->schema->oneOf[1] = FileSchema::schema();
-		$properties->headers = Schema1::object();
-		$properties->headers->additionalProperties = Header::schema();
-		$properties->examples = Schema1::object();
+		$properties->headers = Headers::schema();
+		$properties->examples = Examples::schema();
 		$ownerSchema->type = 'object';
 		$ownerSchema->additionalProperties = false;
-		$patternProperty = new Schema1();
-		$patternProperty->description = "Any property starting with x- is valid.";
-		$ownerSchema->patternProperties['^x-'] = $patternProperty;
+		$patternProperty = VendorExtension::schema();
+		$ownerSchema->setPatternProperty('^x-', $patternProperty);
 		$ownerSchema->required = array (
 		  0 => 'description',
 		);
+		$ownerSchema->setFromRef('#/definitions/response');
 	}
 
 	/**

@@ -16,14 +16,6 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
  * @method static Operation import($data, Context $options=null)
  */
 class Operation extends ClassStructure {
-	const HTTP = 'http';
-
-	const HTTPS = 'https';
-
-	const WS = 'ws';
-
-	const WSS = 'wss';
-
 	/** @var string[]|array */
 	public $tags;
 
@@ -77,76 +69,25 @@ class Operation extends ClassStructure {
 		$properties->operationId = Schema::string();
 		$properties->operationId->description = "A unique identifier of the operation.";
 		$properties->produces = new Schema();
-		$properties->produces->allOf[0] = Schema::arr();
-		$properties->produces->allOf[0]->items = Schema::string();
-		$properties->produces->allOf[0]->items->description = "The MIME type of the HTTP message.";
-		$properties->produces->allOf[0]->uniqueItems = true;
+		$properties->produces->allOf[0] = MediaTypeList::schema();
 		$properties->produces->description = "A list of MIME types the API can produce.";
 		$properties->consumes = new Schema();
-		$properties->consumes->allOf[0] = Schema::arr();
-		$properties->consumes->allOf[0]->items = Schema::string();
-		$properties->consumes->allOf[0]->items->description = "The MIME type of the HTTP message.";
-		$properties->consumes->allOf[0]->uniqueItems = true;
+		$properties->consumes->allOf[0] = MediaTypeList::schema();
 		$properties->consumes->description = "A list of MIME types the API can consume.";
-		$properties->parameters = Schema::arr();
-		$properties->parameters->items = new Schema();
-		$properties->parameters->items->oneOf[0] = new Schema();
-		$properties->parameters->items->oneOf[0]->oneOf[0] = BodyParameter::schema();
-		$properties->parameters->items->oneOf[0]->oneOf[1] = Schema::object();
-		$properties->parameters->items->oneOf[0]->oneOf[1]->oneOf[0] = HeaderParameterSubSchema::schema();
-		$properties->parameters->items->oneOf[0]->oneOf[1]->oneOf[1] = FormDataParameterSubSchema::schema();
-		$properties->parameters->items->oneOf[0]->oneOf[1]->oneOf[2] = QueryParameterSubSchema::schema();
-		$properties->parameters->items->oneOf[0]->oneOf[1]->oneOf[3] = PathParameterSubSchema::schema();
-		$properties->parameters->items->oneOf[0]->oneOf[1]->required = array (
-		  0 => 'name',
-		  1 => 'in',
-		  2 => 'type',
-		);
-		$properties->parameters->items->oneOf[1] = JsonReference::schema();
-		$properties->parameters->description = "The parameters needed to send a valid API call.";
-		$properties->parameters->uniqueItems = true;
-		$properties->responses = Schema::object();
-		$properties->responses->additionalProperties = false;
-		$patternProperty = new Schema();
-		$patternProperty->oneOf[0] = Response::schema();
-		$patternProperty->oneOf[1] = JsonReference::schema();
-		$properties->responses->patternProperties['^([0-9]{3})$|^(default)$'] = $patternProperty;
-		$patternProperty = new Schema();
-		$patternProperty->description = "Any property starting with x- is valid.";
-		$properties->responses->patternProperties['^x-'] = $patternProperty;
-		$properties->responses->not = Schema::object();
-		$properties->responses->not->additionalProperties = false;
-		$patternProperty = new Schema();
-		$patternProperty->description = "Any property starting with x- is valid.";
-		$properties->responses->not->patternProperties['^x-'] = $patternProperty;
-		$properties->responses->description = "Response objects names can either be any valid HTTP status code or \'default\'.";
-		$properties->responses->minProperties = 1;
-		$properties->schemes = Schema::arr();
-		$properties->schemes->items = Schema::string();
-		$properties->schemes->items->enum = array(
-		    self::HTTP,
-		    self::HTTPS,
-		    self::WS,
-		    self::WSS,
-		);
-		$properties->schemes->description = "The transfer protocol of the API.";
-		$properties->schemes->uniqueItems = true;
+		$properties->parameters = ParametersList::schema();
+		$properties->responses = Responses::schema();
+		$properties->schemes = SchemesList::schema();
 		$properties->deprecated = Schema::boolean();
 		$properties->deprecated->default = false;
-		$properties->security = Schema::arr();
-		$properties->security->items = Schema::object();
-		$properties->security->items->additionalProperties = Schema::arr();
-		$properties->security->items->additionalProperties->items = Schema::string();
-		$properties->security->items->additionalProperties->uniqueItems = true;
-		$properties->security->uniqueItems = true;
+		$properties->security = Security::schema();
 		$ownerSchema->type = 'object';
 		$ownerSchema->additionalProperties = false;
-		$patternProperty = new Schema();
-		$patternProperty->description = "Any property starting with x- is valid.";
-		$ownerSchema->patternProperties['^x-'] = $patternProperty;
+		$patternProperty = VendorExtension::schema();
+		$ownerSchema->setPatternProperty('^x-', $patternProperty);
 		$ownerSchema->required = array (
 		  0 => 'responses',
 		);
+		$ownerSchema->setFromRef('#/definitions/operation');
 	}
 
 	/**
