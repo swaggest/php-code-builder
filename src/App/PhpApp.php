@@ -66,7 +66,7 @@ class PhpApp extends App
             $file->setNamespace($ns);
         }
         $file->getCode()->addSnippet($class);
-        $this->files[$filepath] = $file->render();
+        $this->files[$filepath] = $file;
 
         return $this;
     }

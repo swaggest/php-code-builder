@@ -182,11 +182,12 @@ class SchemaBuilder
                 $this->result->addSnippet(
                     $this->copyTo(new SchemaBuilder(
                         $property,
-                        "{$this->varName}->patternProperties[{$patternExp}]",
-                        $this->path . '->patternProperties[{$pattern}]',
+                        "\$patternProperty",
+                        $this->path . '->patternProperties->{{$pattern}}',
                         $this->phpBuilder
                     ))->build()
                 );
+                $this->result->addSnippet("{$this->varName}->patternProperties[{$patternExp}] = \$patternProperty;\n");
 
             }
         }
