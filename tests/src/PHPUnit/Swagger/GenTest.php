@@ -25,7 +25,7 @@ class GenTest extends \PHPUnit_Framework_TestCase
 
         $swaggerSchema = Schema::import($schemaData, $options);
 
-        $appPath = __DIR__ . '/../../Tmp/Swagger';
+        $appPath = realpath(__DIR__ . '/../../Tmp/Swagger');
         $appNs = 'Swaggest\PhpCodeBuilder\Tests\Tmp\Swagger';
 
         $app = new PhpApp();
