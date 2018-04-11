@@ -2,9 +2,10 @@
 
 namespace Swaggest\PhpCodeBuilder\Tests\PHPUnit\JsonSchema;
 
-
-use Swaggest\JsonSchema\JsonSchema;
+use Swaggest\JsonSchema\Schema;
+use Swaggest\JsonSchema\Structure\ClassStructure;
 use Swaggest\PhpCodeBuilder\JsonSchema\PhpBuilder;
+use Swaggest\PhpCodeBuilder\PhpFile;
 
 class TypeBuilderTest extends \PHPUnit_Framework_TestCase
 {
@@ -30,24 +31,38 @@ class TypeBuilderTest extends \PHPUnit_Framework_TestCase
 }
 JSON
         );
-        $schema = JsonSchema::import($schemaData);
+        $schema = Schema::import($schemaData);
         $phpBuilder = new PhpBuilder();
+        $phpBuilder->buildSetters = true;
         $type = $phpBuilder->getType($schema);
 
-        $this->assertSame('\\Untitled1', $type->renderPhpDocType());
-        $gen = $phpBuilder->getGeneratedClasses();
+        $file = new PhpFile();
+        foreach ($phpBuilder->getGeneratedClasses() as $class) {
+            $file->getCode()->addSnippet($class->class);
+        }
         $this->assertSame(<<<'PHP'
-class Untitled1 extends Swaggest\JsonSchema\Structure\ClassStructure {
+<?php
+/**
+ * @file ATTENTION!!! The code below was carefully crafted by a mean machine.
+ * Please consider to NOT put any emotional human-generated modifications as the splendid AI will throw them away with no mercy.
+ */
+
+use Swaggest\JsonSchema\Constraint\Properties;
+use Swaggest\JsonSchema\Schema;
+use Swaggest\JsonSchema\Structure\ClassStructure;
+
+
+class DefinitionsHeader extends ClassStructure {
 	/** @var float */
 	public $maximum;
 
 	/**
-	 * @param Swaggest\JsonSchema\Constraint\Properties|static $properties
-	 * @param Swaggest\JsonSchema\Schema $ownerSchema
+	 * @param Properties|static $properties
+	 * @param Schema $ownerSchema
 	 */
-	public static function setUpProperties($properties, Swaggest\JsonSchema\Schema $ownerSchema)
+	public static function setUpProperties($properties, Schema $ownerSchema)
 	{
-		$properties->maximum = Swaggest\JsonSchema\Schema::number();
+		$properties->maximum = Schema::number();
 		$ownerSchema->type = 'object';
 	}
 
@@ -64,7 +79,16 @@ class Untitled1 extends Swaggest\JsonSchema\Structure\ClassStructure {
 	/** @codeCoverageIgnoreEnd */
 }
 PHP
-            , (string)$gen[0]->class);
+            , $file->render());
+
+        /** @var ClassStructure $className */
+        $className = $type->renderPhpDocType();
+        $this->assertSame('\\DefinitionsHeader', $className);
+
+        eval(substr($file->render(), 6));
+        $exported = Schema::export($className::schema());
+        $this->assertSame('{"properties":{"maximum":{"type":"number"}},"type":"object"}',
+            json_encode($exported, JSON_UNESCAPED_SLASHES));
     }
 
 }

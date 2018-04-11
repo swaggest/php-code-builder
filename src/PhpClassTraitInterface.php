@@ -127,7 +127,7 @@ PHP;
      * @param PhpClass $extends
      * @return PhpClassTraitInterface
      */
-    public function setExtends($extends)
+    public function setExtends(PhpClass $extends)
     {
         $this->extends = $extends;
         return $this;

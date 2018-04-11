@@ -22,7 +22,7 @@ class PhpClassProperty extends PhpTemplate
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      * @return $this
      */
     public function setDefault($value)

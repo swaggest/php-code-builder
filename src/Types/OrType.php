@@ -66,11 +66,17 @@ class OrType implements PhpAnyType
     /**
      * @return $this|PhpAnyType
      */
-    public function simplify() {
+    public function simplify()
+    {
         if (count($this->types) === 1) {
             return $this->types[0];
         } else {
             return $this;
         }
+    }
+
+    public function getTypes()
+    {
+        return $this->types;
     }
 }

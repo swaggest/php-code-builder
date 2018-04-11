@@ -48,10 +48,14 @@ class PhpFunction extends PhpTemplate
             $tail = (new PhpDocTag(PhpDoc::TAG_CODE_COVERAGE_IGNORE_END))->render() . "\n";
         }
 
+        $body = trim($this->body);
+        if ($body !== '') {
+            $body = $this->indentLines($body . "\n");
+        }
         return <<<PHP
 {$this->headToString()}
 {
-{$this->indentLines(trim($this->body) . "\n")}}
+{$body}}
 $tail
 
 PHP;

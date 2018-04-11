@@ -94,7 +94,17 @@ class PhpNamedVar
 
     public function renderDefault()
     {
-        return $this->hasDefault ? ' = ' . var_export($this->default, true) : '';
+        if (!$this->hasDefault) {
+            return '';
+        }
+
+        if ($this->default instanceof PhpTemplate) {
+            $result = $this->default->render();
+        } else {
+            $result = var_export($this->default, true);
+        }
+
+        return ' = ' . $result;
     }
 
     public function renderArgumentType()

@@ -2,23 +2,22 @@
 
 namespace Swaggest\PhpCodeBuilder\JsonSchema;
 
+use Swaggest\CodeBuilder\AbstractTemplate;
 use Swaggest\CodeBuilder\PlaceholderString;
 use Swaggest\JsonSchema\Context;
 use Swaggest\JsonSchema\JsonSchema;
-use Swaggest\SwaggerSchema\Schema;
+use Swaggest\JsonSchema\Schema;
 use Swaggest\PhpCodeBuilder\Exception;
 use Swaggest\PhpCodeBuilder\PhpAnyType;
 use Swaggest\PhpCodeBuilder\PhpClass;
 use Swaggest\PhpCodeBuilder\PhpClassProperty;
 use Swaggest\PhpCodeBuilder\PhpDoc;
-use Swaggest\PhpCodeBuilder\PhpDocType;
 use Swaggest\PhpCodeBuilder\PhpFlags;
 use Swaggest\PhpCodeBuilder\PhpFunction;
 use Swaggest\PhpCodeBuilder\PhpNamedVar;
 use Swaggest\PhpCodeBuilder\PhpCode;
 use Swaggest\PhpCodeBuilder\Property\Getter;
 use Swaggest\PhpCodeBuilder\Property\Setter;
-use Swaggest\PhpCodeBuilder\Types\ReferenceTypeOf;
 use Swaggest\PhpCodeBuilder\Types\TypeOf;
 
 /**
@@ -26,6 +25,12 @@ use Swaggest\PhpCodeBuilder\Types\TypeOf;
  */
 class PhpBuilder
 {
+    const IMPORT_METHOD_PHPDOC_ID = '::import';
+
+    const SCHEMA = 'schema';
+    const ORIGIN = 'origin';
+    const PROPERTY_NAME = 'property_name';
+
     /** @var \SplObjectStorage|GeneratedClass[] */
     private $generatedClasses;
     private $untitledIndex = 0;
@@ -43,12 +48,11 @@ class PhpBuilder
     /** @var PhpBuilderClassCreatedHook */
     public $classCreatedHook;
 
-    public $baseNamespace;
-
     /**
-     * @param JsonSchema|Schema $schema
+     * @param Schema $schema
      * @param string $path
      * @return PhpAnyType
+     * @throws \Swaggest\PhpCodeBuilder\JsonSchema\Exception
      */
     public function getType($schema, $path = '#')
     {
@@ -58,10 +62,11 @@ class PhpBuilder
 
 
     /**
-     * @param JsonSchema|\Swaggest\SwaggerSchema\Schema $schema
+     * @param Schema $schema
      * @param $path
      * @return PhpClass
      * @throws Exception
+     * @throws \Swaggest\PhpCodeBuilder\JsonSchema\Exception
      */
     public function getClass($schema, $path)
     {
@@ -73,10 +78,11 @@ class PhpBuilder
     }
 
     /**
-     * @param JsonSchema $schema
+     * @param Schema $schema
      * @param $path
      * @return GeneratedClass
      * @throws Exception
+     * @throws \Swaggest\PhpCodeBuilder\JsonSchema\Exception
      */
     private function makeClass($schema, $path)
     {
@@ -103,6 +109,7 @@ class PhpBuilder
 
         $body = new PhpCode();
 
+        $class->addMeta($schema, self::SCHEMA);
         $class->addMethod($setupProperties);
 
         $generatedClass->class = $class;
@@ -114,8 +121,14 @@ class PhpBuilder
         }
 
         if ($schema->properties) {
+            $phpNames = array();
             foreach ($schema->properties as $name => $property) {
-                $propertyName = PhpCode::makePhpName($name);
+                $i = '';
+                do {
+                    $propertyName = PhpCode::makePhpName($name . $i);
+                    $i .= 'a';
+                } while (isset($phpNames[$propertyName]));
+                $phpNames[$propertyName] = true;
 
                 $schemaBuilder = new SchemaBuilder($property, '$properties->' . $propertyName, $path . '->' . $name, $this);
                 if ($this->skipSchemaDescriptions) {
@@ -125,6 +138,8 @@ class PhpBuilder
                     $schemaBuilder->setSaveEnumConstInClass($class);
                 }
                 $phpProperty = new PhpClassProperty($propertyName, $this->getType($property, $path . '->' . $name));
+                $phpProperty->addMeta($property, self::SCHEMA);
+                $phpProperty->addMeta($name, self::PROPERTY_NAME);
                 if ($property->description) {
                     $phpProperty->setDescription($property->description);
                 }
@@ -165,7 +180,8 @@ class PhpBuilder
                         ':type' => new TypeOf($type, true),
                         ':context' => new TypeOf(PhpClass::byFQN(Context::class))
                     )
-                )
+                ),
+                self::IMPORT_METHOD_PHPDOC_ID
             );
         }
         return $generatedClass;
@@ -187,10 +203,19 @@ class PhpBuilder
         $this->dynamicIterator = $iterator;
         return $iterator;
     }
+
+    /**
+     * @param AbstractTemplate $template
+     * @return null|Schema
+     */
+    public static function getSchemaMeta(AbstractTemplate $template)
+    {
+        return $template->getMeta(self::SCHEMA);
+    }
 }
 
 
-class DynamicIterator implements \Iterator
+class DynamicIterator implements \Iterator, \ArrayAccess
 {
     private $rows;
     private $current;
@@ -243,4 +268,26 @@ class DynamicIterator implements \Iterator
     {
         $this->next();
     }
+
+    public function offsetExists($offset)
+    {
+        return array_key_exists($offset, $this->rows);
+    }
+
+    public function offsetGet($offset)
+    {
+        return $this->rows[$offset];
+    }
+
+    public function offsetSet($offset, $value)
+    {
+        $this->rows[$offset] = $value;
+    }
+
+    public function offsetUnset($offset)
+    {
+        unset($this->rows[$offset]);
+    }
+
+
 }

@@ -10,7 +10,7 @@ class PhpConstant extends PhpTemplate
     use Visibility;
     use Description;
 
-    private $name;
+    protected $name;
     private $value;
 
     /**
