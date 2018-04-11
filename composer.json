@@ -32,5 +32,10 @@
   },
   "scripts": {
     "test": "php -dxdebug.coverage_enable=1 ./vendor/bin/phpunit --coverage-text"
+  },
+  "config": {
+    "platform": {
+      "php": "5.4.45"
+    }
   }
 }
