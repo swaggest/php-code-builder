@@ -23,6 +23,7 @@ class ParametersList extends ClassStructure {
 	public static function setUpProperties($properties, Schema $ownerSchema)
 	{
 		$ownerSchema->type = Schema::_ARRAY;
+		$ownerSchema->additionalItems = false;
 		$ownerSchema->items = new Schema();
 		$ownerSchema->items->oneOf[0] = Parameter::schema();
 		$ownerSchema->items->oneOf[1] = JsonReference::schema();

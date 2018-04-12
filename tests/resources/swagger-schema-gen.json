@@ -312,6 +312,9 @@
                 }
             },
             "properties": {
+                "$ref": {
+                    "type": "string"
+                },
                 "get": {
                     "$ref": "#/definitions/operation"
                 },
@@ -335,9 +338,6 @@
                 },
                 "parameters": {
                     "$ref": "#/definitions/parametersList"
-                },
-                "ref": {
-                    "type": "string"
                 }
             }
         },
@@ -490,7 +490,8 @@
         },
         "vendorExtension": {
             "description": "Any property starting with x- is valid.",
-            "additionalProperties": true
+            "additionalProperties": true,
+            "additionalItems": true
         },
         "bodyParameter": {
             "type": "object",
@@ -940,6 +941,9 @@
                 }
             },
             "properties": {
+                "$ref": {
+                    "type": "string"
+                },
                 "format": {
                     "type": "string"
                 },
@@ -1053,10 +1057,7 @@
                 "externalDocs": {
                     "$ref": "#/definitions/externalDocs"
                 },
-                "example": {},
-                "ref": {
-                    "type": "string"
-                }
+                "example": {}
             },
             "additionalProperties": false
         },
@@ -1497,6 +1498,7 @@
         "parametersList": {
             "type": "array",
             "description": "The parameters needed to send a valid API call.",
+            "additionalItems": false,
             "items": {
                 "oneOf": [
                     {
@@ -1551,7 +1553,7 @@
             ],
             "additionalProperties": false,
             "properties": {
-                "ref": {
+                "$ref": {
                     "type": "string"
                 }
             }

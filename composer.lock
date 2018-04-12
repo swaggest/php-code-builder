@@ -233,12 +233,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/swaggest/php-json-schema.git",
-                "reference": "872e79f2b430911769970154cdd4d5e1bba1c708"
+                "reference": "e91f2d1e87a6f108354025bc4307262660f8d244"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swaggest/php-json-schema/zipball/872e79f2b430911769970154cdd4d5e1bba1c708",
-                "reference": "872e79f2b430911769970154cdd4d5e1bba1c708",
+                "url": "https://api.github.com/repos/swaggest/php-json-schema/zipball/e91f2d1e87a6f108354025bc4307262660f8d244",
+                "reference": "e91f2d1e87a6f108354025bc4307262660f8d244",
                 "shasum": ""
             },
             "require": {
@@ -270,7 +270,7 @@
                 }
             ],
             "description": "High definition PHP structures with JSON-schema based validation",
-            "time": "2018-04-11T15:54:54+00:00"
+            "time": "2018-04-12T11:45:17+00:00"
         }
     ],
     "packages-dev": [
