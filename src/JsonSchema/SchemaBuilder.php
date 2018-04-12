@@ -193,9 +193,10 @@ class SchemaBuilder
                         $this->phpBuilder
                     ))->build()
                 );
-            } elseif (false === $this->schema->additionalProperties) {
+            } else {
+                $val = $this->schema->additionalProperties ? 'true' : 'false';
                 $this->result->addSnippet(
-                    "{$this->varName}->additionalProperties = false;\n"
+                    "{$this->varName}->additionalProperties = $val;\n"
                 );
             }
         }
@@ -248,6 +249,12 @@ class SchemaBuilder
                         $this->phpBuilder
                     ))->build()
                 );
+            } elseif (is_bool($additionalItems) && $pathItems === 'additionalItems') {
+                $val = $additionalItems ? 'true' : 'false';
+                $this->result->addSnippet(
+                    "{$this->varName}->{$pathItems} = $val;\n"
+                );
+
             }
         }
     }
@@ -339,7 +346,7 @@ class SchemaBuilder
             } elseif ($value instanceof \stdClass) {
                 $export = '(object)' . var_export((array)$value, 1);
             } elseif (is_string($value)) {
-                $export = '"' . str_replace(array("\n", "\r", "\t"), array('\n', '\r', '\t'), addslashes($value)) . '"';
+                $export = '"' . str_replace(array('\\', "\n", "\r", "\t", '"'), array('\\\\', '\n', '\r', '\t', '\"'), $value) . '"';
             } else {
                 $export = var_export($value, 1);
             }

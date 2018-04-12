@@ -17,6 +17,10 @@ class ExportTest extends \PHPUnit_Framework_TestCase
         $schema = SwaggerSchema::schema()->exportSchema();
         $schemaData = Schema::export($schema);
 
+        $encoded = json_encode($schemaData);
+        $err = json_last_error_msg();
+        $schemaData = json_decode($encoded);
+
         $diff = new JsonDiff(
             json_decode(file_get_contents(__DIR__ . '/../../../resources/swagger-schema.json')),
             $schemaData

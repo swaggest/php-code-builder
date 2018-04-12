@@ -22,6 +22,7 @@ class VendorExtension extends ClassStructure {
 	 */
 	public static function setUpProperties($properties, Schema $ownerSchema)
 	{
+		$ownerSchema->additionalProperties = true;
 		$ownerSchema->description = "Any property starting with x- is valid.";
 		$ownerSchema->setFromRef('#/definitions/vendorExtension');
 	}

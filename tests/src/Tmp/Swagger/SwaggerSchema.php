@@ -24,7 +24,10 @@ class SwaggerSchema extends ClassStructure {
 	/** @var Info General information about the API. */
 	public $info;
 
-	/** @var string The host (name or ip) of the API. Example: 'swagger.io' */
+	/**
+	 * @var string The
+	 * host (name or ip) of the API. Example: 'swagger.io'
+	 */
 	public $host;
 
 	/** @var string The base path to the API. Example: '/api'. */
@@ -76,10 +79,10 @@ class SwaggerSchema extends ClassStructure {
 		$properties->swagger->description = "The Swagger version of this document.";
 		$properties->info = Info::schema();
 		$properties->host = Schema1::string();
-		$properties->host->description = "The host (name or ip) of the API. Example: \'swagger.io\'";
+		$properties->host->description = "The\nhost (name or ip) of the API. Example: 'swagger.io'";
 		$properties->host->pattern = "^[^{}/ :\\\\]+(?::\\d+)?$";
 		$properties->basePath = Schema1::string();
-		$properties->basePath->description = "The base path to the API. Example: \'/api\'.";
+		$properties->basePath->description = "The base path to the API. Example: '/api'.";
 		$properties->basePath->pattern = "^/";
 		$properties->schemes = SchemesList::schema();
 		$properties->consumes = new Schema1();
@@ -137,7 +140,8 @@ class SwaggerSchema extends ClassStructure {
 	/** @codeCoverageIgnoreEnd */
 
 	/**
-	 * @param string $host The host (name or ip) of the API. Example: 'swagger.io'
+	 * @param string $host The
+	 * host (name or ip) of the API. Example: 'swagger.io'
 	 * @return $this
 	 * @codeCoverageIgnoreStart
 	 */

@@ -28,7 +28,7 @@ class Paths extends ClassStructure {
 		$ownerSchema->setPatternProperty('^x-', $patternProperty);
 		$patternProperty = PathItem::schema();
 		$ownerSchema->setPatternProperty('^/', $patternProperty);
-		$ownerSchema->description = "Relative paths to the individual endpoints. They must be relative to the \'basePath\'.";
+		$ownerSchema->description = "Relative paths to the individual endpoints. They must be relative to the 'basePath'.";
 		$ownerSchema->setFromRef('#/definitions/paths');
 	}
 }

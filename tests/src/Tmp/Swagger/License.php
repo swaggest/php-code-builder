@@ -29,7 +29,7 @@ class License extends ClassStructure {
 	public static function setUpProperties($properties, Schema $ownerSchema)
 	{
 		$properties->name = Schema::string();
-		$properties->name->description = "The name of the license type. It\'s encouraged to use an OSI compatible license.";
+		$properties->name->description = "The name of the license type. It's encouraged to use an OSI compatible license.";
 		$properties->url = Schema::string();
 		$properties->url->description = "The URL pointing to the license.";
 		$properties->url->format = "uri";

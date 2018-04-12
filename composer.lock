@@ -148,12 +148,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/swaggest/code-builder.git",
-                "reference": "c956166323eac10eee7e50266b01f1571b225d4e"
+                "reference": "394c1b0f50bb1f1b573ab52bbe39d8c3414c2c45"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swaggest/code-builder/zipball/c956166323eac10eee7e50266b01f1571b225d4e",
-                "reference": "c956166323eac10eee7e50266b01f1571b225d4e",
+                "url": "https://api.github.com/repos/swaggest/code-builder/zipball/394c1b0f50bb1f1b573ab52bbe39d8c3414c2c45",
+                "reference": "394c1b0f50bb1f1b573ab52bbe39d8c3414c2c45",
                 "shasum": ""
             },
             "require": {
@@ -187,7 +187,7 @@
             "keywords": [
                 "library"
             ],
-            "time": "2018-03-06T09:07:47+00:00"
+            "time": "2018-04-11T07:54:12+00:00"
         },
         {
             "name": "swaggest/json-diff",
@@ -233,12 +233,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/swaggest/php-json-schema.git",
-                "reference": "fb20166fe3a34aaa88bbdfb8cf8bb92d2f730f43"
+                "reference": "872e79f2b430911769970154cdd4d5e1bba1c708"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swaggest/php-json-schema/zipball/fb20166fe3a34aaa88bbdfb8cf8bb92d2f730f43",
-                "reference": "fb20166fe3a34aaa88bbdfb8cf8bb92d2f730f43",
+                "url": "https://api.github.com/repos/swaggest/php-json-schema/zipball/872e79f2b430911769970154cdd4d5e1bba1c708",
+                "reference": "872e79f2b430911769970154cdd4d5e1bba1c708",
                 "shasum": ""
             },
             "require": {
@@ -270,7 +270,7 @@
                 }
             ],
             "description": "High definition PHP structures with JSON-schema based validation",
-            "time": "2018-04-11T10:20:50+00:00"
+            "time": "2018-04-11T15:54:54+00:00"
         }
     ],
     "packages-dev": [

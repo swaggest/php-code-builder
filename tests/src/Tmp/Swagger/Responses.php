@@ -32,7 +32,7 @@ class Responses extends ClassStructure {
 		$ownerSchema->not->additionalProperties = false;
 		$patternProperty = VendorExtension::schema();
 		$ownerSchema->not->setPatternProperty('^x-', $patternProperty);
-		$ownerSchema->description = "Response objects names can either be any valid HTTP status code or \'default\'.";
+		$ownerSchema->description = "Response objects names can either be any valid HTTP status code or 'default'.";
 		$ownerSchema->minProperties = 1;
 		$ownerSchema->setFromRef('#/definitions/responses');
 	}
