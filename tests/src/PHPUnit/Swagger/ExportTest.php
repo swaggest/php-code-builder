@@ -19,6 +19,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase
 
         $encoded = json_encode($schemaData);
         $err = json_last_error_msg();
+        echo $err;
         $schemaData = json_decode($encoded);
 
         $diff = new JsonDiff(
