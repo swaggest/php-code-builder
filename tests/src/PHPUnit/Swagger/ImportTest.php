@@ -19,4 +19,10 @@ class ImportTest extends \PHPUnit_Framework_TestCase
         $swaggerSchema->in(json_decode(file_get_contents(__DIR__ . '/../../../resources/circleci.json')));
     }
 
+    public function testImportRaw2()
+    {
+        $swaggerSchema = Schema::import(json_decode(file_get_contents(__DIR__ . '/../../../resources/swagger-schema-gen.json')));
+        $swaggerSchema->in(json_decode(file_get_contents(__DIR__ . '/../../../resources/circleci.json')));
+    }
+
 }

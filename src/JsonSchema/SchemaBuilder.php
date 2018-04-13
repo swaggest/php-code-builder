@@ -225,6 +225,13 @@ class SchemaBuilder
     {
         $schema = $this->schema;
 
+        if (is_bool($schema->additionalItems)) {
+            $val = $schema->additionalItems ? 'true' : 'false';
+            $this->result->addSnippet(
+                "{$this->varName}->additionalItems = $val;\n"
+            );
+        }
+
         $pathItems = 'items';
         if ($schema->items instanceof ClassStructure) { // todo better check for schema, `getJsonSchema` interface ?
             $items = array();
@@ -249,12 +256,6 @@ class SchemaBuilder
                         $this->phpBuilder
                     ))->build()
                 );
-            } elseif (is_bool($additionalItems) && $pathItems === 'additionalItems') {
-                $val = $additionalItems ? 'true' : 'false';
-                $this->result->addSnippet(
-                    "{$this->varName}->{$pathItems} = $val;\n"
-                );
-
             }
         }
     }
