@@ -440,43 +440,43 @@
                     "$ref": "#/definitions/collectionFormat"
                 },
                 "default": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/default"
+                    "$ref": "#/definitions/default"
                 },
                 "maximum": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/maximum"
+                    "$ref": "#/definitions/maximum"
                 },
                 "exclusiveMaximum": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/exclusiveMaximum"
+                    "$ref": "#/definitions/exclusiveMaximum"
                 },
                 "minimum": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/minimum"
+                    "$ref": "#/definitions/minimum"
                 },
                 "exclusiveMinimum": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/exclusiveMinimum"
+                    "$ref": "#/definitions/exclusiveMinimum"
                 },
                 "maxLength": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveInteger"
+                    "$ref": "#/definitions/maxLength"
                 },
                 "minLength": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0"
+                    "$ref": "#/definitions/minLength"
                 },
                 "pattern": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/pattern"
+                    "$ref": "#/definitions/pattern"
                 },
                 "maxItems": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveInteger"
+                    "$ref": "#/definitions/maxItems"
                 },
                 "minItems": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0"
+                    "$ref": "#/definitions/minItems"
                 },
                 "uniqueItems": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/uniqueItems"
+                    "$ref": "#/definitions/uniqueItems"
                 },
                 "enum": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/enum"
+                    "$ref": "#/definitions/enum"
                 },
                 "multipleOf": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/multipleOf"
+                    "$ref": "#/definitions/multipleOf"
                 },
                 "description": {
                     "type": "string"
@@ -580,43 +580,43 @@
                     "$ref": "#/definitions/collectionFormat"
                 },
                 "default": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/default"
+                    "$ref": "#/definitions/default"
                 },
                 "maximum": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/maximum"
+                    "$ref": "#/definitions/maximum"
                 },
                 "exclusiveMaximum": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/exclusiveMaximum"
+                    "$ref": "#/definitions/exclusiveMaximum"
                 },
                 "minimum": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/minimum"
+                    "$ref": "#/definitions/minimum"
                 },
                 "exclusiveMinimum": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/exclusiveMinimum"
+                    "$ref": "#/definitions/exclusiveMinimum"
                 },
                 "maxLength": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveInteger"
+                    "$ref": "#/definitions/maxLength"
                 },
                 "minLength": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0"
+                    "$ref": "#/definitions/minLength"
                 },
                 "pattern": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/pattern"
+                    "$ref": "#/definitions/pattern"
                 },
                 "maxItems": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveInteger"
+                    "$ref": "#/definitions/maxItems"
                 },
                 "minItems": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0"
+                    "$ref": "#/definitions/minItems"
                 },
                 "uniqueItems": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/uniqueItems"
+                    "$ref": "#/definitions/uniqueItems"
                 },
                 "enum": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/enum"
+                    "$ref": "#/definitions/enum"
                 },
                 "multipleOf": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/multipleOf"
+                    "$ref": "#/definitions/multipleOf"
                 }
             }
         },
@@ -673,43 +673,43 @@
                     "$ref": "#/definitions/collectionFormatWithMulti"
                 },
                 "default": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/default"
+                    "$ref": "#/definitions/default"
                 },
                 "maximum": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/maximum"
+                    "$ref": "#/definitions/maximum"
                 },
                 "exclusiveMaximum": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/exclusiveMaximum"
+                    "$ref": "#/definitions/exclusiveMaximum"
                 },
                 "minimum": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/minimum"
+                    "$ref": "#/definitions/minimum"
                 },
                 "exclusiveMinimum": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/exclusiveMinimum"
+                    "$ref": "#/definitions/exclusiveMinimum"
                 },
                 "maxLength": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveInteger"
+                    "$ref": "#/definitions/maxLength"
                 },
                 "minLength": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0"
+                    "$ref": "#/definitions/minLength"
                 },
                 "pattern": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/pattern"
+                    "$ref": "#/definitions/pattern"
                 },
                 "maxItems": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveInteger"
+                    "$ref": "#/definitions/maxItems"
                 },
                 "minItems": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0"
+                    "$ref": "#/definitions/minItems"
                 },
                 "uniqueItems": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/uniqueItems"
+                    "$ref": "#/definitions/uniqueItems"
                 },
                 "enum": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/enum"
+                    "$ref": "#/definitions/enum"
                 },
                 "multipleOf": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/multipleOf"
+                    "$ref": "#/definitions/multipleOf"
                 }
             }
         },
@@ -767,43 +767,43 @@
                     "$ref": "#/definitions/collectionFormatWithMulti"
                 },
                 "default": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/default"
+                    "$ref": "#/definitions/default"
                 },
                 "maximum": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/maximum"
+                    "$ref": "#/definitions/maximum"
                 },
                 "exclusiveMaximum": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/exclusiveMaximum"
+                    "$ref": "#/definitions/exclusiveMaximum"
                 },
                 "minimum": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/minimum"
+                    "$ref": "#/definitions/minimum"
                 },
                 "exclusiveMinimum": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/exclusiveMinimum"
+                    "$ref": "#/definitions/exclusiveMinimum"
                 },
                 "maxLength": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveInteger"
+                    "$ref": "#/definitions/maxLength"
                 },
                 "minLength": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0"
+                    "$ref": "#/definitions/minLength"
                 },
                 "pattern": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/pattern"
+                    "$ref": "#/definitions/pattern"
                 },
                 "maxItems": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveInteger"
+                    "$ref": "#/definitions/maxItems"
                 },
                 "minItems": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0"
+                    "$ref": "#/definitions/minItems"
                 },
                 "uniqueItems": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/uniqueItems"
+                    "$ref": "#/definitions/uniqueItems"
                 },
                 "enum": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/enum"
+                    "$ref": "#/definitions/enum"
                 },
                 "multipleOf": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/multipleOf"
+                    "$ref": "#/definitions/multipleOf"
                 }
             }
         },
@@ -860,43 +860,43 @@
                     "$ref": "#/definitions/collectionFormat"
                 },
                 "default": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/default"
+                    "$ref": "#/definitions/default"
                 },
                 "maximum": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/maximum"
+                    "$ref": "#/definitions/maximum"
                 },
                 "exclusiveMaximum": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/exclusiveMaximum"
+                    "$ref": "#/definitions/exclusiveMaximum"
                 },
                 "minimum": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/minimum"
+                    "$ref": "#/definitions/minimum"
                 },
                 "exclusiveMinimum": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/exclusiveMinimum"
+                    "$ref": "#/definitions/exclusiveMinimum"
                 },
                 "maxLength": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveInteger"
+                    "$ref": "#/definitions/maxLength"
                 },
                 "minLength": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0"
+                    "$ref": "#/definitions/minLength"
                 },
                 "pattern": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/pattern"
+                    "$ref": "#/definitions/pattern"
                 },
                 "maxItems": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveInteger"
+                    "$ref": "#/definitions/maxItems"
                 },
                 "minItems": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0"
+                    "$ref": "#/definitions/minItems"
                 },
                 "uniqueItems": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/uniqueItems"
+                    "$ref": "#/definitions/uniqueItems"
                 },
                 "enum": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/enum"
+                    "$ref": "#/definitions/enum"
                 },
                 "multipleOf": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/multipleOf"
+                    "$ref": "#/definitions/multipleOf"
                 }
             }
         },
@@ -1129,43 +1129,43 @@
                     "$ref": "#/definitions/collectionFormat"
                 },
                 "default": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/default"
+                    "$ref": "#/definitions/default"
                 },
                 "maximum": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/maximum"
+                    "$ref": "#/definitions/maximum"
                 },
                 "exclusiveMaximum": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/exclusiveMaximum"
+                    "$ref": "#/definitions/exclusiveMaximum"
                 },
                 "minimum": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/minimum"
+                    "$ref": "#/definitions/minimum"
                 },
                 "exclusiveMinimum": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/exclusiveMinimum"
+                    "$ref": "#/definitions/exclusiveMinimum"
                 },
                 "maxLength": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveInteger"
+                    "$ref": "#/definitions/maxLength"
                 },
                 "minLength": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0"
+                    "$ref": "#/definitions/minLength"
                 },
                 "pattern": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/pattern"
+                    "$ref": "#/definitions/pattern"
                 },
                 "maxItems": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveInteger"
+                    "$ref": "#/definitions/maxItems"
                 },
                 "minItems": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0"
+                    "$ref": "#/definitions/minItems"
                 },
                 "uniqueItems": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/uniqueItems"
+                    "$ref": "#/definitions/uniqueItems"
                 },
                 "enum": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/enum"
+                    "$ref": "#/definitions/enum"
                 },
                 "multipleOf": {
-                    "$ref": "http://json-schema.org/draft-04/schema#/properties/multipleOf"
+                    "$ref": "#/definitions/multipleOf"
                 }
             },
             "patternProperties": {
@@ -1545,6 +1545,45 @@
                 "multi"
             ],
             "default": "csv"
+        },
+        "default": {
+            "$ref": "http://json-schema.org/draft-04/schema#/properties/default"
+        },
+        "multipleOf": {
+            "$ref": "http://json-schema.org/draft-04/schema#/properties/multipleOf"
+        },
+        "maximum": {
+            "$ref": "http://json-schema.org/draft-04/schema#/properties/maximum"
+        },
+        "exclusiveMaximum": {
+            "$ref": "http://json-schema.org/draft-04/schema#/properties/exclusiveMaximum"
+        },
+        "minimum": {
+            "$ref": "http://json-schema.org/draft-04/schema#/properties/minimum"
+        },
+        "exclusiveMinimum": {
+            "$ref": "http://json-schema.org/draft-04/schema#/properties/exclusiveMinimum"
+        },
+        "maxLength": {
+            "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveInteger"
+        },
+        "minLength": {
+            "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0"
+        },
+        "pattern": {
+            "$ref": "http://json-schema.org/draft-04/schema#/properties/pattern"
+        },
+        "maxItems": {
+            "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveInteger"
+        },
+        "minItems": {
+            "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0"
+        },
+        "uniqueItems": {
+            "$ref": "http://json-schema.org/draft-04/schema#/properties/uniqueItems"
+        },
+        "enum": {
+            "$ref": "http://json-schema.org/draft-04/schema#/properties/enum"
         },
         "jsonReference": {
             "type": "object",
