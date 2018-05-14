@@ -13,6 +13,8 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
+ * The parameters needed to send a valid API call.
+ * Built from #/definitions/parametersList
  * @method static BodyParameter[]|HeaderParameterSubSchema[]|FormDataParameterSubSchema[]|QueryParameterSubSchema[]|PathParameterSubSchema[]|JsonReference[]|array import($data, Context $options=null)
  */
 class ParametersList extends ClassStructure {

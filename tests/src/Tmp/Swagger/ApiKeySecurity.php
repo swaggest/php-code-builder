@@ -13,6 +13,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
+ * Built from #/definitions/apiKeySecurity
  * @method static ApiKeySecurity import($data, Context $options=null)
  */
 class ApiKeySecurity extends ClassStructure {

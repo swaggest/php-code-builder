@@ -13,6 +13,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
+ * Built from http://json-schema.org/draft-04/schema#/definitions/stringArray
  * @method static string[]|array import($data, Context $options=null)
  */
 class HttpJsonSchemaOrgDraft04SchemaDefinitionsStringArray extends ClassStructure {

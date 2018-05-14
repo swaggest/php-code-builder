@@ -9,13 +9,16 @@ namespace Swaggest\PhpCodeBuilder\Tests\Tmp\Swagger;
 use Swaggest\JsonSchema\Constraint\Properties;
 use Swaggest\JsonSchema\Context;
 use Swaggest\JsonSchema\Schema;
+use Swaggest\JsonSchema\SchemaExporter;
 use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
+ * A deterministic version of a JSON Schema object.
+ * Built from #/definitions/fileSchema
  * @method static FileSchema import($data, Context $options=null)
  */
-class FileSchema extends ClassStructure {
+class FileSchema extends ClassStructure implements SchemaExporter {
 	const FILE = 'file';
 
 	/** @var string */
@@ -180,4 +183,22 @@ class FileSchema extends ClassStructure {
 		return $this;
 	}
 	/** @codeCoverageIgnoreEnd */
+
+	/**
+	 * @return Schema
+	 */
+	function exportSchema()
+	{
+		$schema = new Schema();
+		$schema->format = $this->format;
+		$schema->title = $this->title;
+		$schema->description = $this->description;
+		$schema->default = $this->default;
+		$schema->required = $this->required;
+		$schema->type = $this->type;
+		$schema->__fromRef = $this->__fromRef;
+		$schema->setDocumentPath($this->getDocumentPath());
+		$schema->addMeta($this, 'origin');
+		return $schema;
+	}
 }

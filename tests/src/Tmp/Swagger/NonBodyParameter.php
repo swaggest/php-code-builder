@@ -13,6 +13,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
+ * Built from #/definitions/nonBodyParameter
  * @method static HeaderParameterSubSchema|FormDataParameterSubSchema|QueryParameterSubSchema|PathParameterSubSchema import($data, Context $options=null)
  */
 class NonBodyParameter extends ClassStructure {

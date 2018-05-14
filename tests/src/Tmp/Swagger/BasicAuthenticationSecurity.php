@@ -13,6 +13,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
+ * Built from #/definitions/basicAuthenticationSecurity
  * @method static BasicAuthenticationSecurity import($data, Context $options=null)
  */
 class BasicAuthenticationSecurity extends ClassStructure {

@@ -13,6 +13,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
+ * Built from http://json-schema.org/draft-04/schema#/properties/description
  * @method static string import($data, Context $options=null)
  */
 class HttpJsonSchemaOrgDraft04SchemaPropertiesDescription extends ClassStructure {

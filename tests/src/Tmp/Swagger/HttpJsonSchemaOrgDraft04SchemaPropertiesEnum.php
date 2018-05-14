@@ -13,6 +13,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
+ * Built from http://json-schema.org/draft-04/schema#/properties/enum
  * @method static array import($data, Context $options=null)
  */
 class HttpJsonSchemaOrgDraft04SchemaPropertiesEnum extends ClassStructure {

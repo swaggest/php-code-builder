@@ -13,6 +13,8 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
+ * The MIME type of the HTTP message.
+ * Built from #/definitions/mimeType
  * @method static string import($data, Context $options=null)
  */
 class MimeType extends ClassStructure {

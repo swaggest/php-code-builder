@@ -13,6 +13,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
+ * Built from #/definitions/headers
  * @method static Header[] import($data, Context $options=null)
  */
 class Headers extends ClassStructure {

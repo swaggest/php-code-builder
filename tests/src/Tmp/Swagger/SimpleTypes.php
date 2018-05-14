@@ -13,6 +13,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
+ * Built from #/definitions/simpleTypes
  * @method static  import($data, Context $options=null)
  */
 class SimpleTypes extends ClassStructure {

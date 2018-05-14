@@ -13,6 +13,8 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
+ * Response objects names can either be any valid HTTP status code or 'default'.
+ * Built from #/definitions/responses
  * @method static Response[]|JsonReference[] import($data, Context $options=null)
  */
 class Responses extends ClassStructure {

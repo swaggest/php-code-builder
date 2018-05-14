@@ -13,6 +13,8 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
+ * General information about the API.
+ * Built from #/definitions/info
  * @method static Info import($data, Context $options=null)
  */
 class Info extends ClassStructure {

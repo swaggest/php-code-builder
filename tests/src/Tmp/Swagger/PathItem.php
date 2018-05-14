@@ -13,6 +13,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
+ * Built from #/definitions/pathItem
  * @method static PathItem import($data, Context $options=null)
  */
 class PathItem extends ClassStructure {

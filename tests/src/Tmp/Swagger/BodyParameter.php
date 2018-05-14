@@ -13,6 +13,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
+ * Built from #/definitions/bodyParameter
  * @method static BodyParameter import($data, Context $options=null)
  */
 class BodyParameter extends ClassStructure {

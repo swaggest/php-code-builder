@@ -13,6 +13,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
+ * Built from #/definitions/xml
  * @method static Xml import($data, Context $options=null)
  */
 class Xml extends ClassStructure {

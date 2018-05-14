@@ -13,6 +13,8 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
+ * One or more JSON representations for parameters
+ * Built from #/definitions/parameterDefinitions
  * @method static BodyParameter[]|HeaderParameterSubSchema[]|FormDataParameterSubSchema[]|QueryParameterSubSchema[]|PathParameterSubSchema[] import($data, Context $options=null)
  */
 class ParameterDefinitions extends ClassStructure {

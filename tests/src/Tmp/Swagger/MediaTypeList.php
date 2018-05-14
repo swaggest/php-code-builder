@@ -13,6 +13,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
+ * Built from #/definitions/mediaTypeList
  * @method static string[]|array import($data, Context $options=null)
  */
 class MediaTypeList extends ClassStructure {

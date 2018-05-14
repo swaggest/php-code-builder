@@ -13,6 +13,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
+ * Built from #/definitions/securityRequirement
  * @method static string[][]|array[] import($data, Context $options=null)
  */
 class SecurityRequirement extends ClassStructure {

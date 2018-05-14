@@ -13,6 +13,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
+ * Built from #/definitions/collectionFormatWithMulti
  * @method static string import($data, Context $options=null)
  */
 class CollectionFormatWithMulti extends ClassStructure {

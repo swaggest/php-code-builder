@@ -13,6 +13,8 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
+ * information about external documentation
+ * Built from #/definitions/externalDocs
  * @method static ExternalDocs import($data, Context $options=null)
  */
 class ExternalDocs extends ClassStructure {

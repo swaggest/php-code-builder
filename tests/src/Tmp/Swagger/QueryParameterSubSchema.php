@@ -9,13 +9,15 @@ namespace Swaggest\PhpCodeBuilder\Tests\Tmp\Swagger;
 use Swaggest\JsonSchema\Constraint\Properties;
 use Swaggest\JsonSchema\Context;
 use Swaggest\JsonSchema\Schema;
+use Swaggest\JsonSchema\SchemaExporter;
 use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
+ * Built from #/definitions/queryParameterSubSchema
  * @method static QueryParameterSubSchema import($data, Context $options=null)
  */
-class QueryParameterSubSchema extends ClassStructure {
+class QueryParameterSubSchema extends ClassStructure implements SchemaExporter {
 	const QUERY = 'query';
 
 	const STRING = 'string';
@@ -407,4 +409,33 @@ class QueryParameterSubSchema extends ClassStructure {
 		return $this;
 	}
 	/** @codeCoverageIgnoreEnd */
+
+	/**
+	 * @return Schema
+	 */
+	function exportSchema()
+	{
+		$schema = new Schema();
+		$schema->description = $this->description;
+		$schema->type = $this->type;
+		$schema->format = $this->format;
+		$schema->items = $this->items;
+		$schema->default = $this->default;
+		$schema->maximum = $this->maximum;
+		$schema->exclusiveMaximum = $this->exclusiveMaximum;
+		$schema->minimum = $this->minimum;
+		$schema->exclusiveMinimum = $this->exclusiveMinimum;
+		$schema->maxLength = $this->maxLength;
+		$schema->minLength = $this->minLength;
+		$schema->pattern = $this->pattern;
+		$schema->maxItems = $this->maxItems;
+		$schema->minItems = $this->minItems;
+		$schema->uniqueItems = $this->uniqueItems;
+		$schema->enum = $this->enum;
+		$schema->multipleOf = $this->multipleOf;
+		$schema->__fromRef = $this->__fromRef;
+		$schema->setDocumentPath($this->getDocumentPath());
+		$schema->addMeta($this, 'origin');
+		return $schema;
+	}
 }

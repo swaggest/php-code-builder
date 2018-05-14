@@ -13,6 +13,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
+ * Built from #/definitions/tag
  * @method static Tag import($data, Context $options=null)
  */
 class Tag extends ClassStructure {

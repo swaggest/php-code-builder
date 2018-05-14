@@ -13,6 +13,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
+ * Built from #/definitions/license
  * @method static License import($data, Context $options=null)
  */
 class License extends ClassStructure {

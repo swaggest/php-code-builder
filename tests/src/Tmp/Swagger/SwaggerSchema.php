@@ -13,6 +13,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
+ * A JSON Schema for Swagger 2.0 API.
  * @method static SwaggerSchema import($data, Context $options=null)
  */
 class SwaggerSchema extends ClassStructure {

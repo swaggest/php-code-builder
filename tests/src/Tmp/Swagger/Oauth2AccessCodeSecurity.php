@@ -13,6 +13,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
+ * Built from #/definitions/oauth2AccessCodeSecurity
  * @method static Oauth2AccessCodeSecurity import($data, Context $options=null)
  */
 class Oauth2AccessCodeSecurity extends ClassStructure {

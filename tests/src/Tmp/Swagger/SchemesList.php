@@ -13,6 +13,8 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
+ * The transfer protocol of the API.
+ * Built from #/definitions/schemesList
  * @method static string[]|array import($data, Context $options=null)
  */
 class SchemesList extends ClassStructure {

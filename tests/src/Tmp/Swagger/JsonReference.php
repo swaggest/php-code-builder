@@ -11,6 +11,9 @@ use Swaggest\JsonSchema\Schema;
 use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
+/**
+ * Built from #/definitions/jsonReference
+ */
 class JsonReference extends ClassStructure {
 	/** @var string */
 	public $ref;

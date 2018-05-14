@@ -13,6 +13,8 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
+ * One or more JSON representations for parameters
+ * Built from #/definitions/responseDefinitions
  * @method static Response[] import($data, Context $options=null)
  */
 class ResponseDefinitions extends ClassStructure {
