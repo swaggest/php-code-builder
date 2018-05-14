@@ -11,15 +11,17 @@ use Swaggest\PhpCodeBuilder\PhpFunction;
 use Swaggest\PhpCodeBuilder\PhpInterface;
 use Swaggest\PhpCodeBuilder\Types\TypeOf;
 
-class SchemaExporterInterface
+/**
+ * Implements SchemaExporter if class has at least 5 intersecting properties with JsonSchema
+ */
+class SchemaExporterInterface implements PhpBuilderClassHook
 {
-    public static function process(PhpClass $phpClass, Schema $schema)
+    public function process(PhpClass $class, $path, $schema)
     {
         $schemaProperties = Schema::properties();
-        $className = PhpBuilder::getSchemaMeta($phpClass)->getFromRef();
 
         $propertiesFound = array();
-        foreach ($phpClass->getProperties() as $property) {
+        foreach ($class->getProperties() as $property) {
             $schemaName = $property->getNamedVar()->getName();
             //$schemaName = $property->getMeta(PhpBuilder::PROPERTY_NAME);
             /** @var Schema $propertySchema */
@@ -32,11 +34,7 @@ class SchemaExporterInterface
                     || (is_array($schemaProperty->type) && in_array($propertySchema->type, $schemaProperty->type))
                 ) {
                     $propertiesFound[] = $property->getNamedVar()->getName();
-                } else {
-                    echo 'a';
                 }
-            } else {
-                //echo 'b';
             }
         }
 
@@ -55,12 +53,12 @@ PHP
 \$schema->$name = \$this->$name;
 
 PHP
-);
+                );
 
             }
 
             $body->addSnippet(<<<'PHP'
-$schema->setFromRef($this->getFromRef());
+$schema->__fromRef = $this->__fromRef;
 $schema->setDocumentPath($this->getDocumentPath());
 $schema->addMeta($this, 'origin');
 return $schema;
@@ -68,8 +66,8 @@ PHP
             );
 
             $func->setBody($body);
-            $phpClass->addMethod($func);
-            $phpClass->addImplements(PhpInterface::byFQN(SchemaExporter::class));
+            $class->addMethod($func);
+            $class->addImplements(PhpInterface::byFQN(SchemaExporter::class));
         }
 
     }

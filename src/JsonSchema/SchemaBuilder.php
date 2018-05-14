@@ -13,6 +13,7 @@ use Swaggest\PhpCodeBuilder\PhpClass;
 use Swaggest\PhpCodeBuilder\PhpCode;
 use Swaggest\PhpCodeBuilder\PhpConstant;
 use Swaggest\PhpCodeBuilder\Types\ReferenceTypeOf;
+use Swaggest\PhpCodeBuilder\Types\TypeOf;
 
 class SchemaBuilder
 {
@@ -126,12 +127,12 @@ class SchemaBuilder
             if ($this->schema->id === 'http://json-schema.org/draft-04/schema#') {
                 $this->result->addSnippet(
                     new PlaceholderString("{$this->varName} = ::class::schema();\n",
-                        array('::class' => new ReferenceTypeOf(Palette::schemaClass())))
+                        array('::class' => new TypeOf(Palette::schemaClass())))
                 );
             } else {
                 $this->result->addSnippet(
                     new PlaceholderString("{$this->varName} = ::class::schema();\n",
-                        array('::class' => new ReferenceTypeOf($class)))
+                        array('::class' => new TypeOf($class)))
                 );
             }
             return true;
@@ -143,18 +144,18 @@ class SchemaBuilder
     {
         if (!$this->skipProperties
             //&& $this->schema->type === Type::OBJECT
-            && null !== $fromRef = $this->schema->getFromRef()
+            && $this->schema->getFromRefs()
         ) {
             $class = $this->phpBuilder->getClass($this->schema, $this->path);
             if ($this->schema->id === 'http://json-schema.org/draft-04/schema#') {
                 $this->result->addSnippet(
                     new PlaceholderString("{$this->varName} = ::class::schema();\n",
-                        array('::class' => new ReferenceTypeOf(Palette::schemaClass())))
+                        array('::class' => new TypeOf(Palette::schemaClass())))
                 );
             } else {
                 $this->result->addSnippet(
                     new PlaceholderString("{$this->varName} = ::class::schema();\n",
-                        array('::class' => new ReferenceTypeOf($class)))
+                        array('::class' => new TypeOf($class)))
                 );
             }
             return true;
@@ -172,7 +173,7 @@ class SchemaBuilder
             if (!$this->skipProperties) {
                 $this->result->addSnippet(
                     new PlaceholderString("{$this->varName} = ::schema::object();\n",
-                        array('::schema' => new ReferenceTypeOf(Palette::schemaClass())))
+                        array('::schema' => new TypeOf(Palette::schemaClass())))
                 );
             } else {
                 $this->result->addSnippet(
@@ -426,9 +427,11 @@ class SchemaBuilder
 
     private function processFromRef()
     {
-        if ($fromRef = $this->schema->getFromRef()) {
-            $value = var_export($fromRef, 1);
-            $this->result->addSnippet("{$this->varName}->setFromRef($value);\n");
+        if ($fromRefs = $this->schema->getFromRefs()) {
+            foreach ($fromRefs as $fromRef) {
+                $value = var_export($fromRef, 1);
+                $this->result->addSnippet("{$this->varName}->setFromRef($value);\n");
+            }
         }
     }
 

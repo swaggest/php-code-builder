@@ -14,6 +14,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from http://json-schema.org/draft-04/schema#/properties/exclusiveMinimum
+ *  <- #/definitions/exclusiveMinimum
  * @method static bool import($data, Context $options=null)
  */
 class ExclusiveMinimum extends ClassStructure {

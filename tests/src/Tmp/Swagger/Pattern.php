@@ -14,6 +14,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from http://json-schema.org/draft-04/schema#/properties/pattern
+ *  <- #/definitions/pattern
  * @method static string import($data, Context $options=null)
  */
 class Pattern extends ClassStructure {

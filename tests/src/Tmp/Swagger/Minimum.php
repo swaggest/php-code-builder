@@ -14,6 +14,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from http://json-schema.org/draft-04/schema#/properties/minimum
+ *  <- #/definitions/minimum
  * @method static float import($data, Context $options=null)
  */
 class Minimum extends ClassStructure {

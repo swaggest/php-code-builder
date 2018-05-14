@@ -4,7 +4,7 @@ namespace Swaggest\PhpCodeBuilder\JsonSchema;
 
 use Swaggest\PhpCodeBuilder\PhpClass;
 
-class ClassCreatedHookCallback implements PhpBuilderClassCreatedHook
+class ClassHookCallback implements PhpBuilderClassHook
 {
     /**
      * @var \Closure

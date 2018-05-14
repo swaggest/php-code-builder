@@ -45,8 +45,11 @@ class PhpBuilder
     public $makeEnumConstants = false;
     public $skipSchemaDescriptions = false;
 
-    /** @var PhpBuilderClassCreatedHook */
+    /** @var PhpBuilderClassHook */
     public $classCreatedHook;
+
+    /** @var PhpBuilderClassHook */
+    public $classPreparedHook;
 
     /**
      * @param Schema $schema
@@ -93,11 +96,11 @@ class PhpBuilder
         $generatedClass->schema = $schema;
 
         $class = new PhpClass();
-        if (null !== $fromRef = $schema->getFromRef()) {
-            $path = $fromRef;
+        if ($fromRefs = $schema->getFromRefs()) {
+            $path = $fromRefs[count($fromRefs) - 1];
         }
 
-        $class->setName(PhpCode::makePhpName($path, false));
+        $class->setName(PhpCode::makePhpClassName($path));
         if ($this->classCreatedHook !== null) {
             $this->classCreatedHook->process($class, $path, $schema);
         }
@@ -188,6 +191,11 @@ class PhpBuilder
                 self::IMPORT_METHOD_PHPDOC_ID
             );
         }
+
+        if ($this->classPreparedHook !== null) {
+            $this->classPreparedHook->process($class, $path, $schema);
+        }
+
         return $generatedClass;
     }
 

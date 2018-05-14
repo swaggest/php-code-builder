@@ -14,6 +14,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0
+ *  <- #/definitions/minItems
  * @method static int import($data, Context $options=null)
  */
 class MinItems extends ClassStructure {

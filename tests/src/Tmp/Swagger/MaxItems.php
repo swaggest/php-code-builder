@@ -14,6 +14,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from http://json-schema.org/draft-04/schema#/definitions/positiveInteger
+ *  <- #/definitions/maxItems
  * @method static int import($data, Context $options=null)
  */
 class MaxItems extends ClassStructure {

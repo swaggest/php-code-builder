@@ -18,8 +18,6 @@ class ExportTest extends \PHPUnit_Framework_TestCase
         $schemaData = Schema::export($schema);
 
         $encoded = json_encode($schemaData);
-        $err = json_last_error_msg();
-        echo $err;
         $schemaData = json_decode($encoded);
 
         $diff = new JsonDiff(
@@ -28,8 +26,11 @@ class ExportTest extends \PHPUnit_Framework_TestCase
         );
 
         $result = json_encode($diff->getRearranged(), JSON_PRETTY_PRINT + JSON_UNESCAPED_SLASHES);
-        echo $result;
-        file_put_contents(__DIR__ . '/../../../resources/swagger-schema-gen.json', $result);
+        $fileName = realpath(__DIR__ . '/../../../resources') . '/swagger-schema-gen.json';
+        file_put_contents($fileName, $result);
+        exec('git diff ' . $fileName, $out);
+        $out = implode("\n", $out);
+        $this->assertSame('', $out, "Generated files changed");
     }
 
 }

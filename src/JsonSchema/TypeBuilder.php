@@ -82,7 +82,7 @@ class TypeBuilder
     }
 
     private function isSchema($var) {
-        return $var instanceof Schema || $var instanceof \Swaggest\SwaggerSchema\Schema;
+        return $var instanceof Schema;
     }
 
     private function processObjectType()
@@ -146,6 +146,7 @@ class TypeBuilder
 
     /**
      * @return OrType
+     * @throws Exception
      */
     public function build()
     {
@@ -154,8 +155,8 @@ class TypeBuilder
             throw new Exception('Null schema');
         }
 
-        if (null !== $path = $this->schema->getFromRef()) {
-            $this->path = $this->schema->getFromRef();
+        if ($fromRefs = $this->schema->getFromRefs()) {
+            $this->path = $fromRefs[0];
             //$this->result->add($this->phpBuilder->getType($this->schema->ref->getData(), $this->schema->ref->ref));
         }
 

@@ -14,6 +14,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from http://json-schema.org/draft-04/schema#/properties/maximum
+ *  <- #/definitions/maximum
  * @method static float import($data, Context $options=null)
  */
 class Maximum extends ClassStructure {

@@ -1,1 +1,1 @@
-# PHP Code builder
+# Swaggest JSON-schema enabled PHP code builder

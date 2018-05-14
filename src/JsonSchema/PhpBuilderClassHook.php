@@ -5,7 +5,7 @@ namespace Swaggest\PhpCodeBuilder\JsonSchema;
 use Swaggest\JsonSchema\JsonSchema;
 use Swaggest\PhpCodeBuilder\PhpClass;
 
-interface PhpBuilderClassCreatedHook
+interface PhpBuilderClassHook
 {
     /**
      * @param PhpClass $class

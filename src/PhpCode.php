@@ -71,6 +71,15 @@ class PhpCode extends PhpTemplate
 
     private static $keywords = array('__halt_compiler', 'abstract', 'and', 'array', 'as', 'break', 'callable', 'case', 'catch', 'class', 'clone', 'const', 'continue', 'declare', 'default', 'die', 'do', 'echo', 'else', 'elseif', 'empty', 'enddeclare', 'endfor', 'endforeach', 'endif', 'endswitch', 'endwhile', 'eval', 'exit', 'extends', 'final', 'for', 'foreach', 'function', 'global', 'goto', 'if', 'implements', 'include', 'include_once', 'instanceof', 'insteadof', 'interface', 'isset', 'list', 'namespace', 'new', 'or', 'print', 'private', 'protected', 'public', 'require', 'require_once', 'return', 'static', 'switch', 'throw', 'trait', 'try', 'unset', 'use', 'var', 'while', 'xor');
 
+    public static function makePhpClassName($rawName)
+    {
+        $result = self::makePhpName($rawName, false);
+        if (in_array(strtolower($result), self::$keywords)) {
+            $result .= 'Class';
+        }
+        return $result;
+    }
+
     public static function makePhpNamespaceName(array $nsItems)
     {
         $result = array();
