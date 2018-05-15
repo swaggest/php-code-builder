@@ -15,8 +15,8 @@ class PhpConstant extends PhpTemplate
 
     /**
      * PhpConstant constructor.
-     * @param $name
-     * @param $value
+     * @param string $name
+     * @param string $value
      */
     public function __construct($name, $value)
     {

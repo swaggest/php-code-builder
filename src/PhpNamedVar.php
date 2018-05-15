@@ -12,7 +12,7 @@ class PhpNamedVar
     /** @var string */
     private $name;
 
-    /** @var PhpAnyType */
+    /** @var PhpAnyType|null */
     private $type;
 
     /** @var bool */
@@ -55,7 +55,7 @@ class PhpNamedVar
     }
 
     /**
-     * @return PhpAnyType
+     * @return PhpAnyType|null
      */
     public function getType()
     {
@@ -73,7 +73,7 @@ class PhpNamedVar
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      * @return $this
      */
     public function setDefault($value)

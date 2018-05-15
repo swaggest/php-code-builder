@@ -13,7 +13,7 @@ class ClassHookCallback implements PhpBuilderClassHook
 
     /**
      * ClassCreatedHookCallback constructor.
-     * @param $callback
+     * @param \Closure $callback
      */
     public function __construct(\Closure $callback)
     {

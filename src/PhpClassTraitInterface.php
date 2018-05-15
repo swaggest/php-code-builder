@@ -136,7 +136,7 @@ PHP;
     /**
      * Create instance by fully qualified name
      *
-     * @param $fqn
+     * @param string $fqn
      * @return static
      */
     public static function byFQN($fqn)

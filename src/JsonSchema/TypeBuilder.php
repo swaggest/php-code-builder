@@ -4,15 +4,15 @@ namespace Swaggest\PhpCodeBuilder\JsonSchema;
 
 
 use Swaggest\JsonSchema\Constraint\Type;
-use Swaggest\JsonSchema\JsonSchema;
 use Swaggest\JsonSchema\Schema;
+use Swaggest\PhpCodeBuilder\PhpAnyType;
 use Swaggest\PhpCodeBuilder\PhpStdType;
 use Swaggest\PhpCodeBuilder\Types\ArrayOf;
 use Swaggest\PhpCodeBuilder\Types\OrType;
 
 class TypeBuilder
 {
-    /** @var JsonSchema */
+    /** @var Schema */
     private $schema;
     /** @var string */
     private $path;
@@ -23,8 +23,8 @@ class TypeBuilder
 
     /**
      * TypeBuilder constructor.
-     * @param JsonSchema|Schema $schema
-     * @param $path
+     * @param Schema $schema
+     * @param string $path
      * @param PhpBuilder $phpBuilder
      */
     public function __construct($schema, $path, PhpBuilder $phpBuilder)
@@ -74,7 +74,7 @@ class TypeBuilder
             $index = 0;
             if ($index < $itemsLen) {
             } else {
-                if ($this->isSchema($additionalItems)) {
+                if ($additionalItems instanceof Schema) {
                     $this->result->add(new ArrayOf($this->phpBuilder->getType($additionalItems, $this->path . '->' . $pathItems)));
                 }
             }
@@ -93,7 +93,7 @@ class TypeBuilder
             }
         }
 
-        if ($this->isSchema($this->schema->additionalProperties)) {
+        if ($this->schema->additionalProperties instanceof Schema) {
             $this->result->add(new ArrayOf($this->phpBuilder->getType(
                 $this->schema->additionalProperties,
                 $this->path . '->' . (string)Schema::names()->additionalProperties)
@@ -133,8 +133,10 @@ class TypeBuilder
     }
 
     /**
-     * @param JsonSchema $schema
-     * @param $path
+     * @param Schema $schema
+     * @param string $path
+     * @throws Exception
+     * @throws \Swaggest\PhpCodeBuilder\Exception
      */
     private function processNamedClass($schema, $path)
     {
@@ -145,8 +147,9 @@ class TypeBuilder
     }
 
     /**
-     * @return OrType
+     * @return PhpAnyType
      * @throws Exception
+     * @throws \Swaggest\PhpCodeBuilder\Exception
      */
     public function build()
     {

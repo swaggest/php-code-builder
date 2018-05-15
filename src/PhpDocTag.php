@@ -10,8 +10,8 @@ class PhpDocTag extends PhpTemplate
 
     /**
      * PhpDocTag constructor.
-     * @param $name
-     * @param $value
+     * @param string $name
+     * @param string $value
      */
     public function __construct($name, $value = '')
     {

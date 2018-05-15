@@ -12,6 +12,8 @@ using [`swaggest/json-schema`](https://github.com/swaggest/php-json-schema).
 
 [Generated code](tests/src/Tmp/Example)
 
+You need to add `swaggest/json-schema` to your dependencies.
+
 ```php
 <?php
 

@@ -2,7 +2,6 @@
 
 namespace Swaggest\PhpCodeBuilder\Types;
 
-use Swaggest\PhpCodeBuilder\PhpAnyType;
 use Swaggest\PhpCodeBuilder\PhpClass;
 use Swaggest\PhpCodeBuilder\PhpClassTraitInterface;
 use Swaggest\PhpCodeBuilder\PhpTemplate;
@@ -14,7 +13,7 @@ use Swaggest\PhpCodeBuilder\PhpTemplate;
  */
 class ReferenceTypeOf extends PhpTemplate
 {
-    /** @var PhpClass */
+    /** @var PhpClassTraitInterface */
     private $class;
 
     /**

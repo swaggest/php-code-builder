@@ -72,7 +72,7 @@ class PhpBuilder
 
     /**
      * @param Schema $schema
-     * @param $path
+     * @param string $path
      * @return PhpClass
      * @throws Exception
      * @throws \Swaggest\PhpCodeBuilder\JsonSchema\Exception
@@ -88,7 +88,7 @@ class PhpBuilder
 
     /**
      * @param Schema $schema
-     * @param $path
+     * @param string $path
      * @return GeneratedClass
      * @throws Exception
      * @throws \Swaggest\PhpCodeBuilder\JsonSchema\Exception
@@ -209,7 +209,7 @@ class PhpBuilder
     private $dynamicIterator;
 
     /**
-     * @return GeneratedClass[]
+     * @return GeneratedClass[]|DynamicIterator
      */
     public function getGeneratedClasses()
     {
@@ -248,7 +248,7 @@ class DynamicIterator implements \Iterator, \ArrayAccess
 
     /**
      * DynamicIterator constructor.
-     * @param $rows
+     * @param array $rows
      */
     public function __construct($rows = array())
     {

@@ -18,7 +18,7 @@ class PhpFunction extends PhpTemplate
     /** @var PhpNamedVar[] */
     private $arguments = array();
 
-    /** @var PhpAnyType */
+    /** @var PhpAnyType|null */
     private $result;
 
     /** @var PhpAnyType[] */
@@ -30,9 +30,9 @@ class PhpFunction extends PhpTemplate
 
     /**
      * PhpFunction constructor.
-     * @param $name
-     * @param $visibility
-     * @param $isStatic
+     * @param string $name
+     * @param string|null $visibility
+     * @param bool $isStatic
      */
     public function __construct($name, $visibility = null, $isStatic = false)
     {
@@ -133,7 +133,7 @@ PHP;
     }
 
     /**
-     * @param PhpAnyType $result
+     * @param PhpAnyType|null $result
      * @return PhpFunction
      */
     public function setResult(PhpAnyType $result = null)

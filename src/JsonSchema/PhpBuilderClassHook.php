@@ -9,7 +9,7 @@ interface PhpBuilderClassHook
 {
     /**
      * @param PhpClass $class
-     * @param $path
+     * @param string $path
      * @param JsonSchema $schema
      * @return mixed
      */

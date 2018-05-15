@@ -40,9 +40,9 @@ class SchemaBuilder
 
     /**
      * SchemaBuilder constructor.
-     * @param JsonSchema|Schema $schema
+     * @param Schema $schema
      * @param string $varName
-     * @param $path
+     * @param string $path
      * @param PhpBuilder $phpBuilder
      * @param bool $createVarName
      */
@@ -397,14 +397,6 @@ class SchemaBuilder
     public function build()
     {
         $this->result = new PhpCode();
-
-        if ($this->schema->ref !== null) { // TODO!
-            $path = $this->schema->ref;
-            if (!$path) {
-                throw new Exception('Empty ref path');
-            }
-            return (new self($this->schema->ref->getData(), $this->varName, $path, $this->phpBuilder))->build();
-        }
 
         if ($this->processNamedClass()) {
             return $this->result;
