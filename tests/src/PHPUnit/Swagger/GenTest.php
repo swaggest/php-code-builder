@@ -58,7 +58,11 @@ class GenTest extends \PHPUnit_Framework_TestCase
             if ('#' === $path) {
                 $class->setName('SwaggerSchema');
             } elseif ('#/definitions/' === substr($path, 0, strlen('#/definitions/'))) {
-                $class->setName(PhpCode::makePhpClassName(substr($path, strlen('#/definitions/'))));
+                $className = PhpCode::makePhpClassName(substr($path, strlen('#/definitions/')));
+                if ($className === 'Schema') {
+                    $className = 'DefinitionsSchema';
+                }
+                $class->setName($className);
             }
             $app->addClass($class);
         });

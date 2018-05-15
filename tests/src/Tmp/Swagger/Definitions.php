@@ -8,24 +8,24 @@ namespace Swaggest\PhpCodeBuilder\Tests\Tmp\Swagger;
 
 use Swaggest\JsonSchema\Constraint\Properties;
 use Swaggest\JsonSchema\Context;
-use Swaggest\JsonSchema\Schema as Schema1;
+use Swaggest\JsonSchema\Schema;
 use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
  * One or more JSON objects describing the schemas being consumed and produced by the API.
  * Built from #/definitions/definitions
- * @method static Schema[] import($data, Context $options=null)
+ * @method static DefinitionsSchema[] import($data, Context $options=null)
  */
 class Definitions extends ClassStructure {
 	/**
 	 * @param Properties|static $properties
-	 * @param Schema1 $ownerSchema
+	 * @param Schema $ownerSchema
 	 */
-	public static function setUpProperties($properties, Schema1 $ownerSchema)
+	public static function setUpProperties($properties, Schema $ownerSchema)
 	{
 		$ownerSchema->type = 'object';
-		$ownerSchema->additionalProperties = Schema::schema();
+		$ownerSchema->additionalProperties = DefinitionsSchema::schema();
 		$ownerSchema->description = "One or more JSON objects describing the schemas being consumed and produced by the API.";
 		$ownerSchema->setFromRef('#/definitions/definitions');
 	}

@@ -8,7 +8,7 @@ namespace Swaggest\PhpCodeBuilder\Tests\Tmp\Swagger;
 
 use Swaggest\JsonSchema\Constraint\Properties;
 use Swaggest\JsonSchema\Context;
-use Swaggest\JsonSchema\Schema as Schema1;
+use Swaggest\JsonSchema\Schema;
 use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
@@ -20,7 +20,7 @@ class Response extends ClassStructure {
 	/** @var string */
 	public $description;
 
-	/** @var Schema|FileSchema */
+	/** @var DefinitionsSchema|FileSchema */
 	public $schema;
 
 	/** @var Header[] */
@@ -30,13 +30,13 @@ class Response extends ClassStructure {
 
 	/**
 	 * @param Properties|static $properties
-	 * @param Schema1 $ownerSchema
+	 * @param Schema $ownerSchema
 	 */
-	public static function setUpProperties($properties, Schema1 $ownerSchema)
+	public static function setUpProperties($properties, Schema $ownerSchema)
 	{
-		$properties->description = Schema1::string();
-		$properties->schema = new Schema1();
-		$properties->schema->oneOf[0] = Schema::schema();
+		$properties->description = Schema::string();
+		$properties->schema = new Schema();
+		$properties->schema->oneOf[0] = DefinitionsSchema::schema();
 		$properties->schema->oneOf[1] = FileSchema::schema();
 		$properties->headers = Headers::schema();
 		$properties->examples = Examples::schema();
@@ -63,7 +63,7 @@ class Response extends ClassStructure {
 	/** @codeCoverageIgnoreEnd */
 
 	/**
-	 * @param Schema|FileSchema $schema
+	 * @param DefinitionsSchema|FileSchema $schema
 	 * @return $this
 	 * @codeCoverageIgnoreStart
 	 */

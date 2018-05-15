@@ -8,7 +8,7 @@ namespace Swaggest\PhpCodeBuilder\Tests\Tmp\SwaggerMin;
 
 use Swaggest\JsonSchema\Constraint\Properties;
 use Swaggest\JsonSchema\Context;
-use Swaggest\JsonSchema\Schema as Schema1;
+use Swaggest\JsonSchema\Schema;
 use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
@@ -31,31 +31,31 @@ class BodyParameter extends ClassStructure {
 	/** @var bool Determines whether or not this parameter is required or optional. */
 	public $required;
 
-	/** @var Schema A deterministic version of a JSON Schema object. */
+	/** @var DefinitionsSchema A deterministic version of a JSON Schema object. */
 	public $schema;
 
 	/**
 	 * @param Properties|static $properties
-	 * @param Schema1 $ownerSchema
+	 * @param Schema $ownerSchema
 	 */
-	public static function setUpProperties($properties, Schema1 $ownerSchema)
+	public static function setUpProperties($properties, Schema $ownerSchema)
 	{
-		$properties->description = Schema1::string();
+		$properties->description = Schema::string();
 		$properties->description->description = "A brief description of the parameter. This could contain examples of use.  GitHub Flavored Markdown is allowed.";
-		$properties->name = Schema1::string();
+		$properties->name = Schema::string();
 		$properties->name->description = "The name of the parameter.";
-		$properties->in = Schema1::string();
+		$properties->in = Schema::string();
 		$properties->in->enum = array(
 		    self::BODY,
 		);
 		$properties->in->description = "Determines the location of the parameter.";
-		$properties->required = Schema1::boolean();
+		$properties->required = Schema::boolean();
 		$properties->required->description = "Determines whether or not this parameter is required or optional.";
 		$properties->required->default = false;
-		$properties->schema = Schema::schema();
+		$properties->schema = DefinitionsSchema::schema();
 		$ownerSchema->type = 'object';
 		$ownerSchema->additionalProperties = false;
-		$patternProperty = new Schema1();
+		$patternProperty = new Schema();
 		$patternProperty->additionalProperties = true;
 		$patternProperty->additionalItems = true;
 		$patternProperty->description = "Any property starting with x- is valid.";
@@ -118,7 +118,7 @@ class BodyParameter extends ClassStructure {
 	/** @codeCoverageIgnoreEnd */
 
 	/**
-	 * @param Schema $schema A deterministic version of a JSON Schema object.
+	 * @param DefinitionsSchema $schema A deterministic version of a JSON Schema object.
 	 * @return $this
 	 * @codeCoverageIgnoreStart
 	 */

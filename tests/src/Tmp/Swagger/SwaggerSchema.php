@@ -8,7 +8,7 @@ namespace Swaggest\PhpCodeBuilder\Tests\Tmp\Swagger;
 
 use Swaggest\JsonSchema\Constraint\Properties;
 use Swaggest\JsonSchema\Context;
-use Swaggest\JsonSchema\Schema as Schema1;
+use Swaggest\JsonSchema\Schema;
 use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
@@ -46,7 +46,7 @@ class SwaggerSchema extends ClassStructure {
 	/** @var PathItem[] Relative paths to the individual endpoints. They must be relative to the 'basePath'. */
 	public $paths;
 
-	/** @var Schema[] One or more JSON objects describing the schemas being consumed and produced by the API. */
+	/** @var DefinitionsSchema[] One or more JSON objects describing the schemas being consumed and produced by the API. */
 	public $definitions;
 
 	/** @var BodyParameter[]|HeaderParameterSubSchema[]|FormDataParameterSubSchema[]|QueryParameterSubSchema[]|PathParameterSubSchema[] One or more JSON representations for parameters */
@@ -69,27 +69,27 @@ class SwaggerSchema extends ClassStructure {
 
 	/**
 	 * @param Properties|static $properties
-	 * @param Schema1 $ownerSchema
+	 * @param Schema $ownerSchema
 	 */
-	public static function setUpProperties($properties, Schema1 $ownerSchema)
+	public static function setUpProperties($properties, Schema $ownerSchema)
 	{
-		$properties->swagger = Schema1::string();
+		$properties->swagger = Schema::string();
 		$properties->swagger->enum = array(
 		    self::CONST_D1BD83,
 		);
 		$properties->swagger->description = "The Swagger version of this document.";
 		$properties->info = Info::schema();
-		$properties->host = Schema1::string();
+		$properties->host = Schema::string();
 		$properties->host->description = "The\nhost (name or ip) of the API. Example: 'swagger.io'";
 		$properties->host->pattern = "^[^{}/ :\\\\]+(?::\\d+)?$";
-		$properties->basePath = Schema1::string();
+		$properties->basePath = Schema::string();
 		$properties->basePath->description = "The base path to the API. Example: '/api'.";
 		$properties->basePath->pattern = "^/";
 		$properties->schemes = SchemesList::schema();
-		$properties->consumes = new Schema1();
+		$properties->consumes = new Schema();
 		$properties->consumes->allOf[0] = MediaTypeList::schema();
 		$properties->consumes->description = "A list of MIME types accepted by the API.";
-		$properties->produces = new Schema1();
+		$properties->produces = new Schema();
 		$properties->produces->allOf[0] = MediaTypeList::schema();
 		$properties->produces->description = "A list of MIME types the API can produce.";
 		$properties->paths = Paths::schema();
@@ -98,7 +98,7 @@ class SwaggerSchema extends ClassStructure {
 		$properties->responses = ResponseDefinitions::schema();
 		$properties->security = Security::schema();
 		$properties->securityDefinitions = SecurityDefinitions::schema();
-		$properties->tags = Schema1::arr();
+		$properties->tags = Schema::arr();
 		$properties->tags->items = Tag::schema();
 		$properties->tags->uniqueItems = true;
 		$properties->externalDocs = ExternalDocs::schema();
@@ -214,7 +214,7 @@ class SwaggerSchema extends ClassStructure {
 	/** @codeCoverageIgnoreEnd */
 
 	/**
-	 * @param Schema[] $definitions One or more JSON objects describing the schemas being consumed and produced by the API.
+	 * @param DefinitionsSchema[] $definitions One or more JSON objects describing the schemas being consumed and produced by the API.
 	 * @return $this
 	 * @codeCoverageIgnoreStart
 	 */

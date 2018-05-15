@@ -8,7 +8,7 @@ namespace Swaggest\PhpCodeBuilder\Tests\Tmp\SwaggerMin;
 
 use Swaggest\JsonSchema\Constraint\Properties;
 use Swaggest\JsonSchema\Context;
-use Swaggest\JsonSchema\Schema as Schema1;
+use Swaggest\JsonSchema\Schema;
 use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
@@ -20,7 +20,7 @@ class Response extends ClassStructure {
 	/** @var string */
 	public $description;
 
-	/** @var Schema|FileSchema */
+	/** @var DefinitionsSchema|FileSchema */
 	public $schema;
 
 	/** @var Header[] */
@@ -30,23 +30,23 @@ class Response extends ClassStructure {
 
 	/**
 	 * @param Properties|static $properties
-	 * @param Schema1 $ownerSchema
+	 * @param Schema $ownerSchema
 	 */
-	public static function setUpProperties($properties, Schema1 $ownerSchema)
+	public static function setUpProperties($properties, Schema $ownerSchema)
 	{
-		$properties->description = Schema1::string();
-		$properties->schema = new Schema1();
-		$properties->schema->oneOf[0] = Schema::schema();
+		$properties->description = Schema::string();
+		$properties->schema = new Schema();
+		$properties->schema->oneOf[0] = DefinitionsSchema::schema();
 		$properties->schema->oneOf[1] = FileSchema::schema();
-		$properties->headers = Schema1::object();
+		$properties->headers = Schema::object();
 		$properties->headers->additionalProperties = Header::schema();
 		$properties->headers->setFromRef('#/definitions/headers');
-		$properties->examples = Schema1::object();
+		$properties->examples = Schema::object();
 		$properties->examples->additionalProperties = true;
 		$properties->examples->setFromRef('#/definitions/examples');
 		$ownerSchema->type = 'object';
 		$ownerSchema->additionalProperties = false;
-		$patternProperty = new Schema1();
+		$patternProperty = new Schema();
 		$patternProperty->additionalProperties = true;
 		$patternProperty->additionalItems = true;
 		$patternProperty->description = "Any property starting with x- is valid.";
@@ -71,7 +71,7 @@ class Response extends ClassStructure {
 	/** @codeCoverageIgnoreEnd */
 
 	/**
-	 * @param Schema|FileSchema $schema
+	 * @param DefinitionsSchema|FileSchema $schema
 	 * @return $this
 	 * @codeCoverageIgnoreStart
 	 */
