@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/swaggest/php-code-builder.svg?branch=master)](https://travis-ci.org/swaggest/php-code-builder)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/swaggest/php-code-builder/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/swaggest/php-code-builder/?branch=master)
 [![Code Climate](https://codeclimate.com/github/swaggest/php-code-builder/badges/gpa.svg)](https://codeclimate.com/github/swaggest/php-code-builder)
-[![Code Coverage](https://scrutinizer-ci.com/g/swaggest/php-json-schema/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/swaggest/php-json-schema/code-structure/master/code-coverage/src/)
+[![Code Coverage](https://scrutinizer-ci.com/g/swaggest/php-code-builder/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/swaggest/php-code-builder/code-structure/master/code-coverage/src/)
 
 This library generates PHP mapping structures defined by [JSON schema](http://json-schema.org/)
 using [`swaggest/json-schema`](https://github.com/swaggest/php-json-schema).
