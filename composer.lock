@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "3561e6ab0746779a92fca593d96571b3",
+    "content-hash": "c9b00dbb0cd6be61b3938af4565fde4a",
     "packages": [
         {
             "name": "php-yaoi/php-yaoi",
@@ -144,7 +144,7 @@
         },
         {
             "name": "swaggest/code-builder",
-            "version": "dev-master",
+            "version": "v0.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swaggest/code-builder.git",
@@ -1396,9 +1396,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "swaggest/code-builder": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
