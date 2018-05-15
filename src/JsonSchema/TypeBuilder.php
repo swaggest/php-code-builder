@@ -156,7 +156,7 @@ class TypeBuilder
         }
 
         if ($fromRefs = $this->schema->getFromRefs()) {
-            $this->path = $fromRefs[0];
+            $this->path = $fromRefs[count($fromRefs) - 1];
             //$this->result->add($this->phpBuilder->getType($this->schema->ref->getData(), $this->schema->ref->ref));
         }
 

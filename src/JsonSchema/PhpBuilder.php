@@ -45,6 +45,12 @@ class PhpBuilder
     public $makeEnumConstants = false;
     public $skipSchemaDescriptions = false;
 
+    /**
+     * Squish multiple $ref, a PHP class for each $ref will be created if false
+     * @var bool
+     */
+    public $minimizeRefs = true;
+
     /** @var PhpBuilderClassHook */
     public $classCreatedHook;
 

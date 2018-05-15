@@ -1,13 +1,3 @@
-# Swaggest JSON-schema enabled PHP code builder
-
-This library generates PHP mapping structures defined by [JSON schema](http://json-schema.org/)
-using [`swaggest/json-schema`](https://github.com/swaggest/php-json-schema).
-
-## Example
-
-[Generated code](tests/src/Tmp)
-
-```php
 <?php
 
 require_once __DIR__ . '/vendor/autoload.php';
@@ -27,7 +17,7 @@ $schemaData = json_decode(<<<'JSON'
             "type": "object",
             "properties": {
                 "lastName": {"type": "string"},
-                "birthDate": {"type": "string", "format": "date-time"},
+                "birthDate": {"type": "string", "format": "date"},
                 "options": {"$ref": "#/definitions/options"}
             }
         },
@@ -84,11 +74,15 @@ $builder->classCreatedHook = new \Swaggest\PhpCodeBuilder\JsonSchema\ClassHookCa
 $builder->getType($swaggerSchema);
 $app->clearOldFiles($appPath);
 $app->store($appPath);
-```
 
-Creating and exporting an instance
 
-```php
+// Importing raw data to entity class instance will do validation and mapping
+$user = \Swaggest\PhpCodeBuilder\Tests\Tmp\Example\User::import(
+    json_decode('{"name":"John","info":{"lastName":"Doe","birthDate":"1980-01-01","options":{"rememberSession":true,"allowNotifications":false}}}')
+);
+
+var_dump($user->info->options->allowNotifications); // bool(false)
+
 $user = new \Swaggest\PhpCodeBuilder\Tests\Tmp\Example\User();
 $user->name = "John";
 $user->info = (new \Swaggest\PhpCodeBuilder\Tests\Tmp\Example\Info())
@@ -104,22 +98,11 @@ $user->info = (new \Swaggest\PhpCodeBuilder\Tests\Tmp\Example\Info())
 $jsonData = \Swaggest\PhpCodeBuilder\Tests\Tmp\Example\User::export($user);
 
 // {"name":"John","info":{"lastName":"Doe","birthDate":"1980-01-01","options":{"rememberSession":true,"allowNotifications":false}}}
-echo json_encode($jsonData);
+echo json_encode($jsonData), "\n";
 
 // Setting invalid value (integer instead of string)
 $user->name = 123;
 
 // Exception: String expected, 123 received at #->$ref[#]->properties:name
 $jsonData = \Swaggest\PhpCodeBuilder\Tests\Tmp\Example\User::export($user);
-```
 
-Creating class instance from raw data
-
-```php
-// Importing raw data to entity class instance will do validation and mapping
-$user = \Swaggest\PhpCodeBuilder\Tests\Tmp\Example\User::import(
-    json_decode('{"name":"John","info":{"lastName":"Doe","birthDate":"1980-01-01","options":{"rememberSession":true,"allowNotifications":false}}}')
-);
-
-var_dump($user->info->options->allowNotifications); // bool(false)
-```

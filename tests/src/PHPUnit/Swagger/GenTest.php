@@ -14,6 +14,9 @@ use Swaggest\PhpCodeBuilder\PhpCode;
 
 class GenTest extends \PHPUnit_Framework_TestCase
 {
+    protected $minimizeRefs = false;
+    protected $nsItem = 'Swagger';
+
     public function testGenerateSwagger()
     {
         $schemaData = json_decode(file_get_contents(__DIR__ . '/../../../resources/swagger-schema.json'));
@@ -26,8 +29,8 @@ class GenTest extends \PHPUnit_Framework_TestCase
 
         $swaggerSchema = Schema::import($schemaData, $options);
 
-        $appPath = realpath(__DIR__ . '/../../Tmp') . '/Swagger';
-        $appNs = 'Swaggest\PhpCodeBuilder\Tests\Tmp\Swagger';
+        $appPath = realpath(__DIR__ . '/../../Tmp') . '/' . $this->nsItem;
+        $appNs = 'Swaggest\PhpCodeBuilder\Tests\Tmp\\' . $this->nsItem;
 
         $app = new PhpApp();
         $app->setNamespaceRoot($appNs, '.');
@@ -35,6 +38,7 @@ class GenTest extends \PHPUnit_Framework_TestCase
         $builder = new PhpBuilder();
         $builder->buildSetters = true;
         $builder->makeEnumConstants = true;
+        $builder->minimizeRefs = $this->minimizeRefs;
 
         $builder->classCreatedHook = new ClassHookCallback(function (PhpClass $class, $path, $schema) use ($app, $appNs) {
             $desc = '';

@@ -144,6 +144,7 @@ class SchemaBuilder
     {
         if (!$this->skipProperties
             //&& $this->schema->type === Type::OBJECT
+            && !$this->phpBuilder->minimizeRefs
             && $this->schema->getFromRefs()
         ) {
             $class = $this->phpBuilder->getClass($this->schema, $this->path);
@@ -427,6 +428,14 @@ class SchemaBuilder
 
     private function processFromRef()
     {
+        if ($this->phpBuilder->minimizeRefs) {
+            if ($fromRefs = $this->schema->getFromRefs()) {
+                $fromRef = $fromRefs[count($fromRefs) - 1];
+                $value = var_export($fromRef, 1);
+                $this->result->addSnippet("{$this->varName}->setFromRef($value);\n");
+            }
+            return;
+        }
         if ($fromRefs = $this->schema->getFromRefs()) {
             foreach ($fromRefs as $fromRef) {
                 $value = var_export($fromRef, 1);
