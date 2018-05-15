@@ -15,20 +15,6 @@ abstract class PhpClassTraitInterface extends PhpTemplate implements PhpAnyType
     /** @var PhpClass */
     private $extends;
 
-    /** @var PhpDoc */
-    private $phpDoc;
-
-    /**
-     * @return PhpDoc
-     */
-    public function getPhpDoc()
-    {
-        if ($this->phpDoc === null) {
-            $this->phpDoc = new PhpDoc();
-        }
-        return $this->phpDoc;
-    }
-
     protected function renderHeadComment()
     {
         if ($this->description) {
