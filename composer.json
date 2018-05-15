@@ -1,7 +1,7 @@
 {
   "name": "swaggest/php-code-builder",
   "type": "library",
-  "description": "PHP code generation library",
+  "description": "Swaggest JSON-schema enabled PHP code builder",
   "keywords": ["library"],
   "homepage": "https://github.com/swaggest/php-code-builder",
   "license": "MIT",
@@ -13,12 +13,12 @@
     }
   ],
   "require": {
-    "swaggest/code-builder": "^0.2.0|dev-master",
-    "php": ">=5.3.0"
+    "swaggest/json-schema": "^0.12.0",
+    "swaggest/code-builder": "dev-master",
+    "php": ">=5.5.0"
   },
   "require-dev": {
-    "codeclimate/php-test-reporter": "0.1.2",
-    "phpunit/phpunit": "4.8.23"
+    "phpunit/phpunit": "4.8.36"
   },
   "autoload": {
     "psr-4": {
@@ -32,5 +32,10 @@
   },
   "scripts": {
     "test": "php -dxdebug.coverage_enable=1 ./vendor/bin/phpunit --coverage-text"
+  },
+  "config": {
+    "platform": {
+      "php": "5.5.38"
+    }
   }
 }

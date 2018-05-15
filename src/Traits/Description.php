@@ -7,6 +7,8 @@ use Swaggest\PhpCodeBuilder\PhpDoc;
 
 trait Description
 {
+    use PhpDocable;
+
     /** @var string */
     private $description;
 
@@ -31,9 +33,8 @@ trait Description
     private function renderDescriptionAsPhpDoc()
     {
         if ($this->description) {
-            $doc = new PhpDoc();
-            $doc->add(null, $this->description);
-            return $doc->render();
+            $this->getPhpDoc()->prepend(null, trim($this->description));
+            return $this->getPhpDoc()->render();
         } else {
             return '';
         }

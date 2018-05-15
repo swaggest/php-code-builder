@@ -12,18 +12,28 @@ class PhpNamedVar
     /** @var string */
     private $name;
 
-    /** @var PhpAnyType */
+    /** @var PhpAnyType|null */
     private $type;
+
+    /** @var bool */
+    private $hasDefault;
+
+    /** @var mixed */
+    private $default;
 
     /**
      * PhpNamedVar constructor.
      * @param string $name
      * @param PhpAnyType $type
+     * @param bool $hasDefault
+     * @param null $default
      */
-    public function __construct($name, PhpAnyType $type = null)
+    public function __construct($name, PhpAnyType $type = null, $hasDefault = false, $default = null)
     {
         $this->name = $name;
         $this->type = $type;
+        $this->hasDefault = $hasDefault;
+        $this->default = $default;
     }
 
     /**
@@ -45,7 +55,7 @@ class PhpNamedVar
     }
 
     /**
-     * @return PhpAnyType
+     * @return PhpAnyType|null
      */
     public function getType()
     {
@@ -60,6 +70,41 @@ class PhpNamedVar
     {
         $this->type = $type;
         return $this;
+    }
+
+    /**
+     * @param mixed $value
+     * @return $this
+     */
+    public function setDefault($value)
+    {
+        $this->hasDefault = true;
+        $this->default = $value;
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function clearDefault()
+    {
+        $this->hasDefault = false;
+        return $this;
+    }
+
+    public function renderDefault()
+    {
+        if (!$this->hasDefault) {
+            return '';
+        }
+
+        if ($this->default instanceof PhpTemplate) {
+            $result = $this->default->render();
+        } else {
+            $result = var_export($this->default, true);
+        }
+
+        return ' = ' . $result;
     }
 
     public function renderArgumentType()

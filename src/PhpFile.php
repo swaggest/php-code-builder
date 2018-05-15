@@ -79,7 +79,7 @@ PHP;
     }
 
     /**
-     * @param $currentPhpFile
+     * @param PhpFile $currentPhpFile
      * @return PhpFile previous php file
      */
     public static function setCurrentPhpFile($currentPhpFile)

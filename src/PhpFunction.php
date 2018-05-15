@@ -18,10 +18,10 @@ class PhpFunction extends PhpTemplate
     /** @var PhpNamedVar[] */
     private $arguments = array();
 
-    /** @var PhpAnyType */
+    /** @var PhpAnyType|null */
     private $result;
 
-    /** @var PhpAnyType */
+    /** @var PhpAnyType[] */
     private $throws;
 
     private $body;
@@ -30,9 +30,9 @@ class PhpFunction extends PhpTemplate
 
     /**
      * PhpFunction constructor.
-     * @param $name
-     * @param $visibility
-     * @param $isStatic
+     * @param string $name
+     * @param string|null $visibility
+     * @param bool $isStatic
      */
     public function __construct($name, $visibility = null, $isStatic = false)
     {
@@ -48,10 +48,14 @@ class PhpFunction extends PhpTemplate
             $tail = (new PhpDocTag(PhpDoc::TAG_CODE_COVERAGE_IGNORE_END))->render() . "\n";
         }
 
+        $body = trim($this->body);
+        if ($body !== '') {
+            $body = $this->indentLines($body . "\n");
+        }
         return <<<PHP
 {$this->headToString()}
 {
-{$this->indentLines(trim($this->body) . "\n")}}
+{$body}}
 $tail
 
 PHP;
@@ -78,8 +82,12 @@ PHP;
         if ($this->result && $returnType = $this->result->renderPhpDocType()) {
             $result->add(PhpDoc::TAG_RETURN, $returnType);
         }
-        if ($this->throws && $throwsType = $this->throws->renderPhpDocType()) {
-            $result->add(PhpDoc::TAG_THROWS, $throwsType);
+        if ($this->throws) {
+            foreach ($this->throws as $throws) {
+                if ($throwsType = $throws->renderPhpDocType()) {
+                    $result->add(PhpDoc::TAG_THROWS, $throwsType);
+                }
+            }
         }
         if ($this->skipCodeCoverage) {
             $result->add(PhpDoc::TAG_CODE_COVERAGE_IGNORE_START);
@@ -91,7 +99,7 @@ PHP;
     {
         $result = '';
         foreach ($this->arguments as $argument) {
-            $result .= "{$argument->renderArgumentType()}\${$argument->getName()}, ";
+            $result .= "{$argument->renderArgumentType()}\${$argument->getName()}{$argument->renderDefault()}, ";
         }
         if ($result) {
             $result = substr($result, 0, -2);
@@ -125,7 +133,7 @@ PHP;
     }
 
     /**
-     * @param PhpAnyType $result
+     * @param PhpAnyType|null $result
      * @return PhpFunction
      */
     public function setResult(PhpAnyType $result = null)
@@ -140,7 +148,17 @@ PHP;
      */
     public function setThrows($throws)
     {
-        $this->throws = $throws;
+        $this->throws = array($throws);
+        return $this;
+    }
+
+    /**
+     * @param PhpAnyType $throws
+     * @return PhpFunction
+     */
+    public function addThrows($throws)
+    {
+        $this->throws []= $throws;
         return $this;
     }
 

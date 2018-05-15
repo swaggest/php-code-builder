@@ -11,12 +11,16 @@ class TypeOf extends PhpTemplate
     /** @var PhpAnyType */
     private $type;
 
+    /** @var bool */
+    private $renderPhpDoc;
+
     /**
      * TypeOf constructor.
      * @param PhpAnyType $type
      */
-    public function __construct(PhpAnyType $type)
+    public function __construct(PhpAnyType $type, $renderPhpDoc = false)
     {
+        $this->renderPhpDoc = $renderPhpDoc;
         $this->type = $type;
     }
 
@@ -25,7 +29,8 @@ class TypeOf extends PhpTemplate
         if ($this->type instanceof PhpClassTraitInterface) {
             return $this->type->getReference();
         } else {
-            return $this->type;
+            $res = $this->renderPhpDoc ? $this->type->renderPhpDocType() : $this->type->renderArgumentType();
+            return $res;
         }
     }
 

@@ -10,13 +10,13 @@ class PhpConstant extends PhpTemplate
     use Visibility;
     use Description;
 
-    private $name;
+    protected $name;
     private $value;
 
     /**
      * PhpConstant constructor.
-     * @param $name
-     * @param $value
+     * @param string $name
+     * @param string $value
      */
     public function __construct($name, $value)
     {

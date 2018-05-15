@@ -7,11 +7,13 @@ use Swaggest\CodeBuilder\PlaceholderString;
 use Swaggest\JsonSchema\Constraint\Type;
 use Swaggest\JsonSchema\JsonSchema;
 use Swaggest\JsonSchema\Schema;
+use Swaggest\JsonSchema\Structure\ClassStructure;
 use Swaggest\JsonSchema\Structure\ObjectItem;
 use Swaggest\PhpCodeBuilder\PhpClass;
 use Swaggest\PhpCodeBuilder\PhpCode;
 use Swaggest\PhpCodeBuilder\PhpConstant;
 use Swaggest\PhpCodeBuilder\Types\ReferenceTypeOf;
+use Swaggest\PhpCodeBuilder\Types\TypeOf;
 
 class SchemaBuilder
 {
@@ -19,6 +21,9 @@ class SchemaBuilder
     private $schema;
     /** @var string */
     private $varName;
+    /** @var bool */
+    private $createVarName;
+
     /** @var PhpBuilder */
     private $phpBuilder;
     /** @var string */
@@ -35,64 +40,81 @@ class SchemaBuilder
 
     /**
      * SchemaBuilder constructor.
-     * @param JsonSchema|Schema $schema
+     * @param Schema $schema
      * @param string $varName
-     * @param $path
+     * @param string $path
      * @param PhpBuilder $phpBuilder
+     * @param bool $createVarName
      */
-    public function __construct($schema, $varName, $path, PhpBuilder $phpBuilder)
+    public function __construct($schema, $varName, $path, PhpBuilder $phpBuilder, $createVarName = true)
     {
         $this->schema = $schema;
         $this->varName = $varName;
         $this->phpBuilder = $phpBuilder;
         $this->path = $path;
+        $this->createVarName = $createVarName;
     }
 
     private function processType()
     {
-
-        $result = "{$this->varName} = ";
-
         if ($this->schema->type !== null) {
             switch ($this->schema->type) {
                 case Type::INTEGER:
-                    $result .= '::schema::integer();';
+                    $result = $this->createVarName
+                        ? "{$this->varName} = ::schema::integer();"
+                        : "{$this->varName}->type = ::schema::INTEGER;";
                     break;
 
                 case Type::NUMBER:
-                    $result .= '::schema::number();';
+                    $result = $this->createVarName
+                        ? "{$this->varName} = ::schema::number();"
+                        : "{$this->varName}->type = ::schema::NUMBER;";
                     break;
 
                 case Type::BOOLEAN:
-                    $result .= '::schema::boolean();';
+                    $result = $this->createVarName
+                        ? "{$this->varName} = ::schema::boolean();"
+                        : "{$this->varName}->type = ::schema::BOOLEAN;";
                     break;
 
                 case Type::STRING:
-                    $result .= '::schema::string();';
+                    $result = $this->createVarName
+                        ? "{$this->varName} = ::schema::string();"
+                        : "{$this->varName}->type = ::schema::STRING;";
                     break;
 
                 case Type::ARR:
-                    $result .= '::schema::arr();';
+                    $result = $this->createVarName
+                        ? "{$this->varName} = ::schema::arr();"
+                        : "{$this->varName}->type = ::schema::_ARRAY;";
                     break;
 
                 case Type::OBJECT:
                     return;
 
                 case Type::NULL:
-                    $result .= '::schema::null();';
+                    $result = $this->createVarName
+                        ? "{$this->varName} = ::schema::null();"
+                        : "{$this->varName}->type = ::schema::NULL;";
                     break;
 
                 default:
-                    var_dump($this->schema->type);
-                    throw new Exception('Unknown type');
+                    $types = var_export($this->schema->type, true);
+                    $result = $this->createVarName
+                        ? "{$this->varName} = (new ::schema())->setType($types);"
+                        : "{$this->varName}->type = $types;";
             }
         } else {
-            $result .= 'new ::schema();';
+            if ($this->createVarName) {
+                $result = "{$this->varName} = new ::schema();";
+            }
         }
 
-        $this->result->addSnippet(
-            new PlaceholderString($result . "\n", array('::schema' => new ReferenceTypeOf(Palette::schemaClass())))
-        );
+        if (isset($result)) {
+            $this->result->addSnippet(
+                new PlaceholderString($result . "\n", array('::schema' => new ReferenceTypeOf(Palette::schemaClass())))
+            );
+        }
     }
 
     private function processNamedClass()
@@ -105,12 +127,12 @@ class SchemaBuilder
             if ($this->schema->id === 'http://json-schema.org/draft-04/schema#') {
                 $this->result->addSnippet(
                     new PlaceholderString("{$this->varName} = ::class::schema();\n",
-                        array('::class' => new ReferenceTypeOf(Palette::schemaClass())))
+                        array('::class' => new TypeOf(Palette::schemaClass())))
                 );
             } else {
                 $this->result->addSnippet(
                     new PlaceholderString("{$this->varName} = ::class::schema();\n",
-                        array('::class' => new ReferenceTypeOf($class)))
+                        array('::class' => new TypeOf($class)))
                 );
             }
             return true;
@@ -118,13 +140,41 @@ class SchemaBuilder
         return false;
     }
 
+    private function processRef()
+    {
+        if (!$this->skipProperties
+            //&& $this->schema->type === Type::OBJECT
+            && !$this->phpBuilder->minimizeRefs
+            && $this->schema->getFromRefs()
+        ) {
+            $class = $this->phpBuilder->getClass($this->schema, $this->path);
+            if ($this->schema->id === 'http://json-schema.org/draft-04/schema#') {
+                $this->result->addSnippet(
+                    new PlaceholderString("{$this->varName} = ::class::schema();\n",
+                        array('::class' => new TypeOf(Palette::schemaClass())))
+                );
+            } else {
+                $this->result->addSnippet(
+                    new PlaceholderString("{$this->varName} = ::class::schema();\n",
+                        array('::class' => new TypeOf($class)))
+                );
+            }
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * @throws Exception
+     */
     private function processObject()
     {
         if ($this->schema->type === Type::OBJECT) {
             if (!$this->skipProperties) {
                 $this->result->addSnippet(
                     new PlaceholderString("{$this->varName} = ::schema::object();\n",
-                        array('::schema' => new ReferenceTypeOf(Palette::schemaClass())))
+                        array('::schema' => new TypeOf(Palette::schemaClass())))
                 );
             } else {
                 $this->result->addSnippet(
@@ -145,9 +195,10 @@ class SchemaBuilder
                         $this->phpBuilder
                     ))->build()
                 );
-            } elseif (false === $this->schema->additionalProperties) {
+            } else {
+                $val = $this->schema->additionalProperties ? 'true' : 'false';
                 $this->result->addSnippet(
-                    "{$this->varName}->additionalProperties = false;\n"
+                    "{$this->varName}->additionalProperties = $val;\n"
                 );
             }
         }
@@ -158,24 +209,36 @@ class SchemaBuilder
                 $this->result->addSnippet(
                     $this->copyTo(new SchemaBuilder(
                         $property,
-                        "{$this->varName}->patternProperties[{$patternExp}]",
-                        $this->path . '->patternProperties[{$pattern}]',
+                        "\$patternProperty",
+                        $this->path . '->patternProperties->{{$pattern}}',
                         $this->phpBuilder
                     ))->build()
                 );
+                $this->result->addSnippet("{$this->varName}->setPatternProperty({$patternExp}, \$patternProperty);\n");
 
             }
         }
     }
 
+    /**
+     * @throws Exception
+     */
     private function processArray()
     {
         $schema = $this->schema;
 
+        if (is_bool($schema->additionalItems)) {
+            $val = $schema->additionalItems ? 'true' : 'false';
+            $this->result->addSnippet(
+                "{$this->varName}->additionalItems = $val;\n"
+            );
+        }
+
         $pathItems = 'items';
-        if ($schema->items instanceof Schema) {
+        if ($schema->items instanceof ClassStructure) { // todo better check for schema, `getJsonSchema` interface ?
             $items = array();
             $additionalItems = $schema->items;
+            $pathItems = 'items';
         } elseif ($schema->items === null) { // items defaults to empty schema so everything is valid
             $items = array();
             $additionalItems = true;
@@ -186,20 +249,15 @@ class SchemaBuilder
         }
 
         if ($items !== null || $additionalItems !== null) {
-            $itemsLen = is_array($items) ? count($items) : 0;
-            $index = 0;
-            if ($index < $itemsLen) {
-            } else {
-                if ($additionalItems instanceof Schema) {
-                    $this->result->addSnippet(
-                        $this->copyTo(new SchemaBuilder(
-                            $additionalItems,
-                            "{$this->varName}->{$pathItems}",
-                            $this->path . '->' . $pathItems,
-                            $this->phpBuilder
-                        ))->build()
-                    );
-                }
+            if ($additionalItems instanceof ClassStructure) {
+                $this->result->addSnippet(
+                    $this->copyTo(new SchemaBuilder(
+                        $additionalItems,
+                        "{$this->varName}->{$pathItems}",
+                        $this->path . '->' . $pathItems,
+                        $this->phpBuilder
+                    ))->build()
+                );
             }
         }
     }
@@ -210,10 +268,14 @@ class SchemaBuilder
             $this->result->addSnippet(
                 "{$this->varName}->enum = array(\n"
             );
-            foreach ($this->schema->enum as $enumItem) {
-                $name = PhpCode::makePhpConstantName($enumItem);
+            foreach ($this->schema->enum as $i => $enumItem) {
+                if (isset($this->schema->{Schema::ENUM_NAMES_PROPERTY}[$i])) {
+                    $name = PhpCode::makePhpConstantName($this->schema->{Schema::ENUM_NAMES_PROPERTY}[$i]);
+                } else {
+                    $name = PhpCode::makePhpConstantName($enumItem);
+                }
                 $value = var_export($enumItem, true);
-                if ($this->saveEnumConstInClass !== null && is_scalar($enumItem)) {
+                if ($this->saveEnumConstInClass !== null && is_scalar($enumItem) && !is_bool($enumItem)) {
                     $this->saveEnumConstInClass->addConstant(new PhpConstant($name, $enumItem));
                     $this->result->addSnippet(
                         "    self::$name,\n"
@@ -287,7 +349,7 @@ class SchemaBuilder
             } elseif ($value instanceof \stdClass) {
                 $export = '(object)' . var_export((array)$value, 1);
             } elseif (is_string($value)) {
-                $export = '"' . str_replace(array("\n", "\r", "\t"), array('\n', '\r', '\t'), addslashes($value)) . '"';
+                $export = '"' . str_replace(array('\\', "\n", "\r", "\t", '"'), array('\\\\', '\n', '\r', '\t', '\"'), $value) . '"';
             } else {
                 $export = var_export($value, 1);
             }
@@ -328,22 +390,21 @@ class SchemaBuilder
         }
     }
 
+    /**
+     * @return PhpCode
+     * @throws Exception
+     */
     public function build()
     {
         $this->result = new PhpCode();
-
-        if ($this->schema->ref !== null) { // TODO!
-            $path = $this->schema->ref;
-            if (!$path) {
-                throw new Exception('Empty ref path');
-            }
-            return (new self($this->schema->ref->getData(), $this->varName, $path, $this->phpBuilder))->build();
-        }
 
         if ($this->processNamedClass()) {
             return $this->result;
         }
 
+        if ($this->processRef()) {
+            return $this->result;
+        }
 
         $this->processType();
         $this->processObject();
@@ -351,9 +412,28 @@ class SchemaBuilder
         $this->processLogic();
         $this->processEnum();
         $this->processOther();
+        $this->processFromRef();
 
         return $this->result;
 
+    }
+
+    private function processFromRef()
+    {
+        if ($this->phpBuilder->minimizeRefs) {
+            if ($fromRefs = $this->schema->getFromRefs()) {
+                $fromRef = $fromRefs[count($fromRefs) - 1];
+                $value = var_export($fromRef, 1);
+                $this->result->addSnippet("{$this->varName}->setFromRef($value);\n");
+            }
+            return;
+        }
+        if ($fromRefs = $this->schema->getFromRefs()) {
+            foreach ($fromRefs as $fromRef) {
+                $value = var_export($fromRef, 1);
+                $this->result->addSnippet("{$this->varName}->setFromRef($value);\n");
+            }
+        }
     }
 
     /**

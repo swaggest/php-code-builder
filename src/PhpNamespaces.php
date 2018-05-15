@@ -13,6 +13,9 @@ class PhpNamespaces extends PhpTemplate
 
     public function add($fullyQualifiedName, $as = null)
     {
+        if ($fullyQualifiedName[0] !== '\\') {
+            $fullyQualifiedName = '\\' . $fullyQualifiedName;
+        }
         if (null === $as) {
             $i = '';
             $short = $this->makeShortName($fullyQualifiedName);
@@ -34,6 +37,9 @@ class PhpNamespaces extends PhpTemplate
 
     public function getReference($fullyQualifiedName)
     {
+        if ($fullyQualifiedName[0] !== '\\') {
+            $fullyQualifiedName = '\\' . $fullyQualifiedName;
+        }
         if (!isset($this->namespaces[$fullyQualifiedName])) {
             if ($fullyQualifiedName === Palette::schemaClass()->getFullyQualifiedName()) {
                 $this->add($fullyQualifiedName, 'JsonBasicSchema');
@@ -47,11 +53,18 @@ class PhpNamespaces extends PhpTemplate
     protected function toString()
     {
         $result = '';
+        ksort($this->namespaces);
         foreach ($this->namespaces as $namespace => $as) {
             $namespace = trim($namespace, '\\');
             $short = $this->makeShortName($namespace);
             if ($short === $as) {
                 $as = '';
+            }
+            $namespacePieces = explode('\\', $namespace);
+            array_pop($namespacePieces);
+            $packageNamespace = implode('\\', $namespacePieces);
+            if ($this->fileNamespace === '\\' . $packageNamespace) {
+                continue;
             }
             $renderAs = $as ? ' as ' . $as : '';
             if (!$renderAs && $namespace === $this->fileNamespace . '\\' . $short) {

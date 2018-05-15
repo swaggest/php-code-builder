@@ -2,18 +2,11 @@
 
 namespace Swaggest\PhpCodeBuilder;
 
-use Swaggest\CodeBuilder\ClosureString;
+use Swaggest\CodeBuilder\AbstractTemplate;
 
 class PhpCode extends PhpTemplate
 {
     public $snippets;
-
-    public function __construct($body = null)
-    {
-        if ($body != null) {
-            $this->addSnippet($body);
-        }
-    }
 
     public function addSnippet($code, $prepend = false)
     {
@@ -32,7 +25,7 @@ class PhpCode extends PhpTemplate
             return '';
         }
         foreach ($this->snippets as $code) {
-            if ($code instanceof ClosureString) {
+            if ($code instanceof AbstractTemplate) {
                 $result .= $code->render();
             } else {
                 $result .= $code;
@@ -53,6 +46,16 @@ class PhpCode extends PhpTemplate
         return $result;
     }
 
+    public static function fromCamelCase($input)
+    {
+        preg_match_all('!([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]+)!', $input, $matches);
+        $ret = $matches[0];
+        foreach ($ret as &$match) {
+            $match = $match == strtoupper($match) ? strtolower($match) : lcfirst($match);
+        }
+        return implode('_', $ret);
+    }
+
 
     public static function makePhpName($rawName, $lowerFirst = true)
     {
@@ -68,9 +71,37 @@ class PhpCode extends PhpTemplate
 
     private static $keywords = array('__halt_compiler', 'abstract', 'and', 'array', 'as', 'break', 'callable', 'case', 'catch', 'class', 'clone', 'const', 'continue', 'declare', 'default', 'die', 'do', 'echo', 'else', 'elseif', 'empty', 'enddeclare', 'endfor', 'endforeach', 'endif', 'endswitch', 'endwhile', 'eval', 'exit', 'extends', 'final', 'for', 'foreach', 'function', 'global', 'goto', 'if', 'implements', 'include', 'include_once', 'instanceof', 'insteadof', 'interface', 'isset', 'list', 'namespace', 'new', 'or', 'print', 'private', 'protected', 'public', 'require', 'require_once', 'return', 'static', 'switch', 'throw', 'trait', 'try', 'unset', 'use', 'var', 'while', 'xor');
 
+    public static function makePhpClassName($rawName)
+    {
+        $result = self::makePhpName($rawName, false);
+        if (in_array(strtolower($result), self::$keywords)) {
+            $result .= 'Class';
+        }
+        return $result;
+    }
+
+    public static function makePhpNamespaceName(array $nsItems)
+    {
+        $result = array();
+        foreach ($nsItems as $nsItem) {
+            $nsItem = self::makePhpName($nsItem, false);
+            if (!$nsItem) {
+                continue;
+            }
+            if (in_array(strtolower($nsItem), self::$keywords)) {
+                $nsItem .= 'Ns';
+            }
+            $result[] = $nsItem;
+        }
+
+        return '\\' . implode('\\', $result);
+    }
+
     public static function makePhpConstantName($rawName)
     {
         $phpName = preg_replace("/([^a-zA-Z0-9_]+)/", "_", $rawName);
+
+        $phpName = self::fromCamelCase($phpName);
 
         if (in_array(strtolower($phpName), self::$keywords)) {
             $phpName = '_' . $phpName;

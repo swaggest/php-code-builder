@@ -12,6 +12,8 @@ class PhpStdType implements PhpAnyType
     const TYPE_OBJECT = 'object';
     const TYPE_ARRAY = 'array';
     const TYPE_NULL = 'null';
+    const TYPE_STATIC = 'static';
+    const TYPE_SELF = 'self';
 
     private $type;
 
@@ -70,5 +72,14 @@ class PhpStdType implements PhpAnyType
         return new self(self::TYPE_NULL);
     }
 
+    public static function tStatic()
+    {
+        return new self(self::TYPE_STATIC);
+    }
+
+    public static function tSelf()
+    {
+        return new self(self::TYPE_SELF);
+    }
 
 }

@@ -11,15 +11,29 @@ class PhpDoc extends PhpTemplate
     const TAG_PROPERTY = 'property';
     const TAG_RETURN = 'return';
     const TAG_THROWS = 'throws';
+    const TAG_METHOD = 'method';
+    const TAG_SEE = 'see';
     const TAG_CODE_COVERAGE_IGNORE_START = 'codeCoverageIgnoreStart';
     const TAG_CODE_COVERAGE_IGNORE_END = 'codeCoverageIgnoreEnd';
 
     /** @var PhpDocTag[] */
     private $tags = array();
 
-    public function add($name, $value = '')
+    public function add($name, $value = '', $id = null)
     {
-        $this->tags[] = new PhpDocTag($name, $value);
+        if ($id) {
+            $this->tags[$id] = new PhpDocTag($name, $value);
+        } else {
+            $this->tags[] = new PhpDocTag($name, $value);
+        }
+        return $this;
+    }
+
+    public function removeById($id)
+    {
+        if (isset($this->tags[$id])) {
+            unset($this->tags[$id]);
+        }
         return $this;
     }
 
@@ -39,6 +53,9 @@ class PhpDoc extends PhpTemplate
         $result = '';
         foreach ($this->tags as $tag) {
             if ($tag->name) {
+                if ($tag->name === 'method') {
+                    echo '.';
+                }
                 $value = $tag->value ? $this->padLines(' * ', ' ' . $tag->value, true, true) : '';
                 $result .= <<<PHP
  * @{$tag->name}{$value}

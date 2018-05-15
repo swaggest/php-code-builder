@@ -27,6 +27,8 @@ class SchemaTest extends \PHPUnit_Framework_TestCase
 
 
         $builder = new PhpBuilder();
+        $builder->buildSetters = true;
+
         $type = $builder->getType($schema);
 
         $index = 0;
@@ -123,7 +125,7 @@ class Beech1 extends Swaggest\JsonSchema\Structure\ClassStructure {
 	 * @return $this
 	 * @codeCoverageIgnoreStart
 	 */
-	public function setSampleSelf($sampleSelf)
+	public function setSampleSelf(\Beech1 $sampleSelf)
 	{
 		$this->sampleSelf = $sampleSelf;
 		return $this;
@@ -135,7 +137,7 @@ class Beech1 extends Swaggest\JsonSchema\Structure\ClassStructure {
 	 * @return $this
 	 * @codeCoverageIgnoreStart
 	 */
-	public function setAnother($another)
+	public function setAnother(\Beech2 $another)
 	{
 		$this->another = $another;
 		return $this;
