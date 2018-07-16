@@ -80,7 +80,7 @@ $builder->classCreatedHook = new \Swaggest\PhpCodeBuilder\JsonSchema\ClassHookCa
         $class->setNamespace($appNs);
         if ('#' === $path) {
             $class->setName('User'); // Class name for root schema
-        } elseif ('#/definitions/' === substr($path, 0, strlen('#/definitions/'))) {
+        } elseif (strpos($path, '#/definitions/') === 0)) {
             $class->setName(\Swaggest\PhpCodeBuilder\PhpCode::makePhpClassName(
                 substr($path, strlen('#/definitions/'))));
         }
