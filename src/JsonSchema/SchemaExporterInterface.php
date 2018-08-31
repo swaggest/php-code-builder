@@ -5,6 +5,7 @@ namespace Swaggest\PhpCodeBuilder\JsonSchema;
 use Swaggest\CodeBuilder\PlaceholderString;
 use Swaggest\JsonSchema\Schema;
 use Swaggest\JsonSchema\SchemaExporter;
+use Swaggest\JsonSchema\Wrapper;
 use Swaggest\PhpCodeBuilder\PhpClass;
 use Swaggest\PhpCodeBuilder\PhpCode;
 use Swaggest\PhpCodeBuilder\PhpFunction;
@@ -28,6 +29,9 @@ class SchemaExporterInterface implements PhpBuilderClassHook
             $propertySchema = $property->getMeta(PhpBuilder::SCHEMA);
 
             $schemaProperty = $schemaProperties[$schemaName];
+            if ($schemaProperty instanceof SchemaExporter) {
+                $schemaProperty = $schemaProperty->exportSchema();
+            }
             if ($schemaProperty !== null) {
                 if (empty($schemaProperty->type)
                     || ($schemaProperty->type == $propertySchema->type)
