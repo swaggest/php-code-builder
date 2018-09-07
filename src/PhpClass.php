@@ -58,7 +58,8 @@ PHP;
         $content = $this->indentLines(trim($content));
 
         return <<<PHP
-{$this->renderHeadComment()}{$this->renderIsAbstract()}class {$this->name}{$this->renderExtends()}{$this->renderImplements()} {
+{$this->renderHeadComment()}{$this->renderIsAbstract()}class {$this->name}{$this->renderExtends()}{$this->renderImplements()}
+{
 $content
 }
 PHP;

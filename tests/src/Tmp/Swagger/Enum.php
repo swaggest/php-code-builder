@@ -15,19 +15,20 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 /**
  * Built from http://json-schema.org/draft-04/schema#/properties/enum
  *  <- #/definitions/enum
- * @method static array import($data, Context $options=null)
+ * @method static array import($data, Context $options = null)
  */
-class Enum extends ClassStructure {
-	/**
-	 * @param Properties|static $properties
-	 * @param Schema $ownerSchema
-	 */
-	public static function setUpProperties($properties, Schema $ownerSchema)
-	{
-		$ownerSchema->type = Schema::_ARRAY;
-		$ownerSchema->minItems = 1;
-		$ownerSchema->uniqueItems = true;
-		$ownerSchema->setFromRef('http://json-schema.org/draft-04/schema#/properties/enum');
-		$ownerSchema->setFromRef('#/definitions/enum');
-	}
+class Enum extends ClassStructure
+{
+    /**
+     * @param Properties|static $properties
+     * @param Schema $ownerSchema
+     */
+    public static function setUpProperties($properties, Schema $ownerSchema)
+    {
+        $ownerSchema->type = Schema::_ARRAY;
+        $ownerSchema->minItems = 1;
+        $ownerSchema->uniqueItems = true;
+        $ownerSchema->setFromRef('http://json-schema.org/draft-04/schema#/properties/enum');
+        $ownerSchema->setFromRef('#/definitions/enum');
+    }
 }

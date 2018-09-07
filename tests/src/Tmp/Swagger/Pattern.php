@@ -15,18 +15,19 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 /**
  * Built from http://json-schema.org/draft-04/schema#/properties/pattern
  *  <- #/definitions/pattern
- * @method static string import($data, Context $options=null)
+ * @method static string import($data, Context $options = null)
  */
-class Pattern extends ClassStructure {
-	/**
-	 * @param Properties|static $properties
-	 * @param Schema $ownerSchema
-	 */
-	public static function setUpProperties($properties, Schema $ownerSchema)
-	{
-		$ownerSchema->type = Schema::STRING;
-		$ownerSchema->format = "regex";
-		$ownerSchema->setFromRef('http://json-schema.org/draft-04/schema#/properties/pattern');
-		$ownerSchema->setFromRef('#/definitions/pattern');
-	}
+class Pattern extends ClassStructure
+{
+    /**
+     * @param Properties|static $properties
+     * @param Schema $ownerSchema
+     */
+    public static function setUpProperties($properties, Schema $ownerSchema)
+    {
+        $ownerSchema->type = Schema::STRING;
+        $ownerSchema->format = "regex";
+        $ownerSchema->setFromRef('http://json-schema.org/draft-04/schema#/properties/pattern');
+        $ownerSchema->setFromRef('#/definitions/pattern');
+    }
 }

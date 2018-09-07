@@ -2,7 +2,6 @@
 
 namespace Swaggest\PhpCodeBuilder\Property;
 
-
 use Swaggest\PhpCodeBuilder\PhpClassProperty;
 use Swaggest\PhpCodeBuilder\PhpFlags;
 use Swaggest\PhpCodeBuilder\PhpFunction;

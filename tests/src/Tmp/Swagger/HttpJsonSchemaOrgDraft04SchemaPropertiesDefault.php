@@ -14,15 +14,16 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from http://json-schema.org/draft-04/schema#/properties/default
- * @method static  import($data, Context $options=null)
+ * @method static  import($data, Context $options = null)
  */
-class HttpJsonSchemaOrgDraft04SchemaPropertiesDefault extends ClassStructure {
-	/**
-	 * @param Properties|static $properties
-	 * @param Schema $ownerSchema
-	 */
-	public static function setUpProperties($properties, Schema $ownerSchema)
-	{
-		$ownerSchema->setFromRef('http://json-schema.org/draft-04/schema#/properties/default');
-	}
+class HttpJsonSchemaOrgDraft04SchemaPropertiesDefault extends ClassStructure
+{
+    /**
+     * @param Properties|static $properties
+     * @param Schema $ownerSchema
+     */
+    public static function setUpProperties($properties, Schema $ownerSchema)
+    {
+        $ownerSchema->setFromRef('http://json-schema.org/draft-04/schema#/properties/default');
+    }
 }

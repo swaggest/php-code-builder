@@ -11,3 +11,4 @@
 /.travis.yml export-ignore
 /phpunit.xml export-ignore
 /phpstan.neon export-ignore
+/.gitlab-ci.yml export-ignore

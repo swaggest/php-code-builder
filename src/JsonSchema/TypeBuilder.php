@@ -81,7 +81,8 @@ class TypeBuilder
         }
     }
 
-    private function isSchema($var) {
+    private function isSchema($var)
+    {
         return $var instanceof Schema;
     }
 
@@ -89,9 +90,10 @@ class TypeBuilder
     {
         if ($this->schema->patternProperties !== null) {
             foreach ($this->schema->patternProperties as $pattern => $schema) {
-                $this->result->add(new ArrayOf($this->phpBuilder->getType($schema, $this->path . '->' . $pattern)));
+                //$this->result->add(new ArrayOf($this->phpBuilder->getType($schema, $this->path . '->' . $pattern)));
             }
         }
+
 
         if ($this->schema->additionalProperties instanceof Schema) {
             $this->result->add(new ArrayOf($this->phpBuilder->getType(
@@ -99,6 +101,7 @@ class TypeBuilder
                 $this->path . '->' . (string)Schema::names()->additionalProperties)
             ));
         }
+
     }
 
     private function typeSwitch($type)

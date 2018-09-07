@@ -14,19 +14,20 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from http://json-schema.org/draft-04/schema#/definitions/stringArray
- * @method static string[]|array import($data, Context $options=null)
+ * @method static string[]|array import($data, Context $options = null)
  */
-class HttpJsonSchemaOrgDraft04SchemaDefinitionsStringArray extends ClassStructure {
-	/**
-	 * @param Properties|static $properties
-	 * @param Schema $ownerSchema
-	 */
-	public static function setUpProperties($properties, Schema $ownerSchema)
-	{
-		$ownerSchema->type = Schema::_ARRAY;
-		$ownerSchema->items = Schema::string();
-		$ownerSchema->minItems = 1;
-		$ownerSchema->uniqueItems = true;
-		$ownerSchema->setFromRef('http://json-schema.org/draft-04/schema#/definitions/stringArray');
-	}
+class HttpJsonSchemaOrgDraft04SchemaDefinitionsStringArray extends ClassStructure
+{
+    /**
+     * @param Properties|static $properties
+     * @param Schema $ownerSchema
+     */
+    public static function setUpProperties($properties, Schema $ownerSchema)
+    {
+        $ownerSchema->type = Schema::_ARRAY;
+        $ownerSchema->items = Schema::string();
+        $ownerSchema->minItems = 1;
+        $ownerSchema->uniqueItems = true;
+        $ownerSchema->setFromRef('http://json-schema.org/draft-04/schema#/definitions/stringArray');
+    }
 }

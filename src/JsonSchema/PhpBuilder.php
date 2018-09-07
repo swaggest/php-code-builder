@@ -11,12 +11,17 @@ use Swaggest\PhpCodeBuilder\Exception;
 use Swaggest\PhpCodeBuilder\PhpAnyType;
 use Swaggest\PhpCodeBuilder\PhpClass;
 use Swaggest\PhpCodeBuilder\PhpClassProperty;
+use Swaggest\PhpCodeBuilder\PhpCode;
+use Swaggest\PhpCodeBuilder\PhpConstant;
 use Swaggest\PhpCodeBuilder\PhpDoc;
 use Swaggest\PhpCodeBuilder\PhpFlags;
 use Swaggest\PhpCodeBuilder\PhpFunction;
 use Swaggest\PhpCodeBuilder\PhpNamedVar;
-use Swaggest\PhpCodeBuilder\PhpCode;
+use Swaggest\PhpCodeBuilder\Property\AdditionalPropertiesGetter;
+use Swaggest\PhpCodeBuilder\Property\AdditionalPropertySetter;
 use Swaggest\PhpCodeBuilder\Property\Getter;
+use Swaggest\PhpCodeBuilder\Property\PatternPropertiesGetter;
+use Swaggest\PhpCodeBuilder\Property\PatternPropertySetter;
 use Swaggest\PhpCodeBuilder\Property\Setter;
 use Swaggest\PhpCodeBuilder\Types\TypeOf;
 
@@ -173,6 +178,21 @@ class PhpBuilder
             }
         }
 
+        if ($schema->additionalProperties instanceof Schema) {
+            $class->addMethod(new AdditionalPropertiesGetter($this->getType($schema->additionalProperties)));
+            $class->addMethod(new AdditionalPropertySetter($this->getType($schema->additionalProperties)));
+        }
+
+        if ($schema->patternProperties) {
+            foreach ($schema->patternProperties as $pattern => $patternProperty) {
+                $const = new PhpConstant(PhpCode::makePhpConstantName($pattern . '_PROPERTY_PATTERN'), $pattern);
+                $class->addConstant($const);
+
+                $class->addMethod(new PatternPropertiesGetter($const, $this->getType($patternProperty)));
+                $class->addMethod(new PatternPropertySetter($const, $this->getType($patternProperty)));
+            }
+        }
+
         $schemaBuilder = new SchemaBuilder($schema, '$ownerSchema', $path, $this, false);
         if ($this->skipSchemaDescriptions) {
             $schemaBuilder->skipProperty(JsonSchema::names()->description);
@@ -188,7 +208,7 @@ class PhpBuilder
             $phpDoc->add(
                 PhpDoc::TAG_METHOD,
                 new PlaceholderString(
-                    'static :type import($data, :context $options=null)',
+                    'static :type import($data, :context $options = null)',
                     array(
                         ':type' => new TypeOf($type, true),
                         ':context' => new TypeOf(PhpClass::byFQN(Context::class))

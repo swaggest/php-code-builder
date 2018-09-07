@@ -38,21 +38,22 @@ class ClassTest extends \PHPUnit_Framework_TestCase
         );
 
         $expected = <<<'PHP'
-class Uno {
-	/** @var string */
-	private $some;
+class Uno
+{
+    /** @var string */
+    private $some;
 
-	/** @var int A sample int property */
-	protected $someInt;
+    /** @var int A sample int property */
+    protected $someInt;
 
-	/**
-	 * A sample method
-	 * @param My\Test\Uno $hello world
-	 * @return My\Test\Uno
-	 */
-	private function process(My\Test\Uno $hello)
-	{
-	}
+    /**
+     * A sample method
+     * @param My\Test\Uno $hello world
+     * @return My\Test\Uno
+     */
+    private function process(My\Test\Uno $hello)
+    {
+    }
 }
 PHP;
         $this->assertSame($expected, (string)$class);

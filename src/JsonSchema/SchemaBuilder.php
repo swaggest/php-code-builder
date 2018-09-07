@@ -5,7 +5,6 @@ namespace Swaggest\PhpCodeBuilder\JsonSchema;
 
 use Swaggest\CodeBuilder\PlaceholderString;
 use Swaggest\JsonSchema\Constraint\Type;
-use Swaggest\JsonSchema\JsonSchema;
 use Swaggest\JsonSchema\Schema;
 use Swaggest\JsonSchema\Structure\ClassStructure;
 use Swaggest\JsonSchema\Structure\ObjectItem;
@@ -99,7 +98,7 @@ class SchemaBuilder
                     break;
 
                 default:
-                    $types = var_export($this->schema->type, true);
+                    $types = PhpCode::varExport($this->schema->type);
                     $result = $this->createVarName
                         ? "{$this->varName} = (new ::schema())->setType($types);"
                         : "{$this->varName}->type = $types;";
@@ -347,11 +346,11 @@ class SchemaBuilder
                 //$value = $value->jsonSerialize();
                 $export = 'new \stdClass()';
             } elseif ($value instanceof \stdClass) {
-                $export = '(object)' . var_export((array)$value, 1);
+                $export = '(object)' . PhpCode::varExport((array)$value);
             } elseif (is_string($value)) {
                 $export = '"' . str_replace(array('\\', "\n", "\r", "\t", '"'), array('\\\\', '\n', '\r', '\t', '\"'), $value) . '"';
             } else {
-                $export = var_export($value, 1);
+                $export = PhpCode::varExport($value);
             }
 
             $key = PhpCode::makePhpName($key);

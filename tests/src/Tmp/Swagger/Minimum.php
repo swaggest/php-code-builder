@@ -15,17 +15,18 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 /**
  * Built from http://json-schema.org/draft-04/schema#/properties/minimum
  *  <- #/definitions/minimum
- * @method static float import($data, Context $options=null)
+ * @method static float import($data, Context $options = null)
  */
-class Minimum extends ClassStructure {
-	/**
-	 * @param Properties|static $properties
-	 * @param Schema $ownerSchema
-	 */
-	public static function setUpProperties($properties, Schema $ownerSchema)
-	{
-		$ownerSchema->type = Schema::NUMBER;
-		$ownerSchema->setFromRef('http://json-schema.org/draft-04/schema#/properties/minimum');
-		$ownerSchema->setFromRef('#/definitions/minimum');
-	}
+class Minimum extends ClassStructure
+{
+    /**
+     * @param Properties|static $properties
+     * @param Schema $ownerSchema
+     */
+    public static function setUpProperties($properties, Schema $ownerSchema)
+    {
+        $ownerSchema->type = Schema::NUMBER;
+        $ownerSchema->setFromRef('http://json-schema.org/draft-04/schema#/properties/minimum');
+        $ownerSchema->setFromRef('#/definitions/minimum');
+    }
 }

@@ -14,24 +14,25 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/simpleTypes
- * @method static  import($data, Context $options=null)
+ * @method static  import($data, Context $options = null)
  */
-class SimpleTypes extends ClassStructure {
-	/**
-	 * @param Properties|static $properties
-	 * @param Schema $ownerSchema
-	 */
-	public static function setUpProperties($properties, Schema $ownerSchema)
-	{
-		$ownerSchema->enum = array(
-		    'array',
-		    'boolean',
-		    'integer',
-		    'null',
-		    'number',
-		    'object',
-		    'string',
-		);
-		$ownerSchema->setFromRef('#/definitions/simpleTypes');
-	}
+class SimpleTypes extends ClassStructure
+{
+    /**
+     * @param Properties|static $properties
+     * @param Schema $ownerSchema
+     */
+    public static function setUpProperties($properties, Schema $ownerSchema)
+    {
+        $ownerSchema->enum = array(
+            'array',
+            'boolean',
+            'integer',
+            'null',
+            'number',
+            'object',
+            'string',
+        );
+        $ownerSchema->setFromRef('#/definitions/simpleTypes');
+    }
 }

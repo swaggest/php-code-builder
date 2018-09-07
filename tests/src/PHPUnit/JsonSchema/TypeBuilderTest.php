@@ -54,33 +54,34 @@ use Swaggest\JsonSchema\Schema;
 use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
-class DefinitionsHeader extends ClassStructure {
-	/** @var float */
-	public $maximum;
+class DefinitionsHeader extends ClassStructure
+{
+    /** @var float */
+    public $maximum;
 
-	/**
-	 * @param Properties|static $properties
-	 * @param Schema $ownerSchema
-	 */
-	public static function setUpProperties($properties, Schema $ownerSchema)
-	{
-		$properties->maximum = Schema::number();
-		$properties->maximum->setFromRef('#/definitions/maximum');
-		$ownerSchema->type = 'object';
-		$ownerSchema->setFromRef('#/definitions/header');
-	}
+    /**
+     * @param Properties|static $properties
+     * @param Schema $ownerSchema
+     */
+    public static function setUpProperties($properties, Schema $ownerSchema)
+    {
+        $properties->maximum = Schema::number();
+        $properties->maximum->setFromRef('#/definitions/maximum');
+        $ownerSchema->type = 'object';
+        $ownerSchema->setFromRef('#/definitions/header');
+    }
 
-	/**
-	 * @param float $maximum
-	 * @return $this
-	 * @codeCoverageIgnoreStart
-	 */
-	public function setMaximum($maximum)
-	{
-		$this->maximum = $maximum;
-		return $this;
-	}
-	/** @codeCoverageIgnoreEnd */
+    /**
+     * @param float $maximum
+     * @return $this
+     * @codeCoverageIgnoreStart
+     */
+    public function setMaximum($maximum)
+    {
+        $this->maximum = $maximum;
+        return $this;
+    }
+    /** @codeCoverageIgnoreEnd */
 }
 PHP
             , $file->render());
