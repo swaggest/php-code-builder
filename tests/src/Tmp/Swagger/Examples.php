@@ -14,17 +14,18 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/examples
- * @method static  import($data, Context $options=null)
+ * @method static  import($data, Context $options = null)
  */
-class Examples extends ClassStructure {
-	/**
-	 * @param Properties|static $properties
-	 * @param Schema $ownerSchema
-	 */
-	public static function setUpProperties($properties, Schema $ownerSchema)
-	{
-		$ownerSchema->type = 'object';
-		$ownerSchema->additionalProperties = true;
-		$ownerSchema->setFromRef('#/definitions/examples');
-	}
+class Examples extends ClassStructure
+{
+    /**
+     * @param Properties|static $properties
+     * @param Schema $ownerSchema
+     */
+    public static function setUpProperties($properties, Schema $ownerSchema)
+    {
+        $ownerSchema->type = 'object';
+        $ownerSchema->additionalProperties = true;
+        $ownerSchema->setFromRef('#/definitions/examples');
+    }
 }

@@ -41,8 +41,8 @@ PHP
  */
 function test($arg1, $arg2)
 {
-	echo $arg1;
-	print_r($arg2);
+    echo $arg1;
+    print_r($arg2);
 }
 
 

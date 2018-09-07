@@ -15,18 +15,19 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 /**
  * Any property starting with x- is valid.
  * Built from #/definitions/vendorExtension
- * @method static  import($data, Context $options=null)
+ * @method static  import($data, Context $options = null)
  */
-class VendorExtension extends ClassStructure {
-	/**
-	 * @param Properties|static $properties
-	 * @param Schema $ownerSchema
-	 */
-	public static function setUpProperties($properties, Schema $ownerSchema)
-	{
-		$ownerSchema->additionalProperties = true;
-		$ownerSchema->additionalItems = true;
-		$ownerSchema->description = "Any property starting with x- is valid.";
-		$ownerSchema->setFromRef('#/definitions/vendorExtension');
-	}
+class VendorExtension extends ClassStructure
+{
+    /**
+     * @param Properties|static $properties
+     * @param Schema $ownerSchema
+     */
+    public static function setUpProperties($properties, Schema $ownerSchema)
+    {
+        $ownerSchema->additionalProperties = true;
+        $ownerSchema->additionalItems = true;
+        $ownerSchema->description = "Any property starting with x- is valid.";
+        $ownerSchema->setFromRef('#/definitions/vendorExtension');
+    }
 }

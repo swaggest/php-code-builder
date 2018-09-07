@@ -14,17 +14,49 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/headers
- * @method static Header[] import($data, Context $options=null)
+ * @method static Header[] import($data, Context $options = null)
  */
-class Headers extends ClassStructure {
-	/**
-	 * @param Properties|static $properties
-	 * @param Schema $ownerSchema
-	 */
-	public static function setUpProperties($properties, Schema $ownerSchema)
-	{
-		$ownerSchema->type = 'object';
-		$ownerSchema->additionalProperties = Header::schema();
-		$ownerSchema->setFromRef('#/definitions/headers');
-	}
+class Headers extends ClassStructure
+{
+    /**
+     * @param Properties|static $properties
+     * @param Schema $ownerSchema
+     */
+    public static function setUpProperties($properties, Schema $ownerSchema)
+    {
+        $ownerSchema->type = 'object';
+        $ownerSchema->additionalProperties = Header::schema();
+        $ownerSchema->setFromRef('#/definitions/headers');
+    }
+
+    /**
+     * @return Header[]
+     * @codeCoverageIgnoreStart
+     */
+    public function getAdditionalPropertyValues()
+    {
+        $result = array();
+        if (!$names = $this->getAdditionalPropertyNames()) {
+            return $result;
+        }
+        foreach ($names as $name) {
+            $result[$name] = $this->$name;
+        }
+        return $result;
+    }
+    /** @codeCoverageIgnoreEnd */
+
+    /**
+     * @param string $name
+     * @param Header $value
+     * @return self
+     * @codeCoverageIgnoreStart
+     */
+    public function setAdditionalPropertyValue($name, Header $value)
+    {
+        $this->addAdditionalPropertyName($name);
+        $this->{$name} = $value;
+        return $this;
+    }
+    /** @codeCoverageIgnoreEnd */
 }

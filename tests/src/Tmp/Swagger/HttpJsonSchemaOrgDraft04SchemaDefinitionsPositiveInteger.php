@@ -14,17 +14,18 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from http://json-schema.org/draft-04/schema#/definitions/positiveInteger
- * @method static int import($data, Context $options=null)
+ * @method static int import($data, Context $options = null)
  */
-class HttpJsonSchemaOrgDraft04SchemaDefinitionsPositiveInteger extends ClassStructure {
-	/**
-	 * @param Properties|static $properties
-	 * @param Schema $ownerSchema
-	 */
-	public static function setUpProperties($properties, Schema $ownerSchema)
-	{
-		$ownerSchema->type = Schema::INTEGER;
-		$ownerSchema->minimum = 0;
-		$ownerSchema->setFromRef('http://json-schema.org/draft-04/schema#/definitions/positiveInteger');
-	}
+class HttpJsonSchemaOrgDraft04SchemaDefinitionsPositiveInteger extends ClassStructure
+{
+    /**
+     * @param Properties|static $properties
+     * @param Schema $ownerSchema
+     */
+    public static function setUpProperties($properties, Schema $ownerSchema)
+    {
+        $ownerSchema->type = Schema::INTEGER;
+        $ownerSchema->minimum = 0;
+        $ownerSchema->setFromRef('http://json-schema.org/draft-04/schema#/definitions/positiveInteger');
+    }
 }

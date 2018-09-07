@@ -7,112 +7,150 @@
 namespace Swaggest\PhpCodeBuilder\Tests\Tmp\SwaggerMin;
 
 use Swaggest\JsonSchema\Constraint\Properties;
-use Swaggest\JsonSchema\Context;
+use Swaggest\JsonSchema\Exception\StringException;
+use Swaggest\JsonSchema\Helper;
+use Swaggest\JsonSchema\InvalidValue;
 use Swaggest\JsonSchema\Schema;
 use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
  * Built from #/definitions/apiKeySecurity
- * @method static ApiKeySecurity import($data, Context $options=null)
  */
-class ApiKeySecurity extends ClassStructure {
-	const API_KEY = 'apiKey';
+class ApiKeySecurity extends ClassStructure
+{
+    const API_KEY = 'apiKey';
 
-	const HEADER = 'header';
+    const HEADER = 'header';
 
-	const QUERY = 'query';
+    const QUERY = 'query';
 
-	/** @var string */
-	public $type;
+    const X_PROPERTY_PATTERN = '^x-';
 
-	/** @var string */
-	public $name;
+    /** @var string */
+    public $type;
 
-	/** @var string */
-	public $in;
+    /** @var string */
+    public $name;
 
-	/** @var string */
-	public $description;
+    /** @var string */
+    public $in;
 
-	/**
-	 * @param Properties|static $properties
-	 * @param Schema $ownerSchema
-	 */
-	public static function setUpProperties($properties, Schema $ownerSchema)
-	{
-		$properties->type = Schema::string();
-		$properties->type->enum = array(
-		    self::API_KEY,
-		);
-		$properties->name = Schema::string();
-		$properties->in = Schema::string();
-		$properties->in->enum = array(
-		    self::HEADER,
-		    self::QUERY,
-		);
-		$properties->description = Schema::string();
-		$ownerSchema->type = 'object';
-		$ownerSchema->additionalProperties = false;
-		$patternProperty = new Schema();
-		$patternProperty->additionalProperties = true;
-		$patternProperty->additionalItems = true;
-		$patternProperty->description = "Any property starting with x- is valid.";
-		$patternProperty->setFromRef('#/definitions/vendorExtension');
-		$ownerSchema->setPatternProperty('^x-', $patternProperty);
-		$ownerSchema->required = array (
-		  0 => 'type',
-		  1 => 'name',
-		  2 => 'in',
-		);
-		$ownerSchema->setFromRef('#/definitions/apiKeySecurity');
-	}
+    /** @var string */
+    public $description;
 
-	/**
-	 * @param string $type
-	 * @return $this
-	 * @codeCoverageIgnoreStart
-	 */
-	public function setType($type)
-	{
-		$this->type = $type;
-		return $this;
-	}
-	/** @codeCoverageIgnoreEnd */
+    /**
+     * @param Properties|static $properties
+     * @param Schema $ownerSchema
+     */
+    public static function setUpProperties($properties, Schema $ownerSchema)
+    {
+        $properties->type = Schema::string();
+        $properties->type->enum = array(
+            self::API_KEY,
+        );
+        $properties->name = Schema::string();
+        $properties->in = Schema::string();
+        $properties->in->enum = array(
+            self::HEADER,
+            self::QUERY,
+        );
+        $properties->description = Schema::string();
+        $ownerSchema->type = 'object';
+        $ownerSchema->additionalProperties = false;
+        $patternProperty = new Schema();
+        $patternProperty->additionalProperties = true;
+        $patternProperty->additionalItems = true;
+        $patternProperty->description = "Any property starting with x- is valid.";
+        $patternProperty->setFromRef('#/definitions/vendorExtension');
+        $ownerSchema->setPatternProperty('^x-', $patternProperty);
+        $ownerSchema->required = array(
+            0 => 'type',
+            1 => 'name',
+            2 => 'in',
+        );
+        $ownerSchema->setFromRef('#/definitions/apiKeySecurity');
+    }
 
-	/**
-	 * @param string $name
-	 * @return $this
-	 * @codeCoverageIgnoreStart
-	 */
-	public function setName($name)
-	{
-		$this->name = $name;
-		return $this;
-	}
-	/** @codeCoverageIgnoreEnd */
+    /**
+     * @param string $type
+     * @return $this
+     * @codeCoverageIgnoreStart
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+        return $this;
+    }
+    /** @codeCoverageIgnoreEnd */
 
-	/**
-	 * @param string $in
-	 * @return $this
-	 * @codeCoverageIgnoreStart
-	 */
-	public function setIn($in)
-	{
-		$this->in = $in;
-		return $this;
-	}
-	/** @codeCoverageIgnoreEnd */
+    /**
+     * @param string $name
+     * @return $this
+     * @codeCoverageIgnoreStart
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+    /** @codeCoverageIgnoreEnd */
 
-	/**
-	 * @param string $description
-	 * @return $this
-	 * @codeCoverageIgnoreStart
-	 */
-	public function setDescription($description)
-	{
-		$this->description = $description;
-		return $this;
-	}
-	/** @codeCoverageIgnoreEnd */
+    /**
+     * @param string $in
+     * @return $this
+     * @codeCoverageIgnoreStart
+     */
+    public function setIn($in)
+    {
+        $this->in = $in;
+        return $this;
+    }
+    /** @codeCoverageIgnoreEnd */
+
+    /**
+     * @param string $description
+     * @return $this
+     * @codeCoverageIgnoreStart
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+        return $this;
+    }
+    /** @codeCoverageIgnoreEnd */
+
+    /**
+     * @codeCoverageIgnoreStart
+     */
+    public function getXValues()
+    {
+        $result = array();
+        if (!$names = $this->getPatternPropertyNames(self::X_PROPERTY_PATTERN)) {
+            return $result;
+        }
+        foreach ($names as $name) {
+            $result[$name] = $this->$name;
+        }
+        return $result;
+    }
+    /** @codeCoverageIgnoreEnd */
+
+    /**
+     * @param string $name
+     * @param $value
+     * @return self
+     * @throws InvalidValue
+     * @codeCoverageIgnoreStart
+     */
+    public function setXValue($name, $value)
+    {
+        if (preg_match(Helper::toPregPattern(self::X_PROPERTY_PATTERN), $name)) {
+            throw new StringException('Pattern mismatch', StringException::PATTERN_MISMATCH);
+        }
+        $this->addPatternPropertyName(self::X_PROPERTY_PATTERN, $name);
+        $this->{$name} = $value;
+        return $this;
+    }
+    /** @codeCoverageIgnoreEnd */
 }

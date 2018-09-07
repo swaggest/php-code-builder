@@ -14,17 +14,18 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/responseValue
- * @method static Response|JsonReference import($data, Context $options=null)
+ * @method static Response|JsonReference import($data, Context $options = null)
  */
-class ResponseValue extends ClassStructure {
-	/**
-	 * @param Properties|static $properties
-	 * @param Schema $ownerSchema
-	 */
-	public static function setUpProperties($properties, Schema $ownerSchema)
-	{
-		$ownerSchema->oneOf[0] = Response::schema();
-		$ownerSchema->oneOf[1] = JsonReference::schema();
-		$ownerSchema->setFromRef('#/definitions/responseValue');
-	}
+class ResponseValue extends ClassStructure
+{
+    /**
+     * @param Properties|static $properties
+     * @param Schema $ownerSchema
+     */
+    public static function setUpProperties($properties, Schema $ownerSchema)
+    {
+        $ownerSchema->oneOf[0] = Response::schema();
+        $ownerSchema->oneOf[1] = JsonReference::schema();
+        $ownerSchema->setFromRef('#/definitions/responseValue');
+    }
 }

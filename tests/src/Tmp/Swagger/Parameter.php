@@ -14,17 +14,18 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/parameter
- * @method static BodyParameter|HeaderParameterSubSchema|FormDataParameterSubSchema|QueryParameterSubSchema|PathParameterSubSchema import($data, Context $options=null)
+ * @method static BodyParameter|HeaderParameterSubSchema|FormDataParameterSubSchema|QueryParameterSubSchema|PathParameterSubSchema import($data, Context $options = null)
  */
-class Parameter extends ClassStructure {
-	/**
-	 * @param Properties|static $properties
-	 * @param Schema $ownerSchema
-	 */
-	public static function setUpProperties($properties, Schema $ownerSchema)
-	{
-		$ownerSchema->oneOf[0] = BodyParameter::schema();
-		$ownerSchema->oneOf[1] = NonBodyParameter::schema();
-		$ownerSchema->setFromRef('#/definitions/parameter');
-	}
+class Parameter extends ClassStructure
+{
+    /**
+     * @param Properties|static $properties
+     * @param Schema $ownerSchema
+     */
+    public static function setUpProperties($properties, Schema $ownerSchema)
+    {
+        $ownerSchema->oneOf[0] = BodyParameter::schema();
+        $ownerSchema->oneOf[1] = NonBodyParameter::schema();
+        $ownerSchema->setFromRef('#/definitions/parameter');
+    }
 }

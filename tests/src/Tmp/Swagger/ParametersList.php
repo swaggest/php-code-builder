@@ -15,22 +15,23 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 /**
  * The parameters needed to send a valid API call.
  * Built from #/definitions/parametersList
- * @method static BodyParameter[]|HeaderParameterSubSchema[]|FormDataParameterSubSchema[]|QueryParameterSubSchema[]|PathParameterSubSchema[]|JsonReference[]|array import($data, Context $options=null)
+ * @method static BodyParameter[]|HeaderParameterSubSchema[]|FormDataParameterSubSchema[]|QueryParameterSubSchema[]|PathParameterSubSchema[]|JsonReference[]|array import($data, Context $options = null)
  */
-class ParametersList extends ClassStructure {
-	/**
-	 * @param Properties|static $properties
-	 * @param Schema $ownerSchema
-	 */
-	public static function setUpProperties($properties, Schema $ownerSchema)
-	{
-		$ownerSchema->type = Schema::_ARRAY;
-		$ownerSchema->additionalItems = false;
-		$ownerSchema->items = new Schema();
-		$ownerSchema->items->oneOf[0] = Parameter::schema();
-		$ownerSchema->items->oneOf[1] = JsonReference::schema();
-		$ownerSchema->description = "The parameters needed to send a valid API call.";
-		$ownerSchema->uniqueItems = true;
-		$ownerSchema->setFromRef('#/definitions/parametersList');
-	}
+class ParametersList extends ClassStructure
+{
+    /**
+     * @param Properties|static $properties
+     * @param Schema $ownerSchema
+     */
+    public static function setUpProperties($properties, Schema $ownerSchema)
+    {
+        $ownerSchema->type = Schema::_ARRAY;
+        $ownerSchema->additionalItems = false;
+        $ownerSchema->items = new Schema();
+        $ownerSchema->items->oneOf[0] = Parameter::schema();
+        $ownerSchema->items->oneOf[1] = JsonReference::schema();
+        $ownerSchema->description = "The parameters needed to send a valid API call.";
+        $ownerSchema->uniqueItems = true;
+        $ownerSchema->setFromRef('#/definitions/parametersList');
+    }
 }

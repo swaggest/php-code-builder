@@ -14,18 +14,19 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/mediaTypeList
- * @method static string[]|array import($data, Context $options=null)
+ * @method static string[]|array import($data, Context $options = null)
  */
-class MediaTypeList extends ClassStructure {
-	/**
-	 * @param Properties|static $properties
-	 * @param Schema $ownerSchema
-	 */
-	public static function setUpProperties($properties, Schema $ownerSchema)
-	{
-		$ownerSchema->type = Schema::_ARRAY;
-		$ownerSchema->items = MimeType::schema();
-		$ownerSchema->uniqueItems = true;
-		$ownerSchema->setFromRef('#/definitions/mediaTypeList');
-	}
+class MediaTypeList extends ClassStructure
+{
+    /**
+     * @param Properties|static $properties
+     * @param Schema $ownerSchema
+     */
+    public static function setUpProperties($properties, Schema $ownerSchema)
+    {
+        $ownerSchema->type = Schema::_ARRAY;
+        $ownerSchema->items = MimeType::schema();
+        $ownerSchema->uniqueItems = true;
+        $ownerSchema->setFromRef('#/definitions/mediaTypeList');
+    }
 }

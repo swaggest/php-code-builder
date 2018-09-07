@@ -14,17 +14,49 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/oauth2Scopes
- * @method static string[] import($data, Context $options=null)
+ * @method static string[] import($data, Context $options = null)
  */
-class Oauth2Scopes extends ClassStructure {
-	/**
-	 * @param Properties|static $properties
-	 * @param Schema $ownerSchema
-	 */
-	public static function setUpProperties($properties, Schema $ownerSchema)
-	{
-		$ownerSchema->type = 'object';
-		$ownerSchema->additionalProperties = Schema::string();
-		$ownerSchema->setFromRef('#/definitions/oauth2Scopes');
-	}
+class Oauth2Scopes extends ClassStructure
+{
+    /**
+     * @param Properties|static $properties
+     * @param Schema $ownerSchema
+     */
+    public static function setUpProperties($properties, Schema $ownerSchema)
+    {
+        $ownerSchema->type = 'object';
+        $ownerSchema->additionalProperties = Schema::string();
+        $ownerSchema->setFromRef('#/definitions/oauth2Scopes');
+    }
+
+    /**
+     * @return string[]
+     * @codeCoverageIgnoreStart
+     */
+    public function getAdditionalPropertyValues()
+    {
+        $result = array();
+        if (!$names = $this->getAdditionalPropertyNames()) {
+            return $result;
+        }
+        foreach ($names as $name) {
+            $result[$name] = $this->$name;
+        }
+        return $result;
+    }
+    /** @codeCoverageIgnoreEnd */
+
+    /**
+     * @param string $name
+     * @param string $value
+     * @return self
+     * @codeCoverageIgnoreStart
+     */
+    public function setAdditionalPropertyValue($name, $value)
+    {
+        $this->addAdditionalPropertyName($name);
+        $this->{$name} = $value;
+        return $this;
+    }
+    /** @codeCoverageIgnoreEnd */
 }

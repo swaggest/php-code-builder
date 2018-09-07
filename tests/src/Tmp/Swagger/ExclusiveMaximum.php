@@ -15,18 +15,19 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 /**
  * Built from http://json-schema.org/draft-04/schema#/properties/exclusiveMaximum
  *  <- #/definitions/exclusiveMaximum
- * @method static bool import($data, Context $options=null)
+ * @method static bool import($data, Context $options = null)
  */
-class ExclusiveMaximum extends ClassStructure {
-	/**
-	 * @param Properties|static $properties
-	 * @param Schema $ownerSchema
-	 */
-	public static function setUpProperties($properties, Schema $ownerSchema)
-	{
-		$ownerSchema->type = Schema::BOOLEAN;
-		$ownerSchema->default = false;
-		$ownerSchema->setFromRef('http://json-schema.org/draft-04/schema#/properties/exclusiveMaximum');
-		$ownerSchema->setFromRef('#/definitions/exclusiveMaximum');
-	}
+class ExclusiveMaximum extends ClassStructure
+{
+    /**
+     * @param Properties|static $properties
+     * @param Schema $ownerSchema
+     */
+    public static function setUpProperties($properties, Schema $ownerSchema)
+    {
+        $ownerSchema->type = Schema::BOOLEAN;
+        $ownerSchema->default = false;
+        $ownerSchema->setFromRef('http://json-schema.org/draft-04/schema#/properties/exclusiveMaximum');
+        $ownerSchema->setFromRef('#/definitions/exclusiveMaximum');
+    }
 }

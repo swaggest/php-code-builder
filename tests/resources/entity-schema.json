@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "properties": {
+    "namedProperty$$$#%": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": {
+    "type": "string"
+  },
+  "patternProperties": {
+    "^x-": {
+      "type": "integer"
+    },
+    "^z-": {
+      "type": "boolean"
+    }
+  }
+}

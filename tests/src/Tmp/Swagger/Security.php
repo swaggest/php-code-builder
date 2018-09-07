@@ -14,18 +14,19 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/security
- * @method static string[][]|array[][]|array import($data, Context $options=null)
+ * @method static string[][]|array[][]|array import($data, Context $options = null)
  */
-class Security extends ClassStructure {
-	/**
-	 * @param Properties|static $properties
-	 * @param Schema $ownerSchema
-	 */
-	public static function setUpProperties($properties, Schema $ownerSchema)
-	{
-		$ownerSchema->type = Schema::_ARRAY;
-		$ownerSchema->items = SecurityRequirement::schema();
-		$ownerSchema->uniqueItems = true;
-		$ownerSchema->setFromRef('#/definitions/security');
-	}
+class Security extends ClassStructure
+{
+    /**
+     * @param Properties|static $properties
+     * @param Schema $ownerSchema
+     */
+    public static function setUpProperties($properties, Schema $ownerSchema)
+    {
+        $ownerSchema->type = Schema::_ARRAY;
+        $ownerSchema->items = SecurityRequirement::schema();
+        $ownerSchema->uniqueItems = true;
+        $ownerSchema->setFromRef('#/definitions/security');
+    }
 }

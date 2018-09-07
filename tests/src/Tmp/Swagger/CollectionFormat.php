@@ -14,23 +14,24 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/collectionFormat
- * @method static string import($data, Context $options=null)
+ * @method static string import($data, Context $options = null)
  */
-class CollectionFormat extends ClassStructure {
-	/**
-	 * @param Properties|static $properties
-	 * @param Schema $ownerSchema
-	 */
-	public static function setUpProperties($properties, Schema $ownerSchema)
-	{
-		$ownerSchema->type = Schema::STRING;
-		$ownerSchema->enum = array(
-		    'csv',
-		    'ssv',
-		    'tsv',
-		    'pipes',
-		);
-		$ownerSchema->default = "csv";
-		$ownerSchema->setFromRef('#/definitions/collectionFormat');
-	}
+class CollectionFormat extends ClassStructure
+{
+    /**
+     * @param Properties|static $properties
+     * @param Schema $ownerSchema
+     */
+    public static function setUpProperties($properties, Schema $ownerSchema)
+    {
+        $ownerSchema->type = Schema::STRING;
+        $ownerSchema->enum = array(
+            'csv',
+            'ssv',
+            'tsv',
+            'pipes',
+        );
+        $ownerSchema->default = "csv";
+        $ownerSchema->setFromRef('#/definitions/collectionFormat');
+    }
 }

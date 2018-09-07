@@ -50,10 +50,16 @@ class PhpCode extends PhpTemplate
     {
         preg_match_all('!([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]+)!', $input, $matches);
         $ret = $matches[0];
+        $index = array();
         foreach ($ret as &$match) {
-            $match = $match == strtoupper($match) ? strtolower($match) : lcfirst($match);
+            $index[$match] = '_' . ($match == strtoupper($match) ? strtolower($match) : lcfirst($match));
         }
-        return implode('_', $ret);
+        krsort($index);
+        $result = strtr($input, $index);
+        if ($input[0] !== '_' && $result[0] === '_') {
+            $result = substr($result, 1);
+        }
+        return preg_replace('/_+/', '_', $result);
     }
 
 
@@ -100,7 +106,7 @@ class PhpCode extends PhpTemplate
     public static function makePhpConstantName($rawName)
     {
         $phpName = preg_replace("/([^a-zA-Z0-9_]+)/", "_", $rawName);
-
+        $phpName = trim($phpName, '_');
         $phpName = self::fromCamelCase($phpName);
 
         if (in_array(strtolower($phpName), self::$keywords)) {
@@ -113,6 +119,16 @@ class PhpCode extends PhpTemplate
             $phpName = 'const_' . $phpName;
         }
         return strtoupper($phpName);
+    }
+
+
+    public static function varExport($value)
+    {
+        $result = var_export($value, 1);
+        $result = str_replace("array (\n", "array(\n", $result);
+        $result = str_replace('  ', '    ', $result);
+        $result = str_replace("array(\n)", "array()", $result);
+        return $result;
     }
 
 }
