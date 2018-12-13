@@ -327,6 +327,9 @@ class SchemaBuilder
                 (string)$names->not => 1,
                 (string)$names->definitions => 1,
                 (string)$names->enum => 1,
+                (string)$names->if => 1,
+                (string)$names->then => 1,
+                (string)$names->else => 1,
                 (string)$names->fromRef => 1,
                 (string)$names->originPath => 1,
             );
@@ -362,25 +365,29 @@ class SchemaBuilder
 
     private function processLogic()
     {
-        if ($this->schema->not !== null) {
-            $this->result->addSnippet(
-                $this->copyTo(new SchemaBuilder(
-                    $this->schema->not,
-                    "{$this->varName}->not",
-                    $this->path . '->not',
-                    $this->phpBuilder
-                ))->build()
-            );
+        $names = Schema::names();
+        foreach (array($names->not, $names->if, $names->then, $names->else) as $keyword) {
+            if ($this->schema->$keyword !== null) {
+                $this->result->addSnippet(
+                    $this->copyTo(new SchemaBuilder(
+                        $this->schema->$keyword,
+                        "{$this->varName}->{$keyword}",
+                        $this->path . '->' . $keyword,
+                        $this->phpBuilder
+                    ))->build()
+                );
+            }
+
         }
 
-        foreach (array('anyOf', 'oneOf', 'allOf') as $logic) {
-            if ($this->schema->$logic !== null) {
-                foreach ($this->schema->$logic as $index => $schema) {
+        foreach (array($names->anyOf, $names->oneOf, $names->allOf) as $keyword) {
+            if ($this->schema->$keyword !== null) {
+                foreach ($this->schema->$keyword as $index => $schema) {
                     $this->result->addSnippet(
                         $this->copyTo(new SchemaBuilder(
                             $schema,
-                            "{$this->varName}->{$logic}[{$index}]",
-                            $this->path . "->{$logic}[{$index}]",
+                            "{$this->varName}->{$keyword}[{$index}]",
+                            $this->path . "->{$keyword}[{$index}]",
                             $this->phpBuilder
                         ))->build()
                     );
