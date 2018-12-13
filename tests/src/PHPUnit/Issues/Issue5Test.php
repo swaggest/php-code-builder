@@ -2,11 +2,13 @@
 
 namespace Swaggest\PhpCodeBuilder\Tests\PHPUnit\Issues;
 
+use Swaggest\JsonSchema\Exception\ObjectException;
 use Swaggest\JsonSchema\Schema;
 use Swaggest\PhpCodeBuilder\App\PhpApp;
 use Swaggest\PhpCodeBuilder\JsonSchema\ClassHookCallback;
 use Swaggest\PhpCodeBuilder\JsonSchema\PhpBuilder;
 use Swaggest\PhpCodeBuilder\PhpClass;
+use Swaggest\PhpCodeBuilder\Tests\Tmp\Issue5\Sample;
 
 /**
  * @see https://github.com/swaggest/php-code-builder/issues/5
@@ -55,7 +57,8 @@ JSON;
         $builder->makeEnumConstants = true;
 
         $builder->classCreatedHook = new ClassHookCallback(
-            function (PhpClass $class, $path, $schema) use ($app) {
+            function (PhpClass $class, $path, $schema) use ($app, $appNs) {
+                $class->setNamespace($appNs);
                 if ('#' === $path) {
                     $class->setName('Sample'); // Class name for root schema
                 }
@@ -72,5 +75,20 @@ JSON;
         exec('git diff ' . $appPath, $out);
         $out = implode("\n", $out);
         $this->assertSame('', $out, "Generated files changed");
+
     }
+
+
+    function testGeneratedInvalid()
+    {
+        $this->setExpectedException(ObjectException::class, 'Required property missing: bar, data: {"foo":"bar"} at #->$ref[#/definitions/Swaggest\PhpCodeBuilder\Tests\Tmp\Issue5\Sample]->then');
+        Sample::import((object)array('foo' => 'bar'));
+    }
+
+    function testGeneratedValid()
+    {
+        Sample::import((object)array('foo' => 'bar', 'bar' => 'ok'));
+        Sample::import((object)array('foo' => 'not-bar'));
+    }
+
 }
