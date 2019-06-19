@@ -125,6 +125,7 @@ class PhpCode extends PhpTemplate
     public static function varExport($value)
     {
         $result = var_export($value, 1);
+        $result = str_replace("stdClass::__set_state", "(object)", $result);
         $result = str_replace("array (\n", "array(\n", $result);
         $result = str_replace('  ', '    ', $result);
         $result = str_replace("array(\n)", "array()", $result);
