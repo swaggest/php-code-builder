@@ -52,7 +52,57 @@ PHP
                 , [':schema' => new TypeOf(PhpClass::byFQN(Schema::class))]
             ));
 
+            $names = Schema::names();
             foreach ($propertiesFound as $name) {
+                if ($name === $names->items
+                    || $name === $names->additionalProperties
+                    || $name === $names->additionalItems
+                    || $name === $names->not
+                    || $name === $names->if
+                    || $name === $names->then
+                    || $name === $names->else) {
+                    $body->addSnippet(<<<PHP
+if (\$this->$name !== null && \$this->$name instanceof SchemaExporter) {
+    \$schema->$name = \$this->{$name}->exportSchema();
+}
+
+PHP
+                    );
+                    continue;
+                }
+
+                if ($name === $names->allOf || $name === $names->oneOf || $name === $names->anyOf) {
+                    $body->addSnippet(<<<PHP
+if (!empty(\$this->$name)) {
+    foreach (\$this->$name as \$i => \$item) {
+        if (\$item instanceof SchemaExporter) {
+            \$schema->{$name}[\$i] = \$item->exportSchema();
+        }
+    }
+}
+
+PHP
+                    );
+                    continue;
+                }
+
+
+                if ($name === $names->properties) {
+                    $body->addSnippet(<<<PHP
+if (!empty(\$this->$name)) {
+    foreach (\$this->$name as \$propertyName => \$propertySchema) {
+        if (is_string(\$propertyName) && \$propertySchema instanceof SchemaExporter) {
+            \$schema->setProperty(\$propertyName, \$propertySchema->exportSchema());
+        }
+    }
+}
+
+PHP
+                    );
+                    continue;
+                }
+
+
                 $body->addSnippet(<<<PHP
 \$schema->$name = \$this->$name;
 

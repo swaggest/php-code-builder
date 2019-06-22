@@ -3,6 +3,7 @@
 namespace Swaggest\PhpCodeBuilder\Types;
 
 use Swaggest\PhpCodeBuilder\PhpAnyType;
+use Swaggest\PhpCodeBuilder\PhpStdType;
 
 class OrType implements PhpAnyType
 {
@@ -26,10 +27,19 @@ class OrType implements PhpAnyType
         foreach ($this->types as $type) {
             $phpDocType = $type->renderPhpDocType();
             if ($phpDocType) {
-                $index[$phpDocType] = 1;
+                $phpDocParts = explode('|', $phpDocType);
+                foreach ($phpDocParts as $k => $part) {
+                    if ($part !== PhpStdType::TYPE_MIXED) {
+                        $index[$phpDocType] = 1;
+                    }
+                }
             }
         }
-        return implode('|', array_keys($index));
+        $phpDocType = implode('|', array_keys($index));
+        if ($phpDocType === '') {
+            $phpDocType = PhpStdType::TYPE_MIXED;
+        }
+        return $phpDocType;
     }
 
     /**

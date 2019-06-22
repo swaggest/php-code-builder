@@ -52,8 +52,10 @@ class Root extends Swaggest\JsonSchema\Structure\ClassStructure
 
 class RootOneOf0 extends Swaggest\JsonSchema\Structure\ClassStructure
 {
+    /** @var mixed */
     public $foo;
 
+    /** @var mixed */
     public $bar;
 
     /**
@@ -73,8 +75,10 @@ class RootOneOf0 extends Swaggest\JsonSchema\Structure\ClassStructure
 
 class RootOneOf1 extends Swaggest\JsonSchema\Structure\ClassStructure
 {
+    /** @var mixed */
     public $foo;
 
+    /** @var mixed */
     public $bar;
 
     /**
@@ -144,8 +148,10 @@ class Root extends Swaggest\JsonSchema\Structure\ClassStructure
 
 class RootAnyOf0 extends Swaggest\JsonSchema\Structure\ClassStructure
 {
+    /** @var mixed */
     public $foo;
 
+    /** @var mixed */
     public $bar;
 
     /**
@@ -165,8 +171,10 @@ class RootAnyOf0 extends Swaggest\JsonSchema\Structure\ClassStructure
 
 class RootAnyOf1 extends Swaggest\JsonSchema\Structure\ClassStructure
 {
+    /** @var mixed */
     public $foo;
 
+    /** @var mixed */
     public $bar;
 
     /**
@@ -237,8 +245,10 @@ class Root extends Swaggest\JsonSchema\Structure\ClassStructure
 
 class RootAllOf0 extends Swaggest\JsonSchema\Structure\ClassStructure
 {
+    /** @var mixed */
     public $foo;
 
+    /** @var mixed */
     public $bar;
 
     /**
@@ -258,8 +268,10 @@ class RootAllOf0 extends Swaggest\JsonSchema\Structure\ClassStructure
 
 class RootAllOf1 extends Swaggest\JsonSchema\Structure\ClassStructure
 {
+    /** @var mixed */
     public $foo;
 
+    /** @var mixed */
     public $bar;
 
     /**
@@ -308,7 +320,7 @@ JSON
 
         $expected = <<<'PHP'
 /**
- * @method static  import($data, Swaggest\JsonSchema\Context $options = null)
+ * @method static mixed import($data, Swaggest\JsonSchema\Context $options = null)
  */
 class Root extends Swaggest\JsonSchema\Structure\ClassStructure
 {
@@ -324,8 +336,10 @@ class Root extends Swaggest\JsonSchema\Structure\ClassStructure
 
 class RootNot extends Swaggest\JsonSchema\Structure\ClassStructure
 {
+    /** @var mixed */
     public $foo;
 
+    /** @var mixed */
     public $bar;
 
     /**
@@ -407,7 +421,7 @@ JSON
 
         $expected = <<<'PHP'
 /**
- * @method static  import($data, Swaggest\JsonSchema\Context $options = null)
+ * @method static mixed import($data, Swaggest\JsonSchema\Context $options = null)
  */
 class Root extends Swaggest\JsonSchema\Structure\ClassStructure
 {

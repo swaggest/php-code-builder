@@ -30,6 +30,7 @@ class Response extends ClassStructure
     /** @var Header[] */
     public $headers;
 
+    /** @var mixed */
     public $examples;
 
     /**
@@ -99,7 +100,7 @@ class Response extends ClassStructure
     /** @codeCoverageIgnoreEnd */
 
     /**
-     * @param $examples
+     * @param mixed $examples
      * @return $this
      * @codeCoverageIgnoreStart
      */
@@ -128,7 +129,7 @@ class Response extends ClassStructure
 
     /**
      * @param string $name
-     * @param $value
+     * @param mixed $value
      * @return self
      * @throws InvalidValue
      * @codeCoverageIgnoreStart

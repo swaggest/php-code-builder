@@ -49,6 +49,7 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
     /** @var string */
     public $description;
 
+    /** @var mixed */
     public $default;
 
     /** @var float */
@@ -123,6 +124,7 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
     /** @var ExternalDocs information about external documentation */
     public $externalDocs;
 
+    /** @var mixed */
     public $example;
 
     /**
@@ -158,11 +160,13 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
         $properties->maxLength->minimum = 0;
         $properties->maxLength->setFromRef('http://json-schema.org/draft-04/schema#/definitions/positiveInteger');
         $properties->minLength = new Schema();
-        $properties->minLength->allOf[0] = Schema::integer();
-        $properties->minLength->allOf[0]->minimum = 0;
-        $properties->minLength->allOf[0]->setFromRef('http://json-schema.org/draft-04/schema#/definitions/positiveInteger');
-        $properties->minLength->allOf[1] = new Schema();
-        $properties->minLength->allOf[1]->default = 0;
+        $propertiesMinLengthAllOf0 = Schema::integer();
+        $propertiesMinLengthAllOf0->minimum = 0;
+        $propertiesMinLengthAllOf0->setFromRef('http://json-schema.org/draft-04/schema#/definitions/positiveInteger');
+        $properties->minLength->allOf[0] = $propertiesMinLengthAllOf0;
+        $propertiesMinLengthAllOf1 = new Schema();
+        $propertiesMinLengthAllOf1->default = 0;
+        $properties->minLength->allOf[1] = $propertiesMinLengthAllOf1;
         $properties->minLength->setFromRef('http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0');
         $properties->pattern = Schema::string();
         $properties->pattern->format = "regex";
@@ -171,11 +175,13 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
         $properties->maxItems->minimum = 0;
         $properties->maxItems->setFromRef('http://json-schema.org/draft-04/schema#/definitions/positiveInteger');
         $properties->minItems = new Schema();
-        $properties->minItems->allOf[0] = Schema::integer();
-        $properties->minItems->allOf[0]->minimum = 0;
-        $properties->minItems->allOf[0]->setFromRef('http://json-schema.org/draft-04/schema#/definitions/positiveInteger');
-        $properties->minItems->allOf[1] = new Schema();
-        $properties->minItems->allOf[1]->default = 0;
+        $propertiesMinItemsAllOf0 = Schema::integer();
+        $propertiesMinItemsAllOf0->minimum = 0;
+        $propertiesMinItemsAllOf0->setFromRef('http://json-schema.org/draft-04/schema#/definitions/positiveInteger');
+        $properties->minItems->allOf[0] = $propertiesMinItemsAllOf0;
+        $propertiesMinItemsAllOf1 = new Schema();
+        $propertiesMinItemsAllOf1->default = 0;
+        $properties->minItems->allOf[1] = $propertiesMinItemsAllOf1;
         $properties->minItems->setFromRef('http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0');
         $properties->uniqueItems = Schema::boolean();
         $properties->uniqueItems->default = false;
@@ -184,11 +190,13 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
         $properties->maxProperties->minimum = 0;
         $properties->maxProperties->setFromRef('http://json-schema.org/draft-04/schema#/definitions/positiveInteger');
         $properties->minProperties = new Schema();
-        $properties->minProperties->allOf[0] = Schema::integer();
-        $properties->minProperties->allOf[0]->minimum = 0;
-        $properties->minProperties->allOf[0]->setFromRef('http://json-schema.org/draft-04/schema#/definitions/positiveInteger');
-        $properties->minProperties->allOf[1] = new Schema();
-        $properties->minProperties->allOf[1]->default = 0;
+        $propertiesMinPropertiesAllOf0 = Schema::integer();
+        $propertiesMinPropertiesAllOf0->minimum = 0;
+        $propertiesMinPropertiesAllOf0->setFromRef('http://json-schema.org/draft-04/schema#/definitions/positiveInteger');
+        $properties->minProperties->allOf[0] = $propertiesMinPropertiesAllOf0;
+        $propertiesMinPropertiesAllOf1 = new Schema();
+        $propertiesMinPropertiesAllOf1->default = 0;
+        $properties->minProperties->allOf[1] = $propertiesMinPropertiesAllOf1;
         $properties->minProperties->setFromRef('http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0');
         $properties->required = Schema::arr();
         $properties->required->items = Schema::string();
@@ -204,8 +212,8 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
         $properties->additionalProperties->anyOf[1] = Schema::boolean();
         $properties->additionalProperties->default = (object)array();
         $properties->type = new Schema();
-        $properties->type->anyOf[0] = new Schema();
-        $properties->type->anyOf[0]->enum = array(
+        $propertiesTypeAnyOf0 = new Schema();
+        $propertiesTypeAnyOf0->enum = array(
             self::_ARRAY,
             self::BOOLEAN,
             self::INTEGER,
@@ -214,10 +222,11 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
             self::OBJECT,
             self::STRING,
         );
-        $properties->type->anyOf[0]->setFromRef('#/definitions/simpleTypes');
-        $properties->type->anyOf[1] = Schema::arr();
-        $properties->type->anyOf[1]->items = new Schema();
-        $properties->type->anyOf[1]->items->enum = array(
+        $propertiesTypeAnyOf0->setFromRef('#/definitions/simpleTypes');
+        $properties->type->anyOf[0] = $propertiesTypeAnyOf0;
+        $propertiesTypeAnyOf1 = Schema::arr();
+        $propertiesTypeAnyOf1->items = new Schema();
+        $propertiesTypeAnyOf1->items->enum = array(
             self::_ARRAY,
             self::BOOLEAN,
             self::INTEGER,
@@ -226,15 +235,17 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
             self::OBJECT,
             self::STRING,
         );
-        $properties->type->anyOf[1]->items->setFromRef('#/definitions/simpleTypes');
-        $properties->type->anyOf[1]->minItems = 1;
-        $properties->type->anyOf[1]->uniqueItems = true;
+        $propertiesTypeAnyOf1->items->setFromRef('#/definitions/simpleTypes');
+        $propertiesTypeAnyOf1->minItems = 1;
+        $propertiesTypeAnyOf1->uniqueItems = true;
+        $properties->type->anyOf[1] = $propertiesTypeAnyOf1;
         $properties->type->setFromRef('http://json-schema.org/draft-04/schema#/properties/type');
         $properties->items = new Schema();
         $properties->items->anyOf[0] = DefinitionsSchema::schema();
-        $properties->items->anyOf[1] = Schema::arr();
-        $properties->items->anyOf[1]->items = DefinitionsSchema::schema();
-        $properties->items->anyOf[1]->minItems = 1;
+        $propertiesItemsAnyOf1 = Schema::arr();
+        $propertiesItemsAnyOf1->items = DefinitionsSchema::schema();
+        $propertiesItemsAnyOf1->minItems = 1;
+        $properties->items->anyOf[1] = $propertiesItemsAnyOf1;
         $properties->items->default = (object)array();
         $properties->allOf = Schema::arr();
         $properties->allOf->items = DefinitionsSchema::schema();
@@ -309,7 +320,7 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
     /** @codeCoverageIgnoreEnd */
 
     /**
-     * @param $default
+     * @param mixed $default
      * @return $this
      * @codeCoverageIgnoreStart
      */
@@ -609,7 +620,7 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
     /** @codeCoverageIgnoreEnd */
 
     /**
-     * @param $example
+     * @param mixed $example
      * @return $this
      * @codeCoverageIgnoreStart
      */
@@ -638,7 +649,7 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
 
     /**
      * @param string $name
-     * @param $value
+     * @param mixed $value
      * @return self
      * @throws InvalidValue
      * @codeCoverageIgnoreStart
@@ -680,11 +691,27 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
         $schema->minProperties = $this->minProperties;
         $schema->required = $this->required;
         $schema->enum = $this->enum;
-        $schema->additionalProperties = $this->additionalProperties;
+        if ($this->additionalProperties !== null && $this->additionalProperties instanceof SchemaExporter) {
+            $schema->additionalProperties = $this->additionalProperties->exportSchema();
+        }
         $schema->type = $this->type;
-        $schema->items = $this->items;
-        $schema->allOf = $this->allOf;
-        $schema->properties = $this->properties;
+        if ($this->items !== null && $this->items instanceof SchemaExporter) {
+            $schema->items = $this->items->exportSchema();
+        }
+        if (!empty($this->allOf)) {
+            foreach ($this->allOf as $i => $item) {
+                if ($item instanceof SchemaExporter) {
+                    $schema->allOf[$i] = $item->exportSchema();
+                }
+            }
+        }
+        if (!empty($this->properties)) {
+            foreach ($this->properties as $propertyName => $propertySchema) {
+                if (is_string($propertyName) && $propertySchema instanceof SchemaExporter) {
+                    $schema->setProperty($propertyName, $propertySchema->exportSchema());
+                }
+            }
+        }
         $schema->__fromRef = $this->__fromRef;
         $schema->setDocumentPath($this->getDocumentPath());
         $schema->addMeta($this, 'origin');

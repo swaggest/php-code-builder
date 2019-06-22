@@ -53,7 +53,7 @@ class Operation extends ClassStructure
     /** @var BodyParameter[]|HeaderParameterSubSchema[]|FormDataParameterSubSchema[]|QueryParameterSubSchema[]|PathParameterSubSchema[]|JsonReference[]|array The parameters needed to send a valid API call. */
     public $parameters;
 
-    /** @var Response objects names can either be any valid HTTP status code or 'default'. */
+    /** @var mixed Response objects names can either be any valid HTTP status code or 'default'. */
     public $responses;
 
     /** @var string[]|array The transfer protocol of the API. */
@@ -82,38 +82,42 @@ class Operation extends ClassStructure
         $properties->operationId = Schema::string();
         $properties->operationId->description = "A unique identifier of the operation.";
         $properties->produces = new Schema();
-        $properties->produces->allOf[0] = Schema::arr();
-        $properties->produces->allOf[0]->items = Schema::string();
-        $properties->produces->allOf[0]->items->description = "The MIME type of the HTTP message.";
-        $properties->produces->allOf[0]->items->setFromRef('#/definitions/mimeType');
-        $properties->produces->allOf[0]->uniqueItems = true;
-        $properties->produces->allOf[0]->setFromRef('#/definitions/mediaTypeList');
+        $propertiesProducesAllOf0 = Schema::arr();
+        $propertiesProducesAllOf0->items = Schema::string();
+        $propertiesProducesAllOf0->items->description = "The MIME type of the HTTP message.";
+        $propertiesProducesAllOf0->items->setFromRef('#/definitions/mimeType');
+        $propertiesProducesAllOf0->uniqueItems = true;
+        $propertiesProducesAllOf0->setFromRef('#/definitions/mediaTypeList');
+        $properties->produces->allOf[0] = $propertiesProducesAllOf0;
         $properties->produces->description = "A list of MIME types the API can produce.";
         $properties->consumes = new Schema();
-        $properties->consumes->allOf[0] = Schema::arr();
-        $properties->consumes->allOf[0]->items = Schema::string();
-        $properties->consumes->allOf[0]->items->description = "The MIME type of the HTTP message.";
-        $properties->consumes->allOf[0]->items->setFromRef('#/definitions/mimeType');
-        $properties->consumes->allOf[0]->uniqueItems = true;
-        $properties->consumes->allOf[0]->setFromRef('#/definitions/mediaTypeList');
+        $propertiesConsumesAllOf0 = Schema::arr();
+        $propertiesConsumesAllOf0->items = Schema::string();
+        $propertiesConsumesAllOf0->items->description = "The MIME type of the HTTP message.";
+        $propertiesConsumesAllOf0->items->setFromRef('#/definitions/mimeType');
+        $propertiesConsumesAllOf0->uniqueItems = true;
+        $propertiesConsumesAllOf0->setFromRef('#/definitions/mediaTypeList');
+        $properties->consumes->allOf[0] = $propertiesConsumesAllOf0;
         $properties->consumes->description = "A list of MIME types the API can consume.";
         $properties->parameters = Schema::arr();
         $properties->parameters->additionalItems = false;
         $properties->parameters->items = new Schema();
-        $properties->parameters->items->oneOf[0] = new Schema();
-        $properties->parameters->items->oneOf[0]->oneOf[0] = BodyParameter::schema();
-        $properties->parameters->items->oneOf[0]->oneOf[1] = Schema::object();
-        $properties->parameters->items->oneOf[0]->oneOf[1]->oneOf[0] = HeaderParameterSubSchema::schema();
-        $properties->parameters->items->oneOf[0]->oneOf[1]->oneOf[1] = FormDataParameterSubSchema::schema();
-        $properties->parameters->items->oneOf[0]->oneOf[1]->oneOf[2] = QueryParameterSubSchema::schema();
-        $properties->parameters->items->oneOf[0]->oneOf[1]->oneOf[3] = PathParameterSubSchema::schema();
-        $properties->parameters->items->oneOf[0]->oneOf[1]->required = array(
+        $propertiesParametersItemsOneOf0 = new Schema();
+        $propertiesParametersItemsOneOf0->oneOf[0] = BodyParameter::schema();
+        $propertiesParametersItemsOneOf0OneOf1 = Schema::object();
+        $propertiesParametersItemsOneOf0OneOf1->oneOf[0] = HeaderParameterSubSchema::schema();
+        $propertiesParametersItemsOneOf0OneOf1->oneOf[1] = FormDataParameterSubSchema::schema();
+        $propertiesParametersItemsOneOf0OneOf1->oneOf[2] = QueryParameterSubSchema::schema();
+        $propertiesParametersItemsOneOf0OneOf1->oneOf[3] = PathParameterSubSchema::schema();
+        $propertiesParametersItemsOneOf0OneOf1->required = array(
             0 => 'name',
             1 => 'in',
             2 => 'type',
         );
-        $properties->parameters->items->oneOf[0]->oneOf[1]->setFromRef('#/definitions/nonBodyParameter');
-        $properties->parameters->items->oneOf[0]->setFromRef('#/definitions/parameter');
+        $propertiesParametersItemsOneOf0OneOf1->setFromRef('#/definitions/nonBodyParameter');
+        $propertiesParametersItemsOneOf0->oneOf[1] = $propertiesParametersItemsOneOf0OneOf1;
+        $propertiesParametersItemsOneOf0->setFromRef('#/definitions/parameter');
+        $properties->parameters->items->oneOf[0] = $propertiesParametersItemsOneOf0;
         $properties->parameters->items->oneOf[1] = JsonReference::schema();
         $properties->parameters->description = "The parameters needed to send a valid API call.";
         $properties->parameters->uniqueItems = true;
@@ -274,7 +278,7 @@ class Operation extends ClassStructure
     /** @codeCoverageIgnoreEnd */
 
     /**
-     * @param $responses Response objects names can either be any valid HTTP status code or 'default'.
+     * @param mixed $responses Response objects names can either be any valid HTTP status code or 'default'.
      * @return $this
      * @codeCoverageIgnoreStart
      */
@@ -339,7 +343,7 @@ class Operation extends ClassStructure
 
     /**
      * @param string $name
-     * @param $value
+     * @param mixed $value
      * @return self
      * @throws InvalidValue
      * @codeCoverageIgnoreStart

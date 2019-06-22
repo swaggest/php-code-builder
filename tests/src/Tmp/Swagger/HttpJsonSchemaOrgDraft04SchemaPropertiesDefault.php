@@ -14,7 +14,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from http://json-schema.org/draft-04/schema#/properties/default
- * @method static  import($data, Context $options = null)
+ * @method static mixed import($data, Context $options = null)
  */
 class HttpJsonSchemaOrgDraft04SchemaPropertiesDefault extends ClassStructure
 {
