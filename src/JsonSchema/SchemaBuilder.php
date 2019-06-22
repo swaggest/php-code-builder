@@ -383,14 +383,29 @@ class SchemaBuilder
         foreach (array($names->anyOf, $names->oneOf, $names->allOf) as $keyword) {
             if ($this->schema->$keyword !== null) {
                 foreach ($this->schema->$keyword as $index => $schema) {
-                    $this->result->addSnippet(
-                        $this->copyTo(new SchemaBuilder(
+                    $varName = '$' . PhpCode::makePhpName("{$this->varName}->{$keyword}[{$index}]");
+                    $schemaInit = $this->copyTo(new SchemaBuilder(
+                        $schema,
+                        $varName,
+                        $this->path . "->{$keyword}[{$index}]",
+                        $this->phpBuilder
+                    ))->build();
+
+                    if (count($schemaInit->snippets) === 1) { // Init in single statement can be just assigned.
+                        $this->result->addSnippet($this->copyTo(new SchemaBuilder(
                             $schema,
                             "{$this->varName}->{$keyword}[{$index}]",
                             $this->path . "->{$keyword}[{$index}]",
                             $this->phpBuilder
-                        ))->build()
-                    );
+                        ))->build());
+                    } else {
+                        $this->result->addSnippet($schemaInit);
+                        $this->result->addSnippet(<<<PHP
+{$this->varName}->{$keyword}[{$index}] = {$varName};
+
+PHP
+                        );
+                    }
                 }
             }
         }

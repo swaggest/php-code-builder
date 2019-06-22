@@ -66,6 +66,7 @@ class PathParameterSubSchema extends ClassStructure implements SchemaExporter
     /** @var string */
     public $collectionFormat;
 
+    /** @var mixed */
     public $default;
 
     /** @var float */
@@ -159,11 +160,13 @@ class PathParameterSubSchema extends ClassStructure implements SchemaExporter
         $properties->maxLength->minimum = 0;
         $properties->maxLength->setFromRef('#/definitions/maxLength');
         $properties->minLength = new Schema();
-        $properties->minLength->allOf[0] = Schema::integer();
-        $properties->minLength->allOf[0]->minimum = 0;
-        $properties->minLength->allOf[0]->setFromRef('http://json-schema.org/draft-04/schema#/definitions/positiveInteger');
-        $properties->minLength->allOf[1] = new Schema();
-        $properties->minLength->allOf[1]->default = 0;
+        $propertiesMinLengthAllOf0 = Schema::integer();
+        $propertiesMinLengthAllOf0->minimum = 0;
+        $propertiesMinLengthAllOf0->setFromRef('http://json-schema.org/draft-04/schema#/definitions/positiveInteger');
+        $properties->minLength->allOf[0] = $propertiesMinLengthAllOf0;
+        $propertiesMinLengthAllOf1 = new Schema();
+        $propertiesMinLengthAllOf1->default = 0;
+        $properties->minLength->allOf[1] = $propertiesMinLengthAllOf1;
         $properties->minLength->setFromRef('#/definitions/minLength');
         $properties->pattern = Schema::string();
         $properties->pattern->format = "regex";
@@ -172,11 +175,13 @@ class PathParameterSubSchema extends ClassStructure implements SchemaExporter
         $properties->maxItems->minimum = 0;
         $properties->maxItems->setFromRef('#/definitions/maxItems');
         $properties->minItems = new Schema();
-        $properties->minItems->allOf[0] = Schema::integer();
-        $properties->minItems->allOf[0]->minimum = 0;
-        $properties->minItems->allOf[0]->setFromRef('http://json-schema.org/draft-04/schema#/definitions/positiveInteger');
-        $properties->minItems->allOf[1] = new Schema();
-        $properties->minItems->allOf[1]->default = 0;
+        $propertiesMinItemsAllOf0 = Schema::integer();
+        $propertiesMinItemsAllOf0->minimum = 0;
+        $propertiesMinItemsAllOf0->setFromRef('http://json-schema.org/draft-04/schema#/definitions/positiveInteger');
+        $properties->minItems->allOf[0] = $propertiesMinItemsAllOf0;
+        $propertiesMinItemsAllOf1 = new Schema();
+        $propertiesMinItemsAllOf1->default = 0;
+        $properties->minItems->allOf[1] = $propertiesMinItemsAllOf1;
         $properties->minItems->setFromRef('#/definitions/minItems');
         $properties->uniqueItems = Schema::boolean();
         $properties->uniqueItems->default = false;
@@ -299,7 +304,7 @@ class PathParameterSubSchema extends ClassStructure implements SchemaExporter
     /** @codeCoverageIgnoreEnd */
 
     /**
-     * @param $default
+     * @param mixed $default
      * @return $this
      * @codeCoverageIgnoreStart
      */
@@ -472,7 +477,7 @@ class PathParameterSubSchema extends ClassStructure implements SchemaExporter
 
     /**
      * @param string $name
-     * @param $value
+     * @param mixed $value
      * @return self
      * @throws InvalidValue
      * @codeCoverageIgnoreStart
@@ -497,7 +502,9 @@ class PathParameterSubSchema extends ClassStructure implements SchemaExporter
         $schema->description = $this->description;
         $schema->type = $this->type;
         $schema->format = $this->format;
-        $schema->items = $this->items;
+        if ($this->items !== null && $this->items instanceof SchemaExporter) {
+            $schema->items = $this->items->exportSchema();
+        }
         $schema->default = $this->default;
         $schema->maximum = $this->maximum;
         $schema->exclusiveMaximum = $this->exclusiveMaximum;

@@ -35,6 +35,7 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
     /** @var string */
     public $description;
 
+    /** @var mixed */
     public $default;
 
     /** @var float */
@@ -109,6 +110,7 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
     /** @var ExternalDocs information about external documentation */
     public $externalDocs;
 
+    /** @var mixed */
     public $example;
 
     /**
@@ -145,9 +147,10 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
         $properties->type = HttpJsonSchemaOrgDraft04SchemaPropertiesType::schema();
         $properties->items = new Schema();
         $properties->items->anyOf[0] = DefinitionsSchema::schema();
-        $properties->items->anyOf[1] = Schema::arr();
-        $properties->items->anyOf[1]->items = DefinitionsSchema::schema();
-        $properties->items->anyOf[1]->minItems = 1;
+        $propertiesItemsAnyOf1 = Schema::arr();
+        $propertiesItemsAnyOf1->items = DefinitionsSchema::schema();
+        $propertiesItemsAnyOf1->minItems = 1;
+        $properties->items->anyOf[1] = $propertiesItemsAnyOf1;
         $properties->items->default = (object)array();
         $properties->allOf = Schema::arr();
         $properties->allOf->items = DefinitionsSchema::schema();
@@ -218,7 +221,7 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
     /** @codeCoverageIgnoreEnd */
 
     /**
-     * @param $default
+     * @param mixed $default
      * @return $this
      * @codeCoverageIgnoreStart
      */
@@ -518,7 +521,7 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
     /** @codeCoverageIgnoreEnd */
 
     /**
-     * @param $example
+     * @param mixed $example
      * @return $this
      * @codeCoverageIgnoreStart
      */
@@ -547,7 +550,7 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
 
     /**
      * @param string $name
-     * @param $value
+     * @param mixed $value
      * @return self
      * @throws InvalidValue
      * @codeCoverageIgnoreStart
@@ -589,11 +592,27 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
         $schema->minProperties = $this->minProperties;
         $schema->required = $this->required;
         $schema->enum = $this->enum;
-        $schema->additionalProperties = $this->additionalProperties;
+        if ($this->additionalProperties !== null && $this->additionalProperties instanceof SchemaExporter) {
+            $schema->additionalProperties = $this->additionalProperties->exportSchema();
+        }
         $schema->type = $this->type;
-        $schema->items = $this->items;
-        $schema->allOf = $this->allOf;
-        $schema->properties = $this->properties;
+        if ($this->items !== null && $this->items instanceof SchemaExporter) {
+            $schema->items = $this->items->exportSchema();
+        }
+        if (!empty($this->allOf)) {
+            foreach ($this->allOf as $i => $item) {
+                if ($item instanceof SchemaExporter) {
+                    $schema->allOf[$i] = $item->exportSchema();
+                }
+            }
+        }
+        if (!empty($this->properties)) {
+            foreach ($this->properties as $propertyName => $propertySchema) {
+                if (is_string($propertyName) && $propertySchema instanceof SchemaExporter) {
+                    $schema->setProperty($propertyName, $propertySchema->exportSchema());
+                }
+            }
+        }
         $schema->__fromRef = $this->__fromRef;
         $schema->setDocumentPath($this->getDocumentPath());
         $schema->addMeta($this, 'origin');

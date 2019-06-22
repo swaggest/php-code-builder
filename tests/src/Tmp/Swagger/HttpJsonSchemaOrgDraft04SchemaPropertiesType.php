@@ -25,10 +25,11 @@ class HttpJsonSchemaOrgDraft04SchemaPropertiesType extends ClassStructure
     public static function setUpProperties($properties, Schema $ownerSchema)
     {
         $ownerSchema->anyOf[0] = SimpleTypes::schema();
-        $ownerSchema->anyOf[1] = Schema::arr();
-        $ownerSchema->anyOf[1]->items = SimpleTypes::schema();
-        $ownerSchema->anyOf[1]->minItems = 1;
-        $ownerSchema->anyOf[1]->uniqueItems = true;
+        $ownerSchemaAnyOf1 = Schema::arr();
+        $ownerSchemaAnyOf1->items = SimpleTypes::schema();
+        $ownerSchemaAnyOf1->minItems = 1;
+        $ownerSchemaAnyOf1->uniqueItems = true;
+        $ownerSchema->anyOf[1] = $ownerSchemaAnyOf1;
         $ownerSchema->setFromRef('http://json-schema.org/draft-04/schema#/properties/type');
     }
 }

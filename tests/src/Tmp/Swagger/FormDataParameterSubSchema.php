@@ -63,6 +63,7 @@ class FormDataParameterSubSchema extends ClassStructure implements SchemaExporte
     /** @var string */
     public $collectionFormat;
 
+    /** @var mixed */
     public $default;
 
     /** @var float */
@@ -262,7 +263,7 @@ class FormDataParameterSubSchema extends ClassStructure implements SchemaExporte
     /** @codeCoverageIgnoreEnd */
 
     /**
-     * @param $default
+     * @param mixed $default
      * @return $this
      * @codeCoverageIgnoreStart
      */
@@ -435,7 +436,7 @@ class FormDataParameterSubSchema extends ClassStructure implements SchemaExporte
 
     /**
      * @param string $name
-     * @param $value
+     * @param mixed $value
      * @return self
      * @throws InvalidValue
      * @codeCoverageIgnoreStart
@@ -460,7 +461,9 @@ class FormDataParameterSubSchema extends ClassStructure implements SchemaExporte
         $schema->description = $this->description;
         $schema->type = $this->type;
         $schema->format = $this->format;
-        $schema->items = $this->items;
+        if ($this->items !== null && $this->items instanceof SchemaExporter) {
+            $schema->items = $this->items->exportSchema();
+        }
         $schema->default = $this->default;
         $schema->maximum = $this->maximum;
         $schema->exclusiveMaximum = $this->exclusiveMaximum;

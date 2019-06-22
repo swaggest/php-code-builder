@@ -66,20 +66,22 @@ class PathItem extends ClassStructure
         $properties->parameters = Schema::arr();
         $properties->parameters->additionalItems = false;
         $properties->parameters->items = new Schema();
-        $properties->parameters->items->oneOf[0] = new Schema();
-        $properties->parameters->items->oneOf[0]->oneOf[0] = BodyParameter::schema();
-        $properties->parameters->items->oneOf[0]->oneOf[1] = Schema::object();
-        $properties->parameters->items->oneOf[0]->oneOf[1]->oneOf[0] = HeaderParameterSubSchema::schema();
-        $properties->parameters->items->oneOf[0]->oneOf[1]->oneOf[1] = FormDataParameterSubSchema::schema();
-        $properties->parameters->items->oneOf[0]->oneOf[1]->oneOf[2] = QueryParameterSubSchema::schema();
-        $properties->parameters->items->oneOf[0]->oneOf[1]->oneOf[3] = PathParameterSubSchema::schema();
-        $properties->parameters->items->oneOf[0]->oneOf[1]->required = array(
+        $propertiesParametersItemsOneOf0 = new Schema();
+        $propertiesParametersItemsOneOf0->oneOf[0] = BodyParameter::schema();
+        $propertiesParametersItemsOneOf0OneOf1 = Schema::object();
+        $propertiesParametersItemsOneOf0OneOf1->oneOf[0] = HeaderParameterSubSchema::schema();
+        $propertiesParametersItemsOneOf0OneOf1->oneOf[1] = FormDataParameterSubSchema::schema();
+        $propertiesParametersItemsOneOf0OneOf1->oneOf[2] = QueryParameterSubSchema::schema();
+        $propertiesParametersItemsOneOf0OneOf1->oneOf[3] = PathParameterSubSchema::schema();
+        $propertiesParametersItemsOneOf0OneOf1->required = array(
             0 => 'name',
             1 => 'in',
             2 => 'type',
         );
-        $properties->parameters->items->oneOf[0]->oneOf[1]->setFromRef('#/definitions/nonBodyParameter');
-        $properties->parameters->items->oneOf[0]->setFromRef('#/definitions/parameter');
+        $propertiesParametersItemsOneOf0OneOf1->setFromRef('#/definitions/nonBodyParameter');
+        $propertiesParametersItemsOneOf0->oneOf[1] = $propertiesParametersItemsOneOf0OneOf1;
+        $propertiesParametersItemsOneOf0->setFromRef('#/definitions/parameter');
+        $properties->parameters->items->oneOf[0] = $propertiesParametersItemsOneOf0;
         $properties->parameters->items->oneOf[1] = JsonReference::schema();
         $properties->parameters->description = "The parameters needed to send a valid API call.";
         $properties->parameters->uniqueItems = true;
@@ -221,7 +223,7 @@ class PathItem extends ClassStructure
 
     /**
      * @param string $name
-     * @param $value
+     * @param mixed $value
      * @return self
      * @throws InvalidValue
      * @codeCoverageIgnoreStart

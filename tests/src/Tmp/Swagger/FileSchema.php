@@ -34,6 +34,7 @@ class FileSchema extends ClassStructure implements SchemaExporter
     /** @var string */
     public $description;
 
+    /** @var mixed */
     public $default;
 
     /** @var string[]|array */
@@ -48,6 +49,7 @@ class FileSchema extends ClassStructure implements SchemaExporter
     /** @var ExternalDocs information about external documentation */
     public $externalDocs;
 
+    /** @var mixed */
     public $example;
 
     /**
@@ -117,7 +119,7 @@ class FileSchema extends ClassStructure implements SchemaExporter
     /** @codeCoverageIgnoreEnd */
 
     /**
-     * @param $default
+     * @param mixed $default
      * @return $this
      * @codeCoverageIgnoreStart
      */
@@ -177,7 +179,7 @@ class FileSchema extends ClassStructure implements SchemaExporter
     /** @codeCoverageIgnoreEnd */
 
     /**
-     * @param $example
+     * @param mixed $example
      * @return $this
      * @codeCoverageIgnoreStart
      */
@@ -206,7 +208,7 @@ class FileSchema extends ClassStructure implements SchemaExporter
 
     /**
      * @param string $name
-     * @param $value
+     * @param mixed $value
      * @return self
      * @throws InvalidValue
      * @codeCoverageIgnoreStart

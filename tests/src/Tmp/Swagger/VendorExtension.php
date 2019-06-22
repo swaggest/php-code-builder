@@ -15,7 +15,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 /**
  * Any property starting with x- is valid.
  * Built from #/definitions/vendorExtension
- * @method static  import($data, Context $options = null)
+ * @method static mixed import($data, Context $options = null)
  */
 class VendorExtension extends ClassStructure
 {

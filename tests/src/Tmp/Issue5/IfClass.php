@@ -15,6 +15,7 @@ class IfClass extends ClassStructure
 {
     const BAR = 'bar';
 
+    /** @var mixed */
     public $foo;
 
     /**

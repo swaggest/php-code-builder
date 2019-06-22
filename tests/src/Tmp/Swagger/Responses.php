@@ -18,7 +18,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 /**
  * Response objects names can either be any valid HTTP status code or 'default'.
  * Built from #/definitions/responses
- * @method static  import($data, Context $options = null)
+ * @method static mixed import($data, Context $options = null)
  */
 class Responses extends ClassStructure
 {
@@ -100,7 +100,7 @@ class Responses extends ClassStructure
 
     /**
      * @param string $name
-     * @param $value
+     * @param mixed $value
      * @return self
      * @throws InvalidValue
      * @codeCoverageIgnoreStart

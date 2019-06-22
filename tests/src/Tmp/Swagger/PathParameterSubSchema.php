@@ -58,6 +58,7 @@ class PathParameterSubSchema extends ClassStructure implements SchemaExporter
     /** @var string */
     public $collectionFormat;
 
+    /** @var mixed */
     public $default;
 
     /** @var float */
@@ -246,7 +247,7 @@ class PathParameterSubSchema extends ClassStructure implements SchemaExporter
     /** @codeCoverageIgnoreEnd */
 
     /**
-     * @param $default
+     * @param mixed $default
      * @return $this
      * @codeCoverageIgnoreStart
      */
@@ -419,7 +420,7 @@ class PathParameterSubSchema extends ClassStructure implements SchemaExporter
 
     /**
      * @param string $name
-     * @param $value
+     * @param mixed $value
      * @return self
      * @throws InvalidValue
      * @codeCoverageIgnoreStart
@@ -444,7 +445,9 @@ class PathParameterSubSchema extends ClassStructure implements SchemaExporter
         $schema->description = $this->description;
         $schema->type = $this->type;
         $schema->format = $this->format;
-        $schema->items = $this->items;
+        if ($this->items !== null && $this->items instanceof SchemaExporter) {
+            $schema->items = $this->items->exportSchema();
+        }
         $schema->default = $this->default;
         $schema->maximum = $this->maximum;
         $schema->exclusiveMaximum = $this->exclusiveMaximum;
