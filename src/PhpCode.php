@@ -107,17 +107,21 @@ class PhpCode extends PhpTemplate
     {
         $phpName = preg_replace("/([^a-zA-Z0-9_]+)/", "_", $rawName);
         $phpName = trim($phpName, '_');
-        $phpName = self::fromCamelCase($phpName);
 
-        if (in_array(strtolower($phpName), self::$keywords)) {
-            $phpName = '_' . $phpName;
-        }
+        if ($phpName) {
+            $phpName = self::fromCamelCase($phpName);
 
-        if (!$phpName) {
+            if (in_array(strtolower($phpName), self::$keywords)) {
+                $phpName = '_' . $phpName;
+            }
+
+            if (is_numeric($phpName[0])) {
+                $phpName = 'const_' . $phpName;
+            }
+        } else {
             $phpName = 'const_' . substr(md5($rawName), 0, 6);
-        } elseif (is_numeric($phpName[0])) {
-            $phpName = 'const_' . $phpName;
         }
+
         return strtoupper($phpName);
     }
 
