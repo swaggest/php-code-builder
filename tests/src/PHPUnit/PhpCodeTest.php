@@ -20,7 +20,7 @@ class PhpCodeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('_AS', PhpCode::makePhpConstantName('as'));
 
         // Leading numeric would be invalid.
-        $this->assertSame('_1A', PhpCode::makePhpConstantName('1A'));
+        $this->assertSame('CONST_1_A', PhpCode::makePhpConstantName('1A'));
 
         // Empty would be invalid.
         $this->assertSame('CONST_CFCD20', PhpCode::makePhpConstantName('0'));
