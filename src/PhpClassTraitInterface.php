@@ -12,7 +12,7 @@ abstract class PhpClassTraitInterface extends PhpTemplate implements PhpAnyType
     protected $name;
     private $namespace;
 
-    /** @var PhpClass */
+    /** @var null|PhpClass */
     private $extends;
 
     protected function renderHeadComment()
@@ -102,7 +102,7 @@ PHP;
     }
 
     /**
-     * @return PhpClass
+     * @return null|PhpClass
      */
     public function getExtends()
     {

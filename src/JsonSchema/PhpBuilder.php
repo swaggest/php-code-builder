@@ -7,6 +7,7 @@ use Swaggest\CodeBuilder\PlaceholderString;
 use Swaggest\JsonSchema\Context;
 use Swaggest\JsonSchema\JsonSchema;
 use Swaggest\JsonSchema\Schema;
+use Swaggest\JsonSchema\SchemaContract;
 use Swaggest\PhpCodeBuilder\Exception;
 use Swaggest\PhpCodeBuilder\PhpAnyType;
 use Swaggest\PhpCodeBuilder\PhpClass;
@@ -36,9 +37,8 @@ class PhpBuilder
     const ORIGIN = 'origin';
     const PROPERTY_NAME = 'property_name';
 
-    /** @var \SplObjectStorage|GeneratedClass[] */
+    /** @var \SplObjectStorage */
     private $generatedClasses;
-    private $untitledIndex = 0;
 
     public function __construct()
     {
@@ -63,13 +63,17 @@ class PhpBuilder
     public $classPreparedHook;
 
     /**
-     * @param Schema $schema
+     * @param SchemaContract $schema
      * @param string $path
      * @return PhpAnyType
      * @throws \Swaggest\PhpCodeBuilder\JsonSchema\Exception
+     * @throws Exception
      */
     public function getType($schema, $path = '#')
     {
+        if (!$schema instanceof Schema) {
+            throw new Exception('Could not find Schema instance in SchemaContract: ' . get_class($schema));
+        }
         $typeBuilder = new TypeBuilder($schema, $path, $this);
         return $typeBuilder->build();
     }
@@ -172,7 +176,7 @@ class PhpBuilder
                     $schemaBuilder->build()
                 );
                 if ($propertyName != $name) {
-                    $body->addSnippet('$ownerSchema->addPropertyMapping(' . var_export($name, 1) . ', self::names()->'
+                    $body->addSnippet('$ownerSchema->addPropertyMapping(' . var_export($name, true) . ', self::names()->'
                         . $propertyName . ");\n");
                 }
             }
@@ -183,13 +187,15 @@ class PhpBuilder
             $class->addMethod(new AdditionalPropertySetter($this->getType($schema->additionalProperties)));
         }
 
-        if ($schema->patternProperties) {
+        if ($schema->patternProperties !== null) {
             foreach ($schema->patternProperties as $pattern => $patternProperty) {
-                $const = new PhpConstant(PhpCode::makePhpConstantName($pattern . '_PROPERTY_PATTERN'), $pattern);
-                $class->addConstant($const);
+                if ($patternProperty instanceof Schema) {
+                    $const = new PhpConstant(PhpCode::makePhpConstantName($pattern . '_PROPERTY_PATTERN'), $pattern);
+                    $class->addConstant($const);
 
-                $class->addMethod(new PatternPropertiesGetter($const, $this->getType($patternProperty)));
-                $class->addMethod(new PatternPropertySetter($const, $this->getType($patternProperty)));
+                    $class->addMethod(new PatternPropertiesGetter($const, $this->getType($patternProperty)));
+                    $class->addMethod(new PatternPropertySetter($const, $this->getType($patternProperty)));
+                }
             }
         }
 

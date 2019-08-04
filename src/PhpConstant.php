@@ -11,12 +11,13 @@ class PhpConstant extends PhpTemplate
     use Description;
 
     protected $name;
+    /** @var float|int|string  */
     private $value;
 
     /**
      * PhpConstant constructor.
      * @param string $name
-     * @param string $value
+     * @param float|int|string $value
      */
     public function __construct($name, $value)
     {
