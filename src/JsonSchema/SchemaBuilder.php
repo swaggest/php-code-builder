@@ -311,8 +311,9 @@ class SchemaBuilder
 
     private function processOther()
     {
-        static $skip = null;
+        static $skip = null, $emptySchema = null;
         if ($skip === null) {
+            $emptySchema = new Schema();
             $names = Schema::names();
             $skip = array(
                 $names->type => 1,
@@ -341,6 +342,10 @@ class SchemaBuilder
                 continue;
             }
             if (isset($this->skip[$key])) {
+                continue;
+            }
+
+            if (!property_exists($emptySchema, $key) && $key !== 'const' && $key[0] !== '$') {
                 continue;
             }
 
