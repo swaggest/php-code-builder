@@ -14,7 +14,7 @@
   ],
   "require": {
     "ext-json": "*",
-    "swaggest/json-schema": "^0.12.0",
+    "swaggest/json-schema": "^0.12.13",
     "swaggest/code-builder": "^0.3.1",
     "php": ">=5.5.0"
   },

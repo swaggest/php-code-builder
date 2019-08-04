@@ -6,6 +6,7 @@ namespace Swaggest\PhpCodeBuilder\JsonSchema;
 use Swaggest\CodeBuilder\PlaceholderString;
 use Swaggest\JsonSchema\Constraint\Type;
 use Swaggest\JsonSchema\Schema;
+use Swaggest\JsonSchema\SchemaContract;
 use Swaggest\JsonSchema\Structure\ClassStructure;
 use Swaggest\JsonSchema\Structure\ObjectItem;
 use Swaggest\PhpCodeBuilder\PhpClass;
@@ -39,14 +40,18 @@ class SchemaBuilder
 
     /**
      * SchemaBuilder constructor.
-     * @param Schema $schema
+     * @param Schema|SchemaContract $schema
      * @param string $varName
      * @param string $path
      * @param PhpBuilder $phpBuilder
      * @param bool $createVarName
+     * @throws \Exception
      */
     public function __construct($schema, $varName, $path, PhpBuilder $phpBuilder, $createVarName = true)
     {
+        if (!$schema instanceof Schema) {
+            throw new Exception('Could not find Schema instance in SchemaContract: ' . get_class($schema));
+        }
         $this->schema = $schema;
         $this->varName = $varName;
         $this->phpBuilder = $phpBuilder;
@@ -204,17 +209,18 @@ class SchemaBuilder
 
         if ($this->schema->patternProperties !== null) {
             foreach ($this->schema->patternProperties as $pattern => $property) {
-                $patternExp = var_export($pattern, true);
-                $this->result->addSnippet(
-                    $this->copyTo(new SchemaBuilder(
-                        $property,
-                        "\$patternProperty",
-                        $this->path . '->patternProperties->{{$pattern}}',
-                        $this->phpBuilder
-                    ))->build()
-                );
-                $this->result->addSnippet("{$this->varName}->setPatternProperty({$patternExp}, \$patternProperty);\n");
-
+                if ($property instanceof Schema) {
+                    $patternExp = var_export($pattern, true);
+                    $this->result->addSnippet(
+                        $this->copyTo(new SchemaBuilder(
+                            $property,
+                            "\$patternProperty",
+                            $this->path . '->patternProperties->{{$pattern}}',
+                            $this->phpBuilder
+                        ))->build()
+                    );
+                    $this->result->addSnippet("{$this->varName}->setPatternProperty({$patternExp}, \$patternProperty);\n");
+                }
             }
         }
     }
@@ -235,29 +241,24 @@ class SchemaBuilder
 
         $pathItems = 'items';
         if ($schema->items instanceof ClassStructure) { // todo better check for schema, `getJsonSchema` interface ?
-            $items = array();
             $additionalItems = $schema->items;
             $pathItems = 'items';
         } elseif ($schema->items === null) { // items defaults to empty schema so everything is valid
-            $items = array();
             $additionalItems = true;
         } else { // listed items
-            $items = $schema->items;
             $additionalItems = $schema->additionalItems;
             $pathItems = 'additionalItems';
         }
 
-        if ($items !== null || $additionalItems !== null) {
-            if ($additionalItems instanceof ClassStructure) {
-                $this->result->addSnippet(
-                    $this->copyTo(new SchemaBuilder(
-                        $additionalItems,
-                        "{$this->varName}->{$pathItems}",
-                        $this->path . '->' . $pathItems,
-                        $this->phpBuilder
-                    ))->build()
-                );
-            }
+        if ($additionalItems instanceof ClassStructure) {
+            $this->result->addSnippet(
+                $this->copyTo(new SchemaBuilder(
+                    $additionalItems,
+                    "{$this->varName}->{$pathItems}",
+                    $this->path . '->' . $pathItems,
+                    $this->phpBuilder
+                ))->build()
+            );
         }
     }
 
@@ -314,24 +315,24 @@ class SchemaBuilder
         if ($skip === null) {
             $names = Schema::names();
             $skip = array(
-                (string)$names->type => 1,
-                '$ref' => 1,
-                (string)$names->items => 1,
-                (string)$names->additionalItems => 1,
-                (string)$names->properties => 1,
-                (string)$names->additionalProperties => 1,
-                (string)$names->patternProperties => 1,
-                (string)$names->allOf => 1, // @todo process
-                (string)$names->anyOf => 1,
-                (string)$names->oneOf => 1,
-                (string)$names->not => 1,
-                (string)$names->definitions => 1,
-                (string)$names->enum => 1,
-                (string)$names->if => 1,
-                (string)$names->then => 1,
-                (string)$names->else => 1,
-                (string)$names->fromRef => 1,
-                (string)$names->originPath => 1,
+                $names->type => 1,
+                Schema::PROP_REF => 1,
+                $names->items => 1,
+                $names->additionalItems => 1,
+                $names->properties => 1,
+                $names->additionalProperties => 1,
+                $names->patternProperties => 1,
+                $names->allOf => 1, // @todo process
+                $names->anyOf => 1,
+                $names->oneOf => 1,
+                $names->not => 1,
+                $names->definitions => 1,
+                $names->enum => 1,
+                $names->if => 1,
+                $names->then => 1,
+                $names->else => 1,
+                $names->fromRef => 1,
+                $names->originPath => 1,
             );
         }
         $schemaData = Schema::export($this->schema);
@@ -366,6 +367,7 @@ class SchemaBuilder
     private function processLogic()
     {
         $names = Schema::names();
+        /** @var string $keyword */
         foreach (array($names->not, $names->if, $names->then, $names->else) as $keyword) {
             if ($this->schema->$keyword !== null) {
                 $this->result->addSnippet(
@@ -444,14 +446,14 @@ PHP
         if ($this->phpBuilder->minimizeRefs) {
             if ($fromRefs = $this->schema->getFromRefs()) {
                 $fromRef = $fromRefs[count($fromRefs) - 1];
-                $value = var_export($fromRef, 1);
+                $value = var_export($fromRef, true);
                 $this->result->addSnippet("{$this->varName}->setFromRef($value);\n");
             }
             return;
         }
         if ($fromRefs = $this->schema->getFromRefs()) {
             foreach ($fromRefs as $fromRef) {
-                $value = var_export($fromRef, 1);
+                $value = var_export($fromRef, true);
                 $this->result->addSnippet("{$this->varName}->setFromRef($value);\n");
             }
         }

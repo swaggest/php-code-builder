@@ -11,7 +11,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
 {
     public function testImport()
     {
-        $schema = SwaggerSchema::import(
+        SwaggerSchema::import(
             json_decode(file_get_contents(__DIR__ . '/../../../resources/circleci.json')),
             new Context(new Preloaded())
         );
@@ -19,7 +19,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
 
     public function testImportMin()
     {
-        $schema = \Swaggest\PhpCodeBuilder\Tests\Tmp\SwaggerMin\SwaggerSchema::import(
+        \Swaggest\PhpCodeBuilder\Tests\Tmp\SwaggerMin\SwaggerSchema::import(
             json_decode(file_get_contents(__DIR__ . '/../../../resources/circleci.json')),
             new Context(new Preloaded())
         );

@@ -106,7 +106,9 @@ class PhpCode extends PhpTemplate
     public static function makePhpConstantName($rawName)
     {
         $phpName = preg_replace("/([^a-zA-Z0-9_]+)/", "_", $rawName);
-        $phpName = trim($phpName, '_');
+        if (is_string($phpName)) {
+            $phpName = trim($phpName, '_');
+        }
 
         if ($phpName) {
             $phpName = self::fromCamelCase($phpName);
@@ -128,7 +130,8 @@ class PhpCode extends PhpTemplate
 
     public static function varExport($value)
     {
-        $result = var_export($value, 1);
+        /** @var string $result */
+        $result = var_export($value, true);
         $result = str_replace("stdClass::__set_state", "(object)", $result);
         $result = str_replace("array (\n", "array(\n", $result);
         $result = str_replace('  ', '    ', $result);

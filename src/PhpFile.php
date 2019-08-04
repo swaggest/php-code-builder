@@ -67,11 +67,11 @@ PHP;
 
     }
 
-    /** @var PhpFile */
+    /** @var null|PhpFile */
     private static $currentPhpFile;
 
     /**
-     * @return PhpFile
+     * @return null|PhpFile
      */
     public static function getCurrentPhpFile()
     {
@@ -79,8 +79,8 @@ PHP;
     }
 
     /**
-     * @param PhpFile $currentPhpFile
-     * @return PhpFile previous php file
+     * @param null|PhpFile $currentPhpFile
+     * @return null|PhpFile previous php file
      */
     public static function setCurrentPhpFile($currentPhpFile)
     {

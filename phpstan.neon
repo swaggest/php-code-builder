@@ -1,3 +1,18 @@
 parameters:
 	ignoreErrors:
-	    - '#Strict comparison using !== between array#'
+		- '#Access to an undefined property .*Swaggest\\JsonSchema\\NameMirror.+#'
+		-
+			message: '#invalid array key type#i' # caused by NameFlector
+			path: %currentWorkingDirectory%/src/JsonSchema/SchemaBuilder.php
+		-
+			message: '# of encapsed string cannot be cast to string#' # caused by NameFlector
+			path: %currentWorkingDirectory%/src/JsonSchema/SchemaBuilder.php
+		-
+			message: '#Result of \|\| is always false#' # caused by NameFlector
+			path: %currentWorkingDirectory%/src/JsonSchema/SchemaExporterInterface.php
+		-
+			message: '#Strict comparison using === between string and#' # caused by NameFlector
+			path: %currentWorkingDirectory%/src/JsonSchema/SchemaExporterInterface.php
+		-
+			message: '#Binary operation "." between string and#' # caused by NameFlector
+			path: %currentWorkingDirectory%/src/JsonSchema/TypeBuilder.php

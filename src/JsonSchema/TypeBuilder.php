@@ -34,6 +34,10 @@ class TypeBuilder
         $this->phpBuilder = $phpBuilder;
     }
 
+    /**
+     * @throws Exception
+     * @throws \Swaggest\PhpCodeBuilder\Exception
+     */
     private function processLogicType()
     {
         $orSchemas = null;
@@ -52,11 +56,16 @@ class TypeBuilder
         }
     }
 
+    /**
+     * @throws Exception
+     * @throws \Swaggest\PhpCodeBuilder\Exception
+     */
     private function processArrayType()
     {
         $schema = $this->schema;
 
-        $pathItems = (string)Schema::names()->items;
+        /** @var string $pathItems */
+        $pathItems = Schema::names()->items;
         if ($this->isSchema($schema->items)) {
             $items = array();
             $additionalItems = $schema->items;
@@ -66,17 +75,15 @@ class TypeBuilder
         } else { // listed items
             $items = $schema->items;
             $additionalItems = $schema->additionalItems;
-            $pathItems = (string)Schema::names()->additionalItems;
+            $pathItems = Schema::names()->additionalItems;
         }
 
-        if ($items !== null || $additionalItems !== null) {
-            $itemsLen = is_array($items) ? count($items) : 0;
-            $index = 0;
-            if ($index < $itemsLen) {
-            } else {
-                if ($additionalItems instanceof Schema) {
-                    $this->result->add(new ArrayOf($this->phpBuilder->getType($additionalItems, $this->path . '->' . $pathItems)));
-                }
+        $itemsLen = is_array($items) ? count($items) : 0;
+        $index = 0;
+        if ($index < $itemsLen) {
+        } else {
+            if ($additionalItems instanceof Schema) {
+                $this->result->add(new ArrayOf($this->phpBuilder->getType($additionalItems, $this->path . '->' . $pathItems)));
             }
         }
     }
@@ -86,6 +93,10 @@ class TypeBuilder
         return $var instanceof Schema;
     }
 
+    /**
+     * @throws Exception
+     * @throws \Swaggest\PhpCodeBuilder\Exception
+     */
     private function processObjectType()
     {
         if ($this->schema->patternProperties !== null) {
@@ -98,7 +109,7 @@ class TypeBuilder
         if ($this->schema->additionalProperties instanceof Schema) {
             $this->result->add(new ArrayOf($this->phpBuilder->getType(
                 $this->schema->additionalProperties,
-                $this->path . '->' . (string)Schema::names()->additionalProperties)
+                $this->path . '->' . Schema::names()->additionalProperties)
             ));
         }
 
