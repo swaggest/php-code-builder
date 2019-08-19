@@ -6,6 +6,7 @@
 
 namespace Swaggest\PhpCodeBuilder\Tests\Tmp\SwaggerMin;
 
+use SplObjectStorage;
 use Swaggest\JsonSchema\Constraint\Properties;
 use Swaggest\JsonSchema\Exception\StringException;
 use Swaggest\JsonSchema\Helper;
@@ -104,6 +105,9 @@ class HeaderParameterSubSchema extends ClassStructure implements SchemaExporter
 
     /** @var float */
     public $multipleOf;
+
+    /** @var SplObjectStorage Schema storage keeps exported schemas to avoid infinite cycle recursions. */
+    private static $schemaStorage;
 
     /**
      * @param Properties|static $properties
@@ -493,7 +497,16 @@ class HeaderParameterSubSchema extends ClassStructure implements SchemaExporter
      */
     function exportSchema()
     {
-        $schema = new Schema();
+        if (null === self::$schemaStorage) {
+            self::$schemaStorage = new SplObjectStorage();
+        }
+
+        if (self::$schemaStorage->contains($this)) {
+            return self::$schemaStorage->offsetGet($this);
+        } else {
+            $schema = new Schema();
+            self::$schemaStorage->attach($this, $schema);
+        }
         $schema->description = $this->description;
         $schema->type = $this->type;
         $schema->format = $this->format;

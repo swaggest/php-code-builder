@@ -5,9 +5,10 @@ namespace Swaggest\PhpCodeBuilder\JsonSchema;
 use Swaggest\CodeBuilder\PlaceholderString;
 use Swaggest\JsonSchema\Schema;
 use Swaggest\JsonSchema\SchemaExporter;
-use Swaggest\JsonSchema\Wrapper;
 use Swaggest\PhpCodeBuilder\PhpClass;
+use Swaggest\PhpCodeBuilder\PhpClassProperty;
 use Swaggest\PhpCodeBuilder\PhpCode;
+use Swaggest\PhpCodeBuilder\PhpFlags;
 use Swaggest\PhpCodeBuilder\PhpFunction;
 use Swaggest\PhpCodeBuilder\PhpInterface;
 use Swaggest\PhpCodeBuilder\Types\TypeOf;
@@ -43,10 +44,28 @@ class SchemaExporterInterface implements PhpBuilderClassHook
         }
 
         if (count($propertiesFound) > 5) {
+            $prop = new PhpClassProperty(
+                'schemaStorage',
+                PhpClass::byFQN(\SplObjectStorage::class),
+                PhpFlags::VIS_PRIVATE
+            );
+            $prop->setIsStatic(true);
+            $prop->setDescription('Schema storage keeps exported schemas to avoid infinite cycle recursions.');
+            $class->addProperty($prop);
+
             $func = new PhpFunction('exportSchema');
             $func->setResult(PhpClass::byFQN(Schema::class));
             $body = (new PhpCode())->addSnippet(new PlaceholderString(<<<PHP
-\$schema = new :schema();
+if (null === self::\$schemaStorage) {
+    self::\$schemaStorage = new SplObjectStorage();
+}
+
+if (self::\$schemaStorage->contains(\$this)) {
+    return self::\$schemaStorage->offsetGet(\$this);
+} else {
+    \$schema = new :schema();
+    self::\$schemaStorage->attach(\$this, \$schema);
+}
 
 PHP
                 , [':schema' => new TypeOf(PhpClass::byFQN(Schema::class))]
