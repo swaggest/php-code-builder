@@ -9,6 +9,7 @@ php:
   - 5.5
 
 sudo: false
+dist: trusty
 
 ## Cache composer bits
 cache:
