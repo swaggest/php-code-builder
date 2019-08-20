@@ -215,7 +215,7 @@ class SchemaBuilder
                         $this->copyTo(new SchemaBuilder(
                             $property,
                             "\$patternProperty",
-                            $this->path . '->patternProperties->{{$pattern}}',
+                            $this->path . "->patternProperties->{{$pattern}}",
                             $this->phpBuilder
                         ))->build()
                     );

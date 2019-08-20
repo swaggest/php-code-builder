@@ -16,7 +16,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
- * @method static Entity|string[] import($data, Context $options = null)
+ * @method static Entity|string[]|int[]|bool[] import($data, Context $options = null)
  */
 class Entity extends ClassStructure
 {

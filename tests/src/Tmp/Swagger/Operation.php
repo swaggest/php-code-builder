@@ -45,7 +45,7 @@ class Operation extends ClassStructure
     /** @var BodyParameter[]|HeaderParameterSubSchema[]|FormDataParameterSubSchema[]|QueryParameterSubSchema[]|PathParameterSubSchema[]|JsonReference[]|array The parameters needed to send a valid API call. */
     public $parameters;
 
-    /** @var mixed Response objects names can either be any valid HTTP status code or 'default'. */
+    /** @var Response[]|JsonReference[] Response objects names can either be any valid HTTP status code or 'default'. */
     public $responses;
 
     /** @var string[]|array The transfer protocol of the API. */
@@ -192,7 +192,7 @@ class Operation extends ClassStructure
     /** @codeCoverageIgnoreEnd */
 
     /**
-     * @param mixed $responses Response objects names can either be any valid HTTP status code or 'default'.
+     * @param Response[]|JsonReference[] $responses Response objects names can either be any valid HTTP status code or 'default'.
      * @return $this
      * @codeCoverageIgnoreStart
      */

@@ -54,7 +54,11 @@ class PhpStdType implements PhpAnyType
 
     public static function mixed()
     {
-        return new self(self::TYPE_MIXED);
+        static $type = null;
+        if ($type === null) {
+            $type = new self(self::TYPE_MIXED);
+        }
+        return $type;
     }
 
     public static function object()

@@ -55,7 +55,7 @@ class SwaggerSchema extends ClassStructure
     /** @var string[]|array A list of MIME types the API can produce. */
     public $produces;
 
-    /** @var mixed Relative paths to the individual endpoints. They must be relative to the 'basePath'. */
+    /** @var PathItem[] Relative paths to the individual endpoints. They must be relative to the 'basePath'. */
     public $paths;
 
     /** @var DefinitionsSchema[] One or more JSON objects describing the schemas being consumed and produced by the API. */
@@ -289,7 +289,7 @@ class SwaggerSchema extends ClassStructure
     /** @codeCoverageIgnoreEnd */
 
     /**
-     * @param mixed $paths Relative paths to the individual endpoints. They must be relative to the 'basePath'.
+     * @param PathItem[] $paths Relative paths to the individual endpoints. They must be relative to the 'basePath'.
      * @return $this
      * @codeCoverageIgnoreStart
      */
