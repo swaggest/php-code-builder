@@ -18,7 +18,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 /**
  * Relative paths to the individual endpoints. They must be relative to the 'basePath'.
  * Built from #/definitions/paths
- * @method static mixed import($data, Context $options = null)
+ * @method static PathItem[] import($data, Context $options = null)
  */
 class Paths extends ClassStructure
 {

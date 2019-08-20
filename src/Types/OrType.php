@@ -80,6 +80,8 @@ class OrType implements PhpAnyType
     {
         if (count($this->types) === 1) {
             return $this->types[0];
+        } elseif (count($this->types) === 0) {
+            return PhpStdType::mixed();
         } else {
             return $this;
         }

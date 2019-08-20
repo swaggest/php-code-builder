@@ -421,7 +421,7 @@ JSON
 
         $expected = <<<'PHP'
 /**
- * @method static mixed import($data, Swaggest\JsonSchema\Context $options = null)
+ * @method static null[]|float[]|bool[]|string[]|mixed[]|array[]|string[] import($data, Swaggest\JsonSchema\Context $options = null)
  */
 class Root extends Swaggest\JsonSchema\Structure\ClassStructure
 {
@@ -452,7 +452,7 @@ class Root extends Swaggest\JsonSchema\Structure\ClassStructure
     }
 
     /**
-     * @return null[]|float[]|bool[]|string[]|array[]
+     * @return null[]|float[]|bool[]|string[]|mixed[]|array[]
      * @codeCoverageIgnoreStart
      */
     public function getXValues()

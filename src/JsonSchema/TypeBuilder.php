@@ -60,6 +60,35 @@ class TypeBuilder
      * @throws Exception
      * @throws \Swaggest\PhpCodeBuilder\Exception
      */
+    private function processAdditionalPatternProperties()
+    {
+        $schema = $this->schema;
+
+        if ($schema->additionalProperties instanceof Schema) {
+            $type = $this->phpBuilder->getType($schema->additionalProperties, $this->path . '->additionalProperties');
+            if ($type !== PhpStdType::mixed()) {
+                $this->result->add(new ArrayOf($type));
+            }
+        }
+
+        if ($schema->patternProperties !== null) {
+            foreach ($schema->patternProperties as $pattern => $property) {
+                if ($property instanceof Schema) {
+                    $type = $this->phpBuilder->getType($property, $this->path . "->patternProperties->{{$pattern}}");
+                    if ($type !== PhpStdType::mixed()) {
+                        $this->result->add(new ArrayOf($type));
+                    }
+                }
+            }
+        }
+
+    }
+
+
+    /**
+     * @throws Exception
+     * @throws \Swaggest\PhpCodeBuilder\Exception
+     */
     private function processArrayType()
     {
         $schema = $this->schema;
@@ -147,15 +176,13 @@ class TypeBuilder
     }
 
     /**
-     * @param Schema $schema
-     * @param string $path
      * @throws Exception
      * @throws \Swaggest\PhpCodeBuilder\Exception
      */
-    private function processNamedClass($schema, $path)
+    private function processNamedClass()
     {
-        if ($schema->properties !== null) {
-            $class = $this->phpBuilder->getClass($schema, $path);
+        if ($this->schema->properties !== null) {
+            $class = $this->phpBuilder->getClass($this->schema, $this->path);
             $this->result->add($class);
         }
     }
@@ -178,10 +205,11 @@ class TypeBuilder
         }
 
 
-        $this->processNamedClass($this->schema, $this->path);
+        $this->processNamedClass();
         $this->processLogicType();
         $this->processArrayType();
         $this->processObjectType();
+        $this->processAdditionalPatternProperties();
 
         if (is_array($this->schema->type)) {
             foreach ($this->schema->type as $type) {

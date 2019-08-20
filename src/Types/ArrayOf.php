@@ -4,6 +4,7 @@ namespace Swaggest\PhpCodeBuilder\Types;
 
 
 use Swaggest\PhpCodeBuilder\PhpAnyType;
+use Swaggest\PhpCodeBuilder\PhpStdType;
 
 class ArrayOf implements PhpAnyType
 {
@@ -42,6 +43,8 @@ class ArrayOf implements PhpAnyType
     {
         if ($this->type instanceof OrType) {
             return $this->type->renderArrayPhpDocType();
+        } elseif ($this->type === PhpStdType::mixed()) {
+            return '';
         } else {
             return $this->type->renderPhpDocType() . '[]';
         }
