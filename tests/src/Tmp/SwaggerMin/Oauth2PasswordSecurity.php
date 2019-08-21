@@ -69,9 +69,9 @@ class Oauth2PasswordSecurity extends ClassStructure
         $patternProperty->setFromRef('#/definitions/vendorExtension');
         $ownerSchema->setPatternProperty('^x-', $patternProperty);
         $ownerSchema->required = array(
-            0 => 'type',
-            1 => 'flow',
-            2 => 'tokenUrl',
+            self::names()->type,
+            self::names()->flow,
+            self::names()->tokenUrl,
         );
         $ownerSchema->setFromRef('#/definitions/oauth2PasswordSecurity');
     }

@@ -58,7 +58,7 @@ class Response extends ClassStructure
         $patternProperty->setFromRef('#/definitions/vendorExtension');
         $ownerSchema->setPatternProperty('^x-', $patternProperty);
         $ownerSchema->required = array(
-            0 => 'description',
+            self::names()->description,
         );
         $ownerSchema->setFromRef('#/definitions/response');
     }

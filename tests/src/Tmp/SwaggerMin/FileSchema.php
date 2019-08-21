@@ -92,7 +92,7 @@ class FileSchema extends ClassStructure implements SchemaExporter
         $ownerSchema->setPatternProperty('^x-', $patternProperty);
         $ownerSchema->description = "A deterministic version of a JSON Schema object.";
         $ownerSchema->required = array(
-            0 => 'type',
+            self::names()->type,
         );
         $ownerSchema->setFromRef('#/definitions/fileSchema');
     }

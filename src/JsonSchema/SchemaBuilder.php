@@ -311,7 +311,7 @@ class SchemaBuilder
 
     private function processOther()
     {
-        static $skip = null, $emptySchema = null;
+        static $skip = null, $emptySchema = null, $names = null;
         if ($skip === null) {
             $emptySchema = new Schema();
             $names = Schema::names();
@@ -332,8 +332,6 @@ class SchemaBuilder
                 $names->if => 1,
                 $names->then => 1,
                 $names->else => 1,
-                $names->fromRef => 1,
-                $names->originPath => 1,
             );
         }
         $schemaData = Schema::export($this->schema);
@@ -345,7 +343,24 @@ class SchemaBuilder
                 continue;
             }
 
-            if (!property_exists($emptySchema, $key) && $key !== 'const' && $key[0] !== '$') {
+            if (!property_exists($emptySchema, $key) && $key !== $names->const && $key[0] !== '$') {
+                continue;
+            }
+
+            if ($names->required == $key && is_array($value)) {
+                $export = "array(\n";
+                foreach ($value as $item) {
+                    if (PhpCode::makePhpName($item) === $item) {
+                        $expItem = 'self::names()->' . $item;
+                    } else {
+                        $expItem = PhpCode::varExport($item);
+                    }
+                    $export .= '    ' . $expItem . ",\n";
+                }
+                $export .= ")";
+                $this->result->addSnippet(
+                    "{$this->varName}->{$key} = " . $export . ";\n"
+                );
                 continue;
             }
 

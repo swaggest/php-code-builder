@@ -90,7 +90,7 @@ class Operation extends ClassStructure
         $patternProperty = VendorExtension::schema();
         $ownerSchema->setPatternProperty('^x-', $patternProperty);
         $ownerSchema->required = array(
-            0 => 'responses',
+            self::names()->responses,
         );
         $ownerSchema->setFromRef('#/definitions/operation');
     }

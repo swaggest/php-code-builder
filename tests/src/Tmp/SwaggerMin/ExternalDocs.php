@@ -47,7 +47,7 @@ class ExternalDocs extends ClassStructure
         $ownerSchema->setPatternProperty('^x-', $patternProperty);
         $ownerSchema->description = "information about external documentation";
         $ownerSchema->required = array(
-            0 => 'url',
+            self::names()->url,
         );
         $ownerSchema->setFromRef('#/definitions/externalDocs');
     }

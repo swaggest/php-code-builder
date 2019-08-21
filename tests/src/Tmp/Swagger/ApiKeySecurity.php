@@ -61,9 +61,9 @@ class ApiKeySecurity extends ClassStructure
         $patternProperty = VendorExtension::schema();
         $ownerSchema->setPatternProperty('^x-', $patternProperty);
         $ownerSchema->required = array(
-            0 => 'type',
-            1 => 'name',
-            2 => 'in',
+            self::names()->type,
+            self::names()->name,
+            self::names()->in,
         );
         $ownerSchema->setFromRef('#/definitions/apiKeySecurity');
     }

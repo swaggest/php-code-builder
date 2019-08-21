@@ -149,7 +149,7 @@ class PathParameterSubSchema extends ClassStructure implements SchemaExporter
         $patternProperty = VendorExtension::schema();
         $ownerSchema->setPatternProperty('^x-', $patternProperty);
         $ownerSchema->required = array(
-            0 => 'required',
+            self::names()->required,
         );
         $ownerSchema->setFromRef('#/definitions/pathParameterSubSchema');
     }
