@@ -47,7 +47,7 @@ class License extends ClassStructure
         $patternProperty->setFromRef('#/definitions/vendorExtension');
         $ownerSchema->setPatternProperty('^x-', $patternProperty);
         $ownerSchema->required = array(
-            0 => 'name',
+            self::names()->name,
         );
         $ownerSchema->setFromRef('#/definitions/license');
     }

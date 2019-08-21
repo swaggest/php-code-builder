@@ -31,7 +31,7 @@ class Sample extends ClassStructure
         $ownerSchema->if = IfClass::schema();
         $ownerSchema->then = new Schema();
         $ownerSchema->then->required = array(
-            0 => 'bar',
+            self::names()->bar,
         );
     }
 }

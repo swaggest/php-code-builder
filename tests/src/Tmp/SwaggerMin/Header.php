@@ -183,7 +183,7 @@ class Header extends ClassStructure implements SchemaExporter
         $patternProperty->setFromRef('#/definitions/vendorExtension');
         $ownerSchema->setPatternProperty('^x-', $patternProperty);
         $ownerSchema->required = array(
-            0 => 'type',
+            self::names()->type,
         );
         $ownerSchema->setFromRef('#/definitions/header');
     }

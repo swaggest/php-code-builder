@@ -74,10 +74,10 @@ class Oauth2AccessCodeSecurity extends ClassStructure
         $patternProperty->setFromRef('#/definitions/vendorExtension');
         $ownerSchema->setPatternProperty('^x-', $patternProperty);
         $ownerSchema->required = array(
-            0 => 'type',
-            1 => 'flow',
-            2 => 'authorizationUrl',
-            3 => 'tokenUrl',
+            self::names()->type,
+            self::names()->flow,
+            self::names()->authorizationUrl,
+            self::names()->tokenUrl,
         );
         $ownerSchema->setFromRef('#/definitions/oauth2AccessCodeSecurity');
     }

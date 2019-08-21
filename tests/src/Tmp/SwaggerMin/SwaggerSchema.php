@@ -151,9 +151,9 @@ class SwaggerSchema extends ClassStructure
         $propertiesParametersAdditionalPropertiesOneOf1->oneOf[2] = QueryParameterSubSchema::schema();
         $propertiesParametersAdditionalPropertiesOneOf1->oneOf[3] = PathParameterSubSchema::schema();
         $propertiesParametersAdditionalPropertiesOneOf1->required = array(
-            0 => 'name',
-            1 => 'in',
-            2 => 'type',
+            self::names()->name,
+            self::names()->in,
+            self::names()->type,
         );
         $propertiesParametersAdditionalPropertiesOneOf1->setFromRef('#/definitions/nonBodyParameter');
         $properties->parameters->additionalProperties->oneOf[1] = $propertiesParametersAdditionalPropertiesOneOf1;
@@ -197,9 +197,9 @@ class SwaggerSchema extends ClassStructure
         $ownerSchema->schema = "http://json-schema.org/draft-04/schema#";
         $ownerSchema->title = "A JSON Schema for Swagger 2.0 API.";
         $ownerSchema->required = array(
-            0 => 'swagger',
-            1 => 'info',
-            2 => 'paths',
+            self::names()->swagger,
+            self::names()->info,
+            self::names()->paths,
         );
     }
 

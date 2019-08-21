@@ -114,9 +114,9 @@ class SwaggerSchema extends ClassStructure
         $ownerSchema->schema = "http://json-schema.org/draft-04/schema#";
         $ownerSchema->title = "A JSON Schema for Swagger 2.0 API.";
         $ownerSchema->required = array(
-            0 => 'swagger',
-            1 => 'info',
-            2 => 'paths',
+            self::names()->swagger,
+            self::names()->info,
+            self::names()->paths,
         );
     }
 

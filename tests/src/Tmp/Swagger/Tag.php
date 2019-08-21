@@ -44,7 +44,7 @@ class Tag extends ClassStructure
         $patternProperty = VendorExtension::schema();
         $ownerSchema->setPatternProperty('^x-', $patternProperty);
         $ownerSchema->required = array(
-            0 => 'name',
+            self::names()->name,
         );
         $ownerSchema->setFromRef('#/definitions/tag');
     }

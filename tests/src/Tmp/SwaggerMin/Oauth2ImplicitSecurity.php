@@ -69,9 +69,9 @@ class Oauth2ImplicitSecurity extends ClassStructure
         $patternProperty->setFromRef('#/definitions/vendorExtension');
         $ownerSchema->setPatternProperty('^x-', $patternProperty);
         $ownerSchema->required = array(
-            0 => 'type',
-            1 => 'flow',
-            2 => 'authorizationUrl',
+            self::names()->type,
+            self::names()->flow,
+            self::names()->authorizationUrl,
         );
         $ownerSchema->setFromRef('#/definitions/oauth2ImplicitSecurity');
     }

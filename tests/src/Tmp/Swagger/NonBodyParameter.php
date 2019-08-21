@@ -30,9 +30,9 @@ class NonBodyParameter extends ClassStructure
         $ownerSchema->oneOf[2] = QueryParameterSubSchema::schema();
         $ownerSchema->oneOf[3] = PathParameterSubSchema::schema();
         $ownerSchema->required = array(
-            0 => 'name',
-            1 => 'in',
-            2 => 'type',
+            self::names()->name,
+            self::names()->in,
+            self::names()->type,
         );
         $ownerSchema->setFromRef('#/definitions/nonBodyParameter');
     }

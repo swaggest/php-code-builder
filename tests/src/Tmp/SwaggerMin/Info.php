@@ -66,8 +66,8 @@ class Info extends ClassStructure
         $ownerSchema->setPatternProperty('^x-', $patternProperty);
         $ownerSchema->description = "General information about the API.";
         $ownerSchema->required = array(
-            0 => 'version',
-            1 => 'title',
+            self::names()->version,
+            self::names()->title,
         );
         $ownerSchema->setFromRef('#/definitions/info');
     }

@@ -74,9 +74,9 @@ class PathItem extends ClassStructure
         $propertiesParametersItemsOneOf0OneOf1->oneOf[2] = QueryParameterSubSchema::schema();
         $propertiesParametersItemsOneOf0OneOf1->oneOf[3] = PathParameterSubSchema::schema();
         $propertiesParametersItemsOneOf0OneOf1->required = array(
-            0 => 'name',
-            1 => 'in',
-            2 => 'type',
+            self::names()->name,
+            self::names()->in,
+            self::names()->type,
         );
         $propertiesParametersItemsOneOf0OneOf1->setFromRef('#/definitions/nonBodyParameter');
         $propertiesParametersItemsOneOf0->oneOf[1] = $propertiesParametersItemsOneOf0OneOf1;
