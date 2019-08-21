@@ -36,6 +36,7 @@ class PhpBuilder
     const SCHEMA = 'schema';
     const ORIGIN = 'origin';
     const PROPERTY_NAME = 'property_name';
+    const IMPORT_TYPE = 'import_type';
 
     /** @var \SplObjectStorage */
     private $generatedClasses;
@@ -211,6 +212,7 @@ class PhpBuilder
         $phpDoc = $class->getPhpDoc();
         $type = $this->getType($schema, $path);
         if (!$type instanceof PhpClass) {
+            $class->addMeta($type, self::IMPORT_TYPE);
             $phpDoc->add(
                 PhpDoc::TAG_METHOD,
                 new PlaceholderString(
