@@ -390,11 +390,16 @@ class SchemaBuilder
         /** @var string $keyword */
         foreach (array($names->not, $names->if, $names->then, $names->else) as $keyword) {
             if ($this->schema->$keyword !== null) {
+                $schema = $this->schema->$keyword;
+                $path = $this->path . '->' . $keyword;
+                if ($schema instanceof Schema && !empty($schema->getFromRefs())) {
+                    $path = $schema->getFromRefs()[0];
+                }
                 $this->result->addSnippet(
                     $this->copyTo(new SchemaBuilder(
-                        $this->schema->$keyword,
+                        $schema,
                         "{$this->varName}->{$keyword}",
-                        $this->path . '->' . $keyword,
+                        $path,
                         $this->phpBuilder
                     ))->build()
                 );
@@ -405,11 +410,15 @@ class SchemaBuilder
         foreach (array($names->anyOf, $names->oneOf, $names->allOf) as $keyword) {
             if ($this->schema->$keyword !== null) {
                 foreach ($this->schema->$keyword as $index => $schema) {
+                    $path = $this->path . "->{$keyword}[{$index}]";
+                    if ($schema instanceof Schema && !empty($schema->getFromRefs())) {
+                        $path = $schema->getFromRefs()[0];
+                    }
                     $varName = '$' . PhpCode::makePhpName("{$this->varName}->{$keyword}[{$index}]");
                     $schemaInit = $this->copyTo(new SchemaBuilder(
                         $schema,
                         $varName,
-                        $this->path . "->{$keyword}[{$index}]",
+                        $path,
                         $this->phpBuilder
                     ))->build();
 
