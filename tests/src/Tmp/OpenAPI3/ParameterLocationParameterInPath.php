@@ -12,25 +12,26 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
- * Parameter in query
+ * Parameter in path
  */
-class ParameterLocationOneOf1 extends ClassStructure
+class ParameterLocationParameterInPath extends ClassStructure
 {
-    const QUERY = 'query';
+    const PATH = 'path';
 
-    const FORM = 'form';
+    const MATRIX = 'matrix';
 
-    const SPACE_DELIMITED = 'spaceDelimited';
+    const LABEL = 'label';
 
-    const PIPE_DELIMITED = 'pipeDelimited';
-
-    const DEEP_OBJECT = 'deepObject';
+    const SIMPLE = 'simple';
 
     /** @var mixed */
     public $in;
 
     /** @var mixed */
     public $style;
+
+    /** @var mixed */
+    public $required;
 
     /**
      * @param Properties|static $properties
@@ -40,17 +41,23 @@ class ParameterLocationOneOf1 extends ClassStructure
     {
         $properties->in = new Schema();
         $properties->in->enum = array(
-            self::QUERY,
+            self::PATH,
         );
         $properties->style = new Schema();
         $properties->style->enum = array(
-            self::FORM,
-            self::SPACE_DELIMITED,
-            self::PIPE_DELIMITED,
-            self::DEEP_OBJECT,
+            self::MATRIX,
+            self::LABEL,
+            self::SIMPLE,
         );
-        $properties->style->default = "form";
-        $ownerSchema->description = "Parameter in query";
+        $properties->style->default = "simple";
+        $properties->required = new Schema();
+        $properties->required->enum = array(
+            true,
+        );
+        $ownerSchema->description = "Parameter in path";
+        $ownerSchema->required = array(
+            self::names()->required,
+        );
     }
 
     /**
@@ -73,6 +80,18 @@ class ParameterLocationOneOf1 extends ClassStructure
     public function setStyle($style)
     {
         $this->style = $style;
+        return $this;
+    }
+    /** @codeCoverageIgnoreEnd */
+
+    /**
+     * @param mixed $required
+     * @return $this
+     * @codeCoverageIgnoreStart
+     */
+    public function setRequired($required)
+    {
+        $this->required = $required;
         return $this;
     }
     /** @codeCoverageIgnoreEnd */

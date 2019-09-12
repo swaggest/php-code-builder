@@ -17,7 +17,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/HTTPSecurityScheme
- * @method static HTTPSecurityScheme|HTTPSecuritySchemeOneOf0|HTTPSecuritySchemeOneOf1 import($data, Context $options = null)
+ * @method static HTTPSecurityScheme|HTTPSecuritySchemeBearer|HTTPSecuritySchemeNonBearer import($data, Context $options = null)
  */
 class HTTPSecurityScheme extends ClassStructure
 {
@@ -54,8 +54,8 @@ class HTTPSecurityScheme extends ClassStructure
         $ownerSchema->additionalProperties = false;
         $patternProperty = new Schema();
         $ownerSchema->setPatternProperty('^x-', $patternProperty);
-        $ownerSchema->oneOf[0] = HTTPSecuritySchemeOneOf0::schema();
-        $ownerSchema->oneOf[1] = HTTPSecuritySchemeOneOf1::schema();
+        $ownerSchema->oneOf[0] = HTTPSecuritySchemeBearer::schema();
+        $ownerSchema->oneOf[1] = HTTPSecuritySchemeNonBearer::schema();
         $ownerSchema->required = array(
             self::names()->scheme,
             self::names()->type,

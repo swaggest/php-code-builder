@@ -309,6 +309,9 @@ class SchemaBuilder
         return $schemaBuilder;
     }
 
+    /**
+     * @throws \Swaggest\JsonSchema\InvalidValue
+     */
     private function processOther()
     {
         static $skip = null, $emptySchema = null, $names = null;
@@ -384,6 +387,10 @@ class SchemaBuilder
         }
     }
 
+    /**
+     * @throws Exception
+     * @throws \Exception
+     */
     private function processLogic()
     {
         $names = Schema::names();
@@ -392,8 +399,11 @@ class SchemaBuilder
             if ($this->schema->$keyword !== null) {
                 $schema = $this->schema->$keyword;
                 $path = $this->path . '->' . $keyword;
-                if ($schema instanceof Schema && !empty($schema->getFromRefs())) {
-                    $path = $schema->getFromRefs()[0];
+                if ($schema instanceof Schema) {
+                    $path = $this->pathFromDescription($path, $schema);
+                    if (!empty($schema->getFromRefs())) {
+                        $path = $schema->getFromRefs()[0];
+                    }
                 }
                 $this->result->addSnippet(
                     $this->copyTo(new SchemaBuilder(
@@ -411,6 +421,7 @@ class SchemaBuilder
             if ($this->schema->$keyword !== null) {
                 foreach ($this->schema->$keyword as $index => $schema) {
                     $path = $this->path . "->{$keyword}[{$index}]";
+                    $path = $this->pathFromDescription($path, $schema);
                     if ($schema instanceof Schema && !empty($schema->getFromRefs())) {
                         $path = $schema->getFromRefs()[0];
                     }
@@ -443,8 +454,26 @@ PHP
     }
 
     /**
+     * @param string $path
+     * @param Schema $schema
+     * @return string
+     */
+    private function pathFromDescription($path, $schema)
+    {
+        if ($this->phpBuilder->namesFromDescriptions) {
+            if ($schema->title && strlen($schema->title) < 30) {
+                $path = $this->path . "->{$schema->title}";
+            } elseif ($schema->description && strlen($schema->description) < 30) {
+                $path = $this->path . "->{$schema->description}";
+            }
+        }
+        return $path;
+    }
+
+    /**
      * @return PhpCode
      * @throws Exception
+     * @throws \Swaggest\JsonSchema\InvalidValue
      */
     public function build()
     {
