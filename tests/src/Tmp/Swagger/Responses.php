@@ -34,14 +34,14 @@ class Responses extends ClassStructure
     {
         $ownerSchema->type = 'object';
         $ownerSchema->additionalProperties = false;
-        $patternProperty = ResponseValue::schema();
-        $ownerSchema->setPatternProperty('^([0-9]{3})$|^(default)$', $patternProperty);
-        $patternProperty = VendorExtension::schema();
-        $ownerSchema->setPatternProperty('^x-', $patternProperty);
+        $property093Default = ResponseValue::schema();
+        $ownerSchema->setPatternProperty('^([0-9]{3})$|^(default)$', $property093Default);
+        $x = VendorExtension::schema();
+        $ownerSchema->setPatternProperty('^x-', $x);
         $ownerSchema->not = Schema::object();
         $ownerSchema->not->additionalProperties = false;
-        $patternProperty = VendorExtension::schema();
-        $ownerSchema->not->setPatternProperty('^x-', $patternProperty);
+        $x = VendorExtension::schema();
+        $ownerSchema->not->setPatternProperty('^x-', $x);
         $ownerSchema->description = "Response objects names can either be any valid HTTP status code or 'default'.";
         $ownerSchema->minProperties = 1;
         $ownerSchema->setFromRef('#/definitions/responses');
@@ -51,7 +51,7 @@ class Responses extends ClassStructure
      * @return Response[]|JsonReference[]
      * @codeCoverageIgnoreStart
      */
-    public function getproperty093DefaultValues()
+    public function getProperty093DefaultValues()
     {
         $result = array();
         if (!$names = $this->getPatternPropertyNames(self::CONST_0_9_3_DEFAULT_PROPERTY_PATTERN)) {
@@ -71,7 +71,7 @@ class Responses extends ClassStructure
      * @throws InvalidValue
      * @codeCoverageIgnoreStart
      */
-    public function setproperty093DefaultValue($name, $value)
+    public function setProperty093DefaultValue($name, $value)
     {
         if (preg_match(Helper::toPregPattern(self::CONST_0_9_3_DEFAULT_PROPERTY_PATTERN), $name)) {
             throw new StringException('Pattern mismatch', StringException::PATTERN_MISMATCH);

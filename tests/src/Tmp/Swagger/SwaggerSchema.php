@@ -108,8 +108,8 @@ class SwaggerSchema extends ClassStructure
         $properties->externalDocs = ExternalDocs::schema();
         $ownerSchema->type = 'object';
         $ownerSchema->additionalProperties = false;
-        $patternProperty = VendorExtension::schema();
-        $ownerSchema->setPatternProperty('^x-', $patternProperty);
+        $x = VendorExtension::schema();
+        $ownerSchema->setPatternProperty('^x-', $x);
         $ownerSchema->id = "http://swagger.io/v2/schema.json#";
         $ownerSchema->schema = "http://json-schema.org/draft-04/schema#";
         $ownerSchema->title = "A JSON Schema for Swagger 2.0 API.";

@@ -40,8 +40,8 @@ class License extends ClassStructure
         $properties->url->format = "uri";
         $ownerSchema->type = 'object';
         $ownerSchema->additionalProperties = false;
-        $patternProperty = VendorExtension::schema();
-        $ownerSchema->setPatternProperty('^x-', $patternProperty);
+        $x = VendorExtension::schema();
+        $ownerSchema->setPatternProperty('^x-', $x);
         $ownerSchema->required = array(
             self::names()->name,
         );

@@ -54,8 +54,8 @@ class Link extends ClassStructure
         $properties->server = Server::schema();
         $ownerSchema->type = 'object';
         $ownerSchema->additionalProperties = false;
-        $patternProperty = new Schema();
-        $ownerSchema->setPatternProperty('^x-', $patternProperty);
+        $x = new Schema();
+        $ownerSchema->setPatternProperty('^x-', $x);
         $ownerSchema->not = new Schema();
         $ownerSchema->not->description = "Operation Id and Operation Ref are mutually exclusive";
         $ownerSchema->not->required = array(

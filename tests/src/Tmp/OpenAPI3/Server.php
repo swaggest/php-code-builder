@@ -42,8 +42,8 @@ class Server extends ClassStructure
         $properties->variables->additionalProperties = ServerVariable::schema();
         $ownerSchema->type = 'object';
         $ownerSchema->additionalProperties = false;
-        $patternProperty = new Schema();
-        $ownerSchema->setPatternProperty('^x-', $patternProperty);
+        $x = new Schema();
+        $ownerSchema->setPatternProperty('^x-', $x);
         $ownerSchema->required = array(
             self::names()->url,
         );

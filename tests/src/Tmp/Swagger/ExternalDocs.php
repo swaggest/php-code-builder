@@ -39,8 +39,8 @@ class ExternalDocs extends ClassStructure
         $properties->url->format = "uri";
         $ownerSchema->type = 'object';
         $ownerSchema->additionalProperties = false;
-        $patternProperty = VendorExtension::schema();
-        $ownerSchema->setPatternProperty('^x-', $patternProperty);
+        $x = VendorExtension::schema();
+        $ownerSchema->setPatternProperty('^x-', $x);
         $ownerSchema->description = "information about external documentation";
         $ownerSchema->required = array(
             self::names()->url,

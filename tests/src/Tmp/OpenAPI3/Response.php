@@ -44,9 +44,11 @@ class Response extends ClassStructure
         $properties->headers->additionalProperties = new Schema();
         $properties->headers->additionalProperties->oneOf[0] = Header::schema();
         $propertiesHeadersAdditionalPropertiesOneOf1 = Schema::object();
-        $patternProperty = Schema::string();
-        $patternProperty->format = "uri-reference";
-        $propertiesHeadersAdditionalPropertiesOneOf1->setPatternProperty('^\\$ref$', $patternProperty);
+        $ref = Schema::string();
+        $ref->format = "uri-reference";
+        $propertiesHeadersAdditionalPropertiesOneOf1->setPatternProperty('^\\$ref$', $ref);
+        $propertiesHeadersAdditionalPropertiesOneOf1->not = new Schema();
+        $propertiesHeadersAdditionalPropertiesOneOf1->not->description = "References are removed from validation because of proactive dereferencing";
         $propertiesHeadersAdditionalPropertiesOneOf1->required = array(
             '$ref',
         );
@@ -58,9 +60,11 @@ class Response extends ClassStructure
         $properties->links->additionalProperties = new Schema();
         $properties->links->additionalProperties->oneOf[0] = Link::schema();
         $propertiesLinksAdditionalPropertiesOneOf1 = Schema::object();
-        $patternProperty = Schema::string();
-        $patternProperty->format = "uri-reference";
-        $propertiesLinksAdditionalPropertiesOneOf1->setPatternProperty('^\\$ref$', $patternProperty);
+        $ref = Schema::string();
+        $ref->format = "uri-reference";
+        $propertiesLinksAdditionalPropertiesOneOf1->setPatternProperty('^\\$ref$', $ref);
+        $propertiesLinksAdditionalPropertiesOneOf1->not = new Schema();
+        $propertiesLinksAdditionalPropertiesOneOf1->not->description = "References are removed from validation because of proactive dereferencing";
         $propertiesLinksAdditionalPropertiesOneOf1->required = array(
             '$ref',
         );
@@ -68,8 +72,8 @@ class Response extends ClassStructure
         $properties->links->additionalProperties->oneOf[1] = $propertiesLinksAdditionalPropertiesOneOf1;
         $ownerSchema->type = 'object';
         $ownerSchema->additionalProperties = false;
-        $patternProperty = new Schema();
-        $ownerSchema->setPatternProperty('^x-', $patternProperty);
+        $x = new Schema();
+        $ownerSchema->setPatternProperty('^x-', $x);
         $ownerSchema->required = array(
             self::names()->description,
         );

@@ -198,9 +198,11 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
         $properties->not = new Schema();
         $properties->not->oneOf[0] = DefinitionsSchema::schema();
         $propertiesNotOneOf1 = Schema::object();
-        $patternProperty = Schema::string();
-        $patternProperty->format = "uri-reference";
-        $propertiesNotOneOf1->setPatternProperty('^\\$ref$', $patternProperty);
+        $ref = Schema::string();
+        $ref->format = "uri-reference";
+        $propertiesNotOneOf1->setPatternProperty('^\\$ref$', $ref);
+        $propertiesNotOneOf1->not = new Schema();
+        $propertiesNotOneOf1->not->description = "References are removed from validation because of proactive dereferencing";
         $propertiesNotOneOf1->required = array(
             '$ref',
         );
@@ -210,9 +212,11 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
         $properties->allOf->items = new Schema();
         $properties->allOf->items->oneOf[0] = DefinitionsSchema::schema();
         $propertiesAllOfItemsOneOf1 = Schema::object();
-        $patternProperty = Schema::string();
-        $patternProperty->format = "uri-reference";
-        $propertiesAllOfItemsOneOf1->setPatternProperty('^\\$ref$', $patternProperty);
+        $ref = Schema::string();
+        $ref->format = "uri-reference";
+        $propertiesAllOfItemsOneOf1->setPatternProperty('^\\$ref$', $ref);
+        $propertiesAllOfItemsOneOf1->not = new Schema();
+        $propertiesAllOfItemsOneOf1->not->description = "References are removed from validation because of proactive dereferencing";
         $propertiesAllOfItemsOneOf1->required = array(
             '$ref',
         );
@@ -222,9 +226,11 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
         $properties->oneOf->items = new Schema();
         $properties->oneOf->items->oneOf[0] = DefinitionsSchema::schema();
         $propertiesOneOfItemsOneOf1 = Schema::object();
-        $patternProperty = Schema::string();
-        $patternProperty->format = "uri-reference";
-        $propertiesOneOfItemsOneOf1->setPatternProperty('^\\$ref$', $patternProperty);
+        $ref = Schema::string();
+        $ref->format = "uri-reference";
+        $propertiesOneOfItemsOneOf1->setPatternProperty('^\\$ref$', $ref);
+        $propertiesOneOfItemsOneOf1->not = new Schema();
+        $propertiesOneOfItemsOneOf1->not->description = "References are removed from validation because of proactive dereferencing";
         $propertiesOneOfItemsOneOf1->required = array(
             '$ref',
         );
@@ -234,9 +240,11 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
         $properties->anyOf->items = new Schema();
         $properties->anyOf->items->oneOf[0] = DefinitionsSchema::schema();
         $propertiesAnyOfItemsOneOf1 = Schema::object();
-        $patternProperty = Schema::string();
-        $patternProperty->format = "uri-reference";
-        $propertiesAnyOfItemsOneOf1->setPatternProperty('^\\$ref$', $patternProperty);
+        $ref = Schema::string();
+        $ref->format = "uri-reference";
+        $propertiesAnyOfItemsOneOf1->setPatternProperty('^\\$ref$', $ref);
+        $propertiesAnyOfItemsOneOf1->not = new Schema();
+        $propertiesAnyOfItemsOneOf1->not->description = "References are removed from validation because of proactive dereferencing";
         $propertiesAnyOfItemsOneOf1->required = array(
             '$ref',
         );
@@ -245,9 +253,11 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
         $properties->items = new Schema();
         $properties->items->oneOf[0] = DefinitionsSchema::schema();
         $propertiesItemsOneOf1 = Schema::object();
-        $patternProperty = Schema::string();
-        $patternProperty->format = "uri-reference";
-        $propertiesItemsOneOf1->setPatternProperty('^\\$ref$', $patternProperty);
+        $ref = Schema::string();
+        $ref->format = "uri-reference";
+        $propertiesItemsOneOf1->setPatternProperty('^\\$ref$', $ref);
+        $propertiesItemsOneOf1->not = new Schema();
+        $propertiesItemsOneOf1->not->description = "References are removed from validation because of proactive dereferencing";
         $propertiesItemsOneOf1->required = array(
             '$ref',
         );
@@ -257,9 +267,11 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
         $properties->properties->additionalProperties = new Schema();
         $properties->properties->additionalProperties->oneOf[0] = DefinitionsSchema::schema();
         $propertiesPropertiesAdditionalPropertiesOneOf1 = Schema::object();
-        $patternProperty = Schema::string();
-        $patternProperty->format = "uri-reference";
-        $propertiesPropertiesAdditionalPropertiesOneOf1->setPatternProperty('^\\$ref$', $patternProperty);
+        $ref = Schema::string();
+        $ref->format = "uri-reference";
+        $propertiesPropertiesAdditionalPropertiesOneOf1->setPatternProperty('^\\$ref$', $ref);
+        $propertiesPropertiesAdditionalPropertiesOneOf1->not = new Schema();
+        $propertiesPropertiesAdditionalPropertiesOneOf1->not->description = "References are removed from validation because of proactive dereferencing";
         $propertiesPropertiesAdditionalPropertiesOneOf1->required = array(
             '$ref',
         );
@@ -268,9 +280,11 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
         $properties->additionalProperties = new Schema();
         $properties->additionalProperties->oneOf[0] = DefinitionsSchema::schema();
         $propertiesAdditionalPropertiesOneOf1 = Schema::object();
-        $patternProperty = Schema::string();
-        $patternProperty->format = "uri-reference";
-        $propertiesAdditionalPropertiesOneOf1->setPatternProperty('^\\$ref$', $patternProperty);
+        $ref = Schema::string();
+        $ref->format = "uri-reference";
+        $propertiesAdditionalPropertiesOneOf1->setPatternProperty('^\\$ref$', $ref);
+        $propertiesAdditionalPropertiesOneOf1->not = new Schema();
+        $propertiesAdditionalPropertiesOneOf1->not->description = "References are removed from validation because of proactive dereferencing";
         $propertiesAdditionalPropertiesOneOf1->required = array(
             '$ref',
         );
@@ -295,8 +309,8 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
         $properties->xml = XML::schema();
         $ownerSchema->type = 'object';
         $ownerSchema->additionalProperties = false;
-        $patternProperty = new Schema();
-        $ownerSchema->setPatternProperty('^x-', $patternProperty);
+        $x = new Schema();
+        $ownerSchema->setPatternProperty('^x-', $x);
         $ownerSchema->setFromRef('#/definitions/Schema');
     }
 

@@ -59,8 +59,8 @@ class BodyParameter extends ClassStructure
         $properties->schema = DefinitionsSchema::schema();
         $ownerSchema->type = 'object';
         $ownerSchema->additionalProperties = false;
-        $patternProperty = VendorExtension::schema();
-        $ownerSchema->setPatternProperty('^x-', $patternProperty);
+        $x = VendorExtension::schema();
+        $ownerSchema->setPatternProperty('^x-', $x);
         $ownerSchema->required = array(
             self::names()->name,
             self::names()->in,

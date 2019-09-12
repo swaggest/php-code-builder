@@ -54,8 +54,8 @@ class Info extends ClassStructure
         $properties->version = Schema::string();
         $ownerSchema->type = 'object';
         $ownerSchema->additionalProperties = false;
-        $patternProperty = new Schema();
-        $ownerSchema->setPatternProperty('^x-', $patternProperty);
+        $x = new Schema();
+        $ownerSchema->setPatternProperty('^x-', $x);
         $ownerSchema->required = array(
             self::names()->title,
             self::names()->version,

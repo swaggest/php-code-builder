@@ -73,9 +73,11 @@ class Operation extends ClassStructure
         $properties->parameters->items = new Schema();
         $properties->parameters->items->oneOf[0] = Parameter::schema();
         $propertiesParametersItemsOneOf1 = Schema::object();
-        $patternProperty = Schema::string();
-        $patternProperty->format = "uri-reference";
-        $propertiesParametersItemsOneOf1->setPatternProperty('^\\$ref$', $patternProperty);
+        $ref = Schema::string();
+        $ref->format = "uri-reference";
+        $propertiesParametersItemsOneOf1->setPatternProperty('^\\$ref$', $ref);
+        $propertiesParametersItemsOneOf1->not = new Schema();
+        $propertiesParametersItemsOneOf1->not->description = "References are removed from validation because of proactive dereferencing";
         $propertiesParametersItemsOneOf1->required = array(
             '$ref',
         );
@@ -85,9 +87,11 @@ class Operation extends ClassStructure
         $properties->requestBody = new Schema();
         $properties->requestBody->oneOf[0] = RequestBody::schema();
         $propertiesRequestBodyOneOf1 = Schema::object();
-        $patternProperty = Schema::string();
-        $patternProperty->format = "uri-reference";
-        $propertiesRequestBodyOneOf1->setPatternProperty('^\\$ref$', $patternProperty);
+        $ref = Schema::string();
+        $ref->format = "uri-reference";
+        $propertiesRequestBodyOneOf1->setPatternProperty('^\\$ref$', $ref);
+        $propertiesRequestBodyOneOf1->not = new Schema();
+        $propertiesRequestBodyOneOf1->not->description = "References are removed from validation because of proactive dereferencing";
         $propertiesRequestBodyOneOf1->required = array(
             '$ref',
         );
@@ -98,14 +102,16 @@ class Operation extends ClassStructure
         $properties->callbacks->additionalProperties = new Schema();
         $propertiesCallbacksAdditionalPropertiesOneOf0 = Schema::object();
         $propertiesCallbacksAdditionalPropertiesOneOf0->additionalProperties = PathItem::schema();
-        $patternProperty = new Schema();
-        $propertiesCallbacksAdditionalPropertiesOneOf0->setPatternProperty('^x-', $patternProperty);
+        $x = new Schema();
+        $propertiesCallbacksAdditionalPropertiesOneOf0->setPatternProperty('^x-', $x);
         $propertiesCallbacksAdditionalPropertiesOneOf0->setFromRef('#/definitions/Callback');
         $properties->callbacks->additionalProperties->oneOf[0] = $propertiesCallbacksAdditionalPropertiesOneOf0;
         $propertiesCallbacksAdditionalPropertiesOneOf1 = Schema::object();
-        $patternProperty = Schema::string();
-        $patternProperty->format = "uri-reference";
-        $propertiesCallbacksAdditionalPropertiesOneOf1->setPatternProperty('^\\$ref$', $patternProperty);
+        $ref = Schema::string();
+        $ref->format = "uri-reference";
+        $propertiesCallbacksAdditionalPropertiesOneOf1->setPatternProperty('^\\$ref$', $ref);
+        $propertiesCallbacksAdditionalPropertiesOneOf1->not = new Schema();
+        $propertiesCallbacksAdditionalPropertiesOneOf1->not->description = "References are removed from validation because of proactive dereferencing";
         $propertiesCallbacksAdditionalPropertiesOneOf1->required = array(
             '$ref',
         );
@@ -122,8 +128,8 @@ class Operation extends ClassStructure
         $properties->servers->items = Server::schema();
         $ownerSchema->type = 'object';
         $ownerSchema->additionalProperties = false;
-        $patternProperty = new Schema();
-        $ownerSchema->setPatternProperty('^x-', $patternProperty);
+        $x = new Schema();
+        $ownerSchema->setPatternProperty('^x-', $x);
         $ownerSchema->required = array(
             self::names()->responses,
         );

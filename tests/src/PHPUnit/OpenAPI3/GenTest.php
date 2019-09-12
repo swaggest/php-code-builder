@@ -3,6 +3,7 @@
 namespace Swaggest\PhpCodeBuilder\Tests\PHPUnit\OpenAPI3;
 
 use Swaggest\JsonSchema\Context;
+use Swaggest\JsonSchema\InvalidValue;
 use Swaggest\JsonSchema\RemoteRef\Preloaded;
 use Swaggest\JsonSchema\Schema;
 use Swaggest\PhpCodeBuilder\App\PhpApp;
@@ -11,13 +12,13 @@ use Swaggest\PhpCodeBuilder\JsonSchema\PhpBuilder;
 use Swaggest\PhpCodeBuilder\JsonSchema\SchemaExporterInterface;
 use Swaggest\PhpCodeBuilder\PhpClass;
 use Swaggest\PhpCodeBuilder\PhpCode;
+use Swaggest\PhpCodeBuilder\Tests\Tmp\OpenAPI3\OpenAPI3Schema;
 
 class GenTest extends \PHPUnit_Framework_TestCase
 {
-    protected $minimizeRefs = true;
     protected $nsItem = 'OpenAPI3';
 
-    public function testGenerateSwagger()
+    public function testGenerateOpenAPI3()
     {
         $schemaData = json_decode(file_get_contents(__DIR__ . '/../../../resources/openapi3-schema.json'));
 
@@ -38,7 +39,7 @@ class GenTest extends \PHPUnit_Framework_TestCase
         $builder = new PhpBuilder();
         $builder->buildSetters = true;
         $builder->makeEnumConstants = true;
-        $builder->minimizeRefs = $this->minimizeRefs;
+        $builder->minimizeRefs = true;
         $builder->namesFromDescriptions = true;
 
         $builder->classCreatedHook = new ClassHookCallback(function (PhpClass $class, $path, $schema) use ($app, $appNs) {
@@ -77,6 +78,36 @@ class GenTest extends \PHPUnit_Framework_TestCase
         exec('git diff ' . $appPath, $out);
         $out = implode("\n", $out);
         $this->assertSame('', $out, "Generated files changed");
+    }
+
+
+    public function testReadOpenAPI3Schema()
+    {
+        // Load schema
+        $json = json_decode(file_get_contents(__DIR__ . '/../../../resources/petstore-openapi3.json'));
+
+        // Import and validate
+        try {
+            $options = new Context();
+            $options->dereference = true;
+            $schema = OpenAPI3Schema::import($json, $options);
+        } catch (InvalidValue $e) {
+            echo $e->getMessage();
+            $schemaPtr = $e->getSchemaPointer();
+            var_dump($schemaPtr);
+            print_r($e->inspect());
+            return;
+
+        }
+
+        // Access data through PHP classes
+        $this->assertSame('Swagger Petstore', $schema->info->title);
+        $ops = $schema->paths['/pets']->getGetPutPostDeleteOptionsHeadPatchTraceValues();
+        $this->assertSame('List all pets', $ops['get']->summary);
+
+        $responseSchema = $ops['get']->responses[200]->content['application/json']->schema;
+        $this->assertSame('array', $responseSchema->type);
+
     }
 
 }

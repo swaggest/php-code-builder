@@ -437,18 +437,18 @@ class Root extends Swaggest\JsonSchema\Structure\ClassStructure
     {
         $ownerSchema->type = 'object';
         $ownerSchema->additionalProperties = false;
-        $patternProperty = new Swaggest\JsonSchema\Schema();
-        $patternProperty->oneOf[0] = Swaggest\JsonSchema\Schema::null();
-        $patternProperty->oneOf[1] = Swaggest\JsonSchema\Schema::number();
-        $patternProperty->oneOf[2] = Swaggest\JsonSchema\Schema::boolean();
-        $patternProperty->oneOf[3] = Swaggest\JsonSchema\Schema::string();
-        $patternProperty->oneOf[4] = Swaggest\JsonSchema\Schema::object();
-        $patternProperty->oneOf[5] = Swaggest\JsonSchema\Schema::arr();
-        $patternProperty->setFromRef('#/definitions/x');
-        $ownerSchema->setPatternProperty('^x-', $patternProperty);
-        $patternProperty = Swaggest\JsonSchema\Schema::string();
-        $patternProperty->setFromRef('#/definitions/z');
-        $ownerSchema->setPatternProperty('^zed-', $patternProperty);
+        $x = new Swaggest\JsonSchema\Schema();
+        $x->oneOf[0] = Swaggest\JsonSchema\Schema::null();
+        $x->oneOf[1] = Swaggest\JsonSchema\Schema::number();
+        $x->oneOf[2] = Swaggest\JsonSchema\Schema::boolean();
+        $x->oneOf[3] = Swaggest\JsonSchema\Schema::string();
+        $x->oneOf[4] = Swaggest\JsonSchema\Schema::object();
+        $x->oneOf[5] = Swaggest\JsonSchema\Schema::arr();
+        $x->setFromRef('#/definitions/x');
+        $ownerSchema->setPatternProperty('^x-', $x);
+        $zed = Swaggest\JsonSchema\Schema::string();
+        $zed->setFromRef('#/definitions/z');
+        $ownerSchema->setPatternProperty('^zed-', $zed);
     }
 
     /**

@@ -34,10 +34,10 @@ class Paths extends ClassStructure
     {
         $ownerSchema->type = 'object';
         $ownerSchema->additionalProperties = false;
-        $patternProperty = VendorExtension::schema();
-        $ownerSchema->setPatternProperty('^x-', $patternProperty);
-        $patternProperty = PathItem::schema();
-        $ownerSchema->setPatternProperty('^/', $patternProperty);
+        $x = VendorExtension::schema();
+        $ownerSchema->setPatternProperty('^x-', $x);
+        $property5e3697 = PathItem::schema();
+        $ownerSchema->setPatternProperty('^/', $property5e3697);
         $ownerSchema->description = "Relative paths to the individual endpoints. They must be relative to the 'basePath'.";
         $ownerSchema->setFromRef('#/definitions/paths');
     }
@@ -80,7 +80,7 @@ class Paths extends ClassStructure
      * @return PathItem[]
      * @codeCoverageIgnoreStart
      */
-    public function getproperty5e3697Values()
+    public function getProperty5e3697Values()
     {
         $result = array();
         if (!$names = $this->getPatternPropertyNames(self::PROPERTY_PATTERN)) {
@@ -100,7 +100,7 @@ class Paths extends ClassStructure
      * @throws InvalidValue
      * @codeCoverageIgnoreStart
      */
-    public function setproperty5e3697Value($name, PathItem $value)
+    public function setProperty5e3697Value($name, PathItem $value)
     {
         if (preg_match(Helper::toPregPattern(self::PROPERTY_PATTERN), $name)) {
             throw new StringException('Pattern mismatch', StringException::PATTERN_MISMATCH);

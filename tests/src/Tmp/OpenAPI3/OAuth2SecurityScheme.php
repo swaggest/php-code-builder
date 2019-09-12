@@ -46,8 +46,8 @@ class OAuth2SecurityScheme extends ClassStructure
         $properties->description = Schema::string();
         $ownerSchema->type = 'object';
         $ownerSchema->additionalProperties = false;
-        $patternProperty = new Schema();
-        $ownerSchema->setPatternProperty('^x-', $patternProperty);
+        $x = new Schema();
+        $ownerSchema->setPatternProperty('^x-', $x);
         $ownerSchema->required = array(
             self::names()->type,
             self::names()->flows,

@@ -119,8 +119,8 @@ class PrimitivesItems extends ClassStructure implements SchemaExporter
         $properties->multipleOf = MultipleOf::schema();
         $ownerSchema->type = 'object';
         $ownerSchema->additionalProperties = false;
-        $patternProperty = VendorExtension::schema();
-        $ownerSchema->setPatternProperty('^x-', $patternProperty);
+        $x = VendorExtension::schema();
+        $ownerSchema->setPatternProperty('^x-', $x);
         $ownerSchema->setFromRef('#/definitions/primitivesItems');
     }
 
