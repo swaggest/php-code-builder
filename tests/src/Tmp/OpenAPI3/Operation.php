@@ -36,7 +36,7 @@ class Operation extends ClassStructure
     /** @var string */
     public $operationId;
 
-    /** @var Parameter[]|mixed[]|ParameterLocationOneOf0[]|ParameterLocationOneOf1[]|ParameterLocationOneOf2[]|ParameterLocationOneOf3[]|string[][]|array */
+    /** @var Parameter[]|mixed[]|ParameterLocationParameterInPath[]|ParameterLocationParameterInQuery[]|ParameterLocationParameterInHeader[]|ParameterLocationParameterInCookie[]|string[][]|array */
     public $parameters;
 
     /** @var RequestBody|string[] */
@@ -191,7 +191,7 @@ class Operation extends ClassStructure
     /** @codeCoverageIgnoreEnd */
 
     /**
-     * @param Parameter[]|mixed[]|ParameterLocationOneOf0[]|ParameterLocationOneOf1[]|ParameterLocationOneOf2[]|ParameterLocationOneOf3[]|string[][]|array $parameters
+     * @param Parameter[]|mixed[]|ParameterLocationParameterInPath[]|ParameterLocationParameterInQuery[]|ParameterLocationParameterInHeader[]|ParameterLocationParameterInCookie[]|string[][]|array $parameters
      * @return $this
      * @codeCoverageIgnoreStart
      */

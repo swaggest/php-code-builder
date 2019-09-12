@@ -17,7 +17,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/Parameter
- * @method static Parameter|ParameterLocationOneOf0|ParameterLocationOneOf1|ParameterLocationOneOf2|ParameterLocationOneOf3 import($data, Context $options = null)
+ * @method static Parameter|ParameterLocationParameterInPath|ParameterLocationParameterInQuery|ParameterLocationParameterInHeader|ParameterLocationParameterInCookie import($data, Context $options = null)
  */
 class Parameter extends ClassStructure
 {
@@ -173,10 +173,10 @@ class Parameter extends ClassStructure
         $ownerSchemaAllOf1->setFromRef('#/definitions/SchemaXORContent');
         $ownerSchema->allOf[1] = $ownerSchemaAllOf1;
         $ownerSchemaAllOf2 = new Schema();
-        $ownerSchemaAllOf2->oneOf[0] = ParameterLocationOneOf0::schema();
-        $ownerSchemaAllOf2->oneOf[1] = ParameterLocationOneOf1::schema();
-        $ownerSchemaAllOf2->oneOf[2] = ParameterLocationOneOf2::schema();
-        $ownerSchemaAllOf2->oneOf[3] = ParameterLocationOneOf3::schema();
+        $ownerSchemaAllOf2->oneOf[0] = ParameterLocationParameterInPath::schema();
+        $ownerSchemaAllOf2->oneOf[1] = ParameterLocationParameterInQuery::schema();
+        $ownerSchemaAllOf2->oneOf[2] = ParameterLocationParameterInHeader::schema();
+        $ownerSchemaAllOf2->oneOf[3] = ParameterLocationParameterInCookie::schema();
         $ownerSchemaAllOf2->description = "Parameter location";
         $ownerSchemaAllOf2->setFromRef('#/definitions/ParameterLocation');
         $ownerSchema->allOf[2] = $ownerSchemaAllOf2;

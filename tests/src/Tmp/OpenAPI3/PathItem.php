@@ -35,7 +35,7 @@ class PathItem extends ClassStructure
     /** @var Server[]|array */
     public $servers;
 
-    /** @var Parameter[]|mixed[]|ParameterLocationOneOf0[]|ParameterLocationOneOf1[]|ParameterLocationOneOf2[]|ParameterLocationOneOf3[]|string[][]|array */
+    /** @var Parameter[]|mixed[]|ParameterLocationParameterInPath[]|ParameterLocationParameterInQuery[]|ParameterLocationParameterInHeader[]|ParameterLocationParameterInCookie[]|string[][]|array */
     public $parameters;
 
     /**
@@ -121,7 +121,7 @@ class PathItem extends ClassStructure
     /** @codeCoverageIgnoreEnd */
 
     /**
-     * @param Parameter[]|mixed[]|ParameterLocationOneOf0[]|ParameterLocationOneOf1[]|ParameterLocationOneOf2[]|ParameterLocationOneOf3[]|string[][]|array $parameters
+     * @param Parameter[]|mixed[]|ParameterLocationParameterInPath[]|ParameterLocationParameterInQuery[]|ParameterLocationParameterInHeader[]|ParameterLocationParameterInCookie[]|string[][]|array $parameters
      * @return $this
      * @codeCoverageIgnoreStart
      */

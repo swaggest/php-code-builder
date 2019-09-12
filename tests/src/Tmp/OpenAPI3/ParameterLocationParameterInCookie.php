@@ -12,26 +12,19 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
- * Parameter in path
+ * Parameter in cookie
  */
-class ParameterLocationOneOf0 extends ClassStructure
+class ParameterLocationParameterInCookie extends ClassStructure
 {
-    const PATH = 'path';
+    const COOKIE = 'cookie';
 
-    const MATRIX = 'matrix';
-
-    const LABEL = 'label';
-
-    const SIMPLE = 'simple';
+    const FORM = 'form';
 
     /** @var mixed */
     public $in;
 
     /** @var mixed */
     public $style;
-
-    /** @var mixed */
-    public $required;
 
     /**
      * @param Properties|static $properties
@@ -41,23 +34,14 @@ class ParameterLocationOneOf0 extends ClassStructure
     {
         $properties->in = new Schema();
         $properties->in->enum = array(
-            self::PATH,
+            self::COOKIE,
         );
         $properties->style = new Schema();
         $properties->style->enum = array(
-            self::MATRIX,
-            self::LABEL,
-            self::SIMPLE,
+            self::FORM,
         );
-        $properties->style->default = "simple";
-        $properties->required = new Schema();
-        $properties->required->enum = array(
-            true,
-        );
-        $ownerSchema->description = "Parameter in path";
-        $ownerSchema->required = array(
-            self::names()->required,
-        );
+        $properties->style->default = "form";
+        $ownerSchema->description = "Parameter in cookie";
     }
 
     /**
@@ -80,18 +64,6 @@ class ParameterLocationOneOf0 extends ClassStructure
     public function setStyle($style)
     {
         $this->style = $style;
-        return $this;
-    }
-    /** @codeCoverageIgnoreEnd */
-
-    /**
-     * @param mixed $required
-     * @return $this
-     * @codeCoverageIgnoreStart
-     */
-    public function setRequired($required)
-    {
-        $this->required = $required;
         return $this;
     }
     /** @codeCoverageIgnoreEnd */

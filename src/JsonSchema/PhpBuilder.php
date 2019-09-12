@@ -26,9 +26,6 @@ use Swaggest\PhpCodeBuilder\Property\PatternPropertySetter;
 use Swaggest\PhpCodeBuilder\Property\Setter;
 use Swaggest\PhpCodeBuilder\Types\TypeOf;
 
-/**
- * @todo properly process $ref, $schema property names
- */
 class PhpBuilder
 {
     const IMPORT_METHOD_PHPDOC_ID = '::import';
@@ -50,6 +47,12 @@ class PhpBuilder
     public $buildSetters = false;
     public $makeEnumConstants = false;
     public $skipSchemaDescriptions = false;
+
+    /**
+     * Use title/description where available instead of keyword in names
+     * @var bool
+     */
+    public $namesFromDescriptions = false;
 
     /**
      * Squish multiple $ref, a PHP class for each $ref will be created if false

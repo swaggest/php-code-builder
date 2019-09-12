@@ -14,7 +14,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 /**
  * Parameter in header
  */
-class ParameterLocationOneOf2 extends ClassStructure
+class ParameterLocationParameterInHeader extends ClassStructure
 {
     const HEADER = 'header';
 

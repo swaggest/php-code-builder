@@ -12,9 +12,9 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
- * Non Bearer
+ * Bearer
  */
-class HTTPSecuritySchemeOneOf1 extends ClassStructure
+class HTTPSecuritySchemeBearer extends ClassStructure
 {
     const BEARER = 'bearer';
 
@@ -28,15 +28,10 @@ class HTTPSecuritySchemeOneOf1 extends ClassStructure
     public static function setUpProperties($properties, Schema $ownerSchema)
     {
         $properties->scheme = new Schema();
-        $properties->scheme->not = new Schema();
-        $properties->scheme->not->enum = array(
+        $properties->scheme->enum = array(
             self::BEARER,
         );
-        $ownerSchema->not = new Schema();
-        $ownerSchema->not->required = array(
-            self::names()->bearerFormat,
-        );
-        $ownerSchema->description = "Non Bearer";
+        $ownerSchema->description = "Bearer";
     }
 
     /**

@@ -27,7 +27,7 @@ class Components extends ClassStructure
     /** @var string[][]|Response[] */
     public $responses;
 
-    /** @var string[][]|Parameter[]|mixed[]|ParameterLocationOneOf0[]|ParameterLocationOneOf1[]|ParameterLocationOneOf2[]|ParameterLocationOneOf3[] */
+    /** @var string[][]|Parameter[]|mixed[]|ParameterLocationParameterInPath[]|ParameterLocationParameterInQuery[]|ParameterLocationParameterInHeader[]|ParameterLocationParameterInCookie[] */
     public $parameters;
 
     /** @var string[][]|Example[] */
@@ -39,7 +39,7 @@ class Components extends ClassStructure
     /** @var string[][]|Header[]|mixed[] */
     public $headers;
 
-    /** @var string[][]|APIKeySecurityScheme[]|HTTPSecurityScheme[]|HTTPSecuritySchemeOneOf0[]|HTTPSecuritySchemeOneOf1[]|OAuth2SecurityScheme[]|OpenIdConnectSecurityScheme[] */
+    /** @var string[][]|APIKeySecurityScheme[]|HTTPSecurityScheme[]|HTTPSecuritySchemeBearer[]|HTTPSecuritySchemeNonBearer[]|OAuth2SecurityScheme[]|OpenIdConnectSecurityScheme[] */
     public $securitySchemes;
 
     /** @var string[][]|Link[] */
@@ -214,7 +214,7 @@ class Components extends ClassStructure
     /** @codeCoverageIgnoreEnd */
 
     /**
-     * @param string[][]|Parameter[]|mixed[]|ParameterLocationOneOf0[]|ParameterLocationOneOf1[]|ParameterLocationOneOf2[]|ParameterLocationOneOf3[] $parameters
+     * @param string[][]|Parameter[]|mixed[]|ParameterLocationParameterInPath[]|ParameterLocationParameterInQuery[]|ParameterLocationParameterInHeader[]|ParameterLocationParameterInCookie[] $parameters
      * @return $this
      * @codeCoverageIgnoreStart
      */
@@ -262,7 +262,7 @@ class Components extends ClassStructure
     /** @codeCoverageIgnoreEnd */
 
     /**
-     * @param string[][]|APIKeySecurityScheme[]|HTTPSecurityScheme[]|HTTPSecuritySchemeOneOf0[]|HTTPSecuritySchemeOneOf1[]|OAuth2SecurityScheme[]|OpenIdConnectSecurityScheme[] $securitySchemes
+     * @param string[][]|APIKeySecurityScheme[]|HTTPSecurityScheme[]|HTTPSecuritySchemeBearer[]|HTTPSecuritySchemeNonBearer[]|OAuth2SecurityScheme[]|OpenIdConnectSecurityScheme[] $securitySchemes
      * @return $this
      * @codeCoverageIgnoreStart
      */

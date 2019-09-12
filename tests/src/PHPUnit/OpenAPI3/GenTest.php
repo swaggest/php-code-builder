@@ -39,6 +39,7 @@ class GenTest extends \PHPUnit_Framework_TestCase
         $builder->buildSetters = true;
         $builder->makeEnumConstants = true;
         $builder->minimizeRefs = $this->minimizeRefs;
+        $builder->namesFromDescriptions = true;
 
         $builder->classCreatedHook = new ClassHookCallback(function (PhpClass $class, $path, $schema) use ($app, $appNs) {
             $desc = '';
