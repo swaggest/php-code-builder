@@ -45,8 +45,8 @@ class OAuthFlows extends ClassStructure
         $properties->authorizationCode = AuthorizationCodeOAuthFlow::schema();
         $ownerSchema->type = 'object';
         $ownerSchema->additionalProperties = false;
-        $patternProperty = new Schema();
-        $ownerSchema->setPatternProperty('^x-', $patternProperty);
+        $x = new Schema();
+        $ownerSchema->setPatternProperty('^x-', $x);
         $ownerSchema->setFromRef('#/definitions/OAuthFlows');
     }
 

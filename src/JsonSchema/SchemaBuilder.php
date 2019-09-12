@@ -210,16 +210,17 @@ class SchemaBuilder
         if ($this->schema->patternProperties !== null) {
             foreach ($this->schema->patternProperties as $pattern => $property) {
                 if ($property instanceof Schema) {
+                    $varName = '$' . PhpCode::makePhpName($pattern);
                     $patternExp = var_export($pattern, true);
                     $this->result->addSnippet(
                         $this->copyTo(new SchemaBuilder(
                             $property,
-                            "\$patternProperty",
+                            $varName,
                             $this->path . "->patternProperties->{{$pattern}}",
                             $this->phpBuilder
                         ))->build()
                     );
-                    $this->result->addSnippet("{$this->varName}->setPatternProperty({$patternExp}, \$patternProperty);\n");
+                    $this->result->addSnippet("{$this->varName}->setPatternProperty({$patternExp}, $varName);\n");
                 }
             }
         }

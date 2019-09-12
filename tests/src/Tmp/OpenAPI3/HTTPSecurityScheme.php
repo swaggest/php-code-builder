@@ -52,8 +52,8 @@ class HTTPSecurityScheme extends ClassStructure
         );
         $ownerSchema->type = 'object';
         $ownerSchema->additionalProperties = false;
-        $patternProperty = new Schema();
-        $ownerSchema->setPatternProperty('^x-', $patternProperty);
+        $x = new Schema();
+        $ownerSchema->setPatternProperty('^x-', $x);
         $ownerSchema->oneOf[0] = HTTPSecuritySchemeBearer::schema();
         $ownerSchema->oneOf[1] = HTTPSecuritySchemeNonBearer::schema();
         $ownerSchema->required = array(

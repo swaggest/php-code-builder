@@ -146,8 +146,8 @@ class PathParameterSubSchema extends ClassStructure implements SchemaExporter
         $properties->enum = Enum::schema();
         $properties->multipleOf = MultipleOf::schema();
         $ownerSchema->additionalProperties = false;
-        $patternProperty = VendorExtension::schema();
-        $ownerSchema->setPatternProperty('^x-', $patternProperty);
+        $x = VendorExtension::schema();
+        $ownerSchema->setPatternProperty('^x-', $x);
         $ownerSchema->required = array(
             self::names()->required,
         );

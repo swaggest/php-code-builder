@@ -54,9 +54,11 @@ class PathItem extends ClassStructure
         $properties->parameters->items = new Schema();
         $properties->parameters->items->oneOf[0] = Parameter::schema();
         $propertiesParametersItemsOneOf1 = Schema::object();
-        $patternProperty = Schema::string();
-        $patternProperty->format = "uri-reference";
-        $propertiesParametersItemsOneOf1->setPatternProperty('^\\$ref$', $patternProperty);
+        $ref = Schema::string();
+        $ref->format = "uri-reference";
+        $propertiesParametersItemsOneOf1->setPatternProperty('^\\$ref$', $ref);
+        $propertiesParametersItemsOneOf1->not = new Schema();
+        $propertiesParametersItemsOneOf1->not->description = "References are removed from validation because of proactive dereferencing";
         $propertiesParametersItemsOneOf1->required = array(
             '$ref',
         );
@@ -65,10 +67,10 @@ class PathItem extends ClassStructure
         $properties->parameters->uniqueItems = true;
         $ownerSchema->type = 'object';
         $ownerSchema->additionalProperties = false;
-        $patternProperty = Operation::schema();
-        $ownerSchema->setPatternProperty('^(get|put|post|delete|options|head|patch|trace)$', $patternProperty);
-        $patternProperty = new Schema();
-        $ownerSchema->setPatternProperty('^x-', $patternProperty);
+        $getPutPostDeleteOptionsHeadPatchTrace = Operation::schema();
+        $ownerSchema->setPatternProperty('^(get|put|post|delete|options|head|patch|trace)$', $getPutPostDeleteOptionsHeadPatchTrace);
+        $x = new Schema();
+        $ownerSchema->setPatternProperty('^x-', $x);
         $ownerSchema->setFromRef('#/definitions/PathItem');
     }
 

@@ -51,8 +51,8 @@ class Xml extends ClassStructure
         $properties->wrapped->default = false;
         $ownerSchema->type = 'object';
         $ownerSchema->additionalProperties = false;
-        $patternProperty = VendorExtension::schema();
-        $ownerSchema->setPatternProperty('^x-', $patternProperty);
+        $x = VendorExtension::schema();
+        $ownerSchema->setPatternProperty('^x-', $x);
         $ownerSchema->setFromRef('#/definitions/xml');
     }
 

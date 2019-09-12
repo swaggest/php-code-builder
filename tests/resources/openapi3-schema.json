@@ -52,6 +52,9 @@
   "additionalProperties": false,
   "definitions": {
     "Reference": {
+      "not": {
+        "description": "References are removed from validation because of proactive dereferencing"
+      },
       "type": "object",
       "required": [
         "$ref"

@@ -44,9 +44,11 @@ class MediaType extends ClassStructure
         $properties->schema = new Schema();
         $properties->schema->oneOf[0] = DefinitionsSchema::schema();
         $propertiesSchemaOneOf1 = Schema::object();
-        $patternProperty = Schema::string();
-        $patternProperty->format = "uri-reference";
-        $propertiesSchemaOneOf1->setPatternProperty('^\\$ref$', $patternProperty);
+        $ref = Schema::string();
+        $ref->format = "uri-reference";
+        $propertiesSchemaOneOf1->setPatternProperty('^\\$ref$', $ref);
+        $propertiesSchemaOneOf1->not = new Schema();
+        $propertiesSchemaOneOf1->not->description = "References are removed from validation because of proactive dereferencing";
         $propertiesSchemaOneOf1->required = array(
             '$ref',
         );
@@ -57,9 +59,11 @@ class MediaType extends ClassStructure
         $properties->examples->additionalProperties = new Schema();
         $properties->examples->additionalProperties->oneOf[0] = Example::schema();
         $propertiesExamplesAdditionalPropertiesOneOf1 = Schema::object();
-        $patternProperty = Schema::string();
-        $patternProperty->format = "uri-reference";
-        $propertiesExamplesAdditionalPropertiesOneOf1->setPatternProperty('^\\$ref$', $patternProperty);
+        $ref = Schema::string();
+        $ref->format = "uri-reference";
+        $propertiesExamplesAdditionalPropertiesOneOf1->setPatternProperty('^\\$ref$', $ref);
+        $propertiesExamplesAdditionalPropertiesOneOf1->not = new Schema();
+        $propertiesExamplesAdditionalPropertiesOneOf1->not->description = "References are removed from validation because of proactive dereferencing";
         $propertiesExamplesAdditionalPropertiesOneOf1->required = array(
             '$ref',
         );
@@ -69,8 +73,8 @@ class MediaType extends ClassStructure
         $properties->encoding->additionalProperties = Encoding::schema();
         $ownerSchema->type = 'object';
         $ownerSchema->additionalProperties = false;
-        $patternProperty = new Schema();
-        $ownerSchema->setPatternProperty('^x-', $patternProperty);
+        $x = new Schema();
+        $ownerSchema->setPatternProperty('^x-', $x);
         $ownerSchemaAllOf0 = new Schema();
         $ownerSchemaAllOf0->not = new Schema();
         $ownerSchemaAllOf0->not->required = array(

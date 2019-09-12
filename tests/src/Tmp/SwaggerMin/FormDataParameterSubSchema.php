@@ -209,12 +209,12 @@ class FormDataParameterSubSchema extends ClassStructure implements SchemaExporte
         $properties->multipleOf->exclusiveMinimum = true;
         $properties->multipleOf->setFromRef('#/definitions/multipleOf');
         $ownerSchema->additionalProperties = false;
-        $patternProperty = new Schema();
-        $patternProperty->additionalProperties = true;
-        $patternProperty->additionalItems = true;
-        $patternProperty->description = "Any property starting with x- is valid.";
-        $patternProperty->setFromRef('#/definitions/vendorExtension');
-        $ownerSchema->setPatternProperty('^x-', $patternProperty);
+        $x = new Schema();
+        $x->additionalProperties = true;
+        $x->additionalItems = true;
+        $x->description = "Any property starting with x- is valid.";
+        $x->setFromRef('#/definitions/vendorExtension');
+        $ownerSchema->setPatternProperty('^x-', $x);
         $ownerSchema->setFromRef('#/definitions/formDataParameterSubSchema');
     }
 

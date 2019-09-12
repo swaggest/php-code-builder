@@ -68,9 +68,12 @@ class PhpCode extends PhpTemplate
         $phpName = preg_replace("/([^a-zA-Z0-9_]+)/", "_", $rawName);
         $phpName = self::toCamelCase($phpName, $lowerFirst);
         if (!$phpName) {
-            $phpName = 'property' . substr(md5($rawName), 0, 6);
+            $phpName = 'Property' . substr(md5($rawName), 0, 6);
         } elseif (is_numeric($phpName[0])) {
-            $phpName = 'property' . $phpName;
+            $phpName = 'Property' . $phpName;
+        }
+        if ($lowerFirst) {
+            $phpName[0] = strtolower($phpName[0]);
         }
         return $phpName;
     }

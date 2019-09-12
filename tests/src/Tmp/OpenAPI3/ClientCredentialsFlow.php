@@ -44,8 +44,8 @@ class ClientCredentialsFlow extends ClassStructure
         $properties->scopes->additionalProperties = Schema::string();
         $ownerSchema->type = 'object';
         $ownerSchema->additionalProperties = false;
-        $patternProperty = new Schema();
-        $ownerSchema->setPatternProperty('^x-', $patternProperty);
+        $x = new Schema();
+        $ownerSchema->setPatternProperty('^x-', $x);
         $ownerSchema->required = array(
             self::names()->tokenUrl,
         );

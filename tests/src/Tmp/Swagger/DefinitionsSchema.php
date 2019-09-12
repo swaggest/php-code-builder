@@ -170,8 +170,8 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
         $properties->example = new Schema();
         $ownerSchema->type = 'object';
         $ownerSchema->additionalProperties = false;
-        $patternProperty = VendorExtension::schema();
-        $ownerSchema->setPatternProperty('^x-', $patternProperty);
+        $x = VendorExtension::schema();
+        $ownerSchema->setPatternProperty('^x-', $x);
         $ownerSchema->description = "A deterministic version of a JSON Schema object.";
         $ownerSchema->setFromRef('#/definitions/schema');
     }

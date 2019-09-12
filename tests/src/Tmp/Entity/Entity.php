@@ -37,10 +37,10 @@ class Entity extends ClassStructure
         $ownerSchema->addPropertyMapping('namedProperty$$$#%', self::names()->namedProperty);
         $ownerSchema->type = 'object';
         $ownerSchema->additionalProperties = Schema::string();
-        $patternProperty = Schema::integer();
-        $ownerSchema->setPatternProperty('^x-', $patternProperty);
-        $patternProperty = Schema::boolean();
-        $ownerSchema->setPatternProperty('^z-', $patternProperty);
+        $x = Schema::integer();
+        $ownerSchema->setPatternProperty('^x-', $x);
+        $z = Schema::boolean();
+        $ownerSchema->setPatternProperty('^z-', $z);
     }
 
     /**
