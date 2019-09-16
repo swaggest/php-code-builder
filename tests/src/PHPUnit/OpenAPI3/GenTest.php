@@ -12,6 +12,7 @@ use Swaggest\PhpCodeBuilder\JsonSchema\PhpBuilder;
 use Swaggest\PhpCodeBuilder\JsonSchema\SchemaExporterInterface;
 use Swaggest\PhpCodeBuilder\PhpClass;
 use Swaggest\PhpCodeBuilder\PhpCode;
+use Swaggest\PhpCodeBuilder\Tests\Tmp\OpenAPI3\DefinitionsSchema;
 use Swaggest\PhpCodeBuilder\Tests\Tmp\OpenAPI3\OpenAPI3Schema;
 
 class GenTest extends \PHPUnit_Framework_TestCase
@@ -103,11 +104,17 @@ class GenTest extends \PHPUnit_Framework_TestCase
         // Access data through PHP classes
         $this->assertSame('Swagger Petstore', $schema->info->title);
         $ops = $schema->paths['/pets']->getGetPutPostDeleteOptionsHeadPatchTraceValues();
-        $this->assertSame('List all pets', $ops['get']->summary);
+        $this->assertSame('findPets', $ops['get']->operationId);
 
         $responseSchema = $ops['get']->responses[200]->content['application/json']->schema;
-        $this->assertSame('array', $responseSchema->type);
+        $this->assertSame(Schema::_ARRAY, $responseSchema->type);
 
+        $postBody = $ops['post']->requestBody;
+        $this->assertSame('Pet to add to the store', $postBody->description);
+
+        $bodySchema = $postBody->content['application/json']->schema;
+        $this->assertTrue($bodySchema instanceof DefinitionsSchema);
+        $this->assertSame(Schema::OBJECT, $bodySchema->type);
     }
 
 }
