@@ -37,10 +37,23 @@ class PhpDoc extends PhpTemplate
         return $this;
     }
 
-    public function prepend($name, $value = '')
+    public function prepend($name, $value = '', $id = null)
     {
-        array_unshift($this->tags, new PhpDocTag($name, $value));
-        return $this;
+        $tags = array();
+        if ($id) {
+            $tags[$id] = new PhpDocTag($name, $value);
+            foreach ($this->tags as $k => $tag) {
+                if ($k === $id) {
+                    continue;
+                }
+                $tags[$k] = $tag;
+            }
+            $this->tags = $tags;
+            return $this;
+        } else {
+            array_unshift($this->tags, new PhpDocTag($name, $value));
+            return $this;
+        }
     }
 
     public function isEmpty()

@@ -33,7 +33,7 @@ trait Description
     private function renderDescriptionAsPhpDoc()
     {
         if ($this->description) {
-            $this->getPhpDoc()->prepend(null, trim($this->description));
+            $this->getPhpDoc()->prepend(null, trim(wordwrap($this->description), 'description'));
             return $this->getPhpDoc()->render();
         } else {
             return '';

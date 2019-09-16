@@ -14,12 +14,12 @@
   ],
   "require": {
     "ext-json": "*",
-    "swaggest/json-schema": "^0.12.17",
+    "swaggest/json-schema": "^0.12.19",
     "swaggest/code-builder": "^0.3.1",
-    "php": ">=5.5.0"
+    "php": ">=5.6.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "4.8.36"
+    "phpunit/phpunit": "^5"
   },
   "autoload": {
     "psr-4": {
@@ -36,7 +36,7 @@
   },
   "config": {
     "platform": {
-      "php": "5.5.38"
+      "php": "5.6.10"
     }
   }
 }
