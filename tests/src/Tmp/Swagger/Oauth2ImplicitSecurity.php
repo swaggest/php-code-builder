@@ -58,7 +58,7 @@ class Oauth2ImplicitSecurity extends ClassStructure
         $properties->authorizationUrl = Schema::string();
         $properties->authorizationUrl->format = "uri";
         $properties->description = Schema::string();
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = VendorExtension::schema();
         $ownerSchema->setPatternProperty('^x-', $x);

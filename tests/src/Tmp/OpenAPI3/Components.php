@@ -200,7 +200,7 @@ class Components extends ClassStructure
         $aZAZ09OneOf1->setFromRef('#/definitions/Callback');
         $aZAZ09->oneOf[1] = $aZAZ09OneOf1;
         $properties->callbacks->setPatternProperty('^[a-zA-Z0-9\\.\\-_]+$', $aZAZ09);
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $ownerSchema->setPatternProperty('^x-', $x);

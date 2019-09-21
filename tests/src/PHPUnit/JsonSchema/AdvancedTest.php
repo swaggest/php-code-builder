@@ -435,7 +435,7 @@ class Root extends Swaggest\JsonSchema\Structure\ClassStructure
      */
     public static function setUpProperties($properties, Swaggest\JsonSchema\Schema $ownerSchema)
     {
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Swaggest\JsonSchema\Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Swaggest\JsonSchema\Schema();
         $x->oneOf[0] = Swaggest\JsonSchema\Schema::null();

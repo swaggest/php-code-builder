@@ -45,7 +45,7 @@ class Response extends ClassStructure
         $properties->schema->oneOf[1] = FileSchema::schema();
         $properties->headers = Headers::schema();
         $properties->examples = Examples::schema();
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = VendorExtension::schema();
         $ownerSchema->setPatternProperty('^x-', $x);

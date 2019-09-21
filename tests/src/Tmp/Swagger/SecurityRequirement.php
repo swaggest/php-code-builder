@@ -24,7 +24,7 @@ class SecurityRequirement extends ClassStructure
      */
     public static function setUpProperties($properties, Schema $ownerSchema)
     {
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = Schema::arr();
         $ownerSchema->additionalProperties->items = Schema::string();
         $ownerSchema->additionalProperties->uniqueItems = true;

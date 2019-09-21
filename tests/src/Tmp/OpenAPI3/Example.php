@@ -44,7 +44,7 @@ class Example extends ClassStructure
         $properties->value = new Schema();
         $properties->externalValue = Schema::string();
         $properties->externalValue->format = "uri-reference";
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $ownerSchema->setPatternProperty('^x-', $x);

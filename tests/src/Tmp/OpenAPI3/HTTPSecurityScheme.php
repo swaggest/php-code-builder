@@ -50,7 +50,7 @@ class HTTPSecurityScheme extends ClassStructure
         $properties->type->enum = array(
             self::HTTP,
         );
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $ownerSchema->setPatternProperty('^x-', $x);

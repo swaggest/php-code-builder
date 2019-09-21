@@ -40,7 +40,7 @@ class BasicAuthenticationSecurity extends ClassStructure
             self::BASIC,
         );
         $properties->description = Schema::string();
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $x->additionalProperties = true;

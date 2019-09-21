@@ -1,5 +1,9 @@
 {
-  "type": "object",
+  "type": [
+    "object",
+    "null",
+    "array"
+  ],
   "properties": {
     "namedProperty$$$#%": {
       "type": "string"

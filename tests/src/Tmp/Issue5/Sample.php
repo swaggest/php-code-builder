@@ -27,7 +27,7 @@ class Sample extends ClassStructure
     {
         $properties->foo = Schema::string();
         $properties->bar = Schema::string();
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->if = IfClass::schema();
         $ownerSchema->then = new Schema();
         $ownerSchema->then->required = array(

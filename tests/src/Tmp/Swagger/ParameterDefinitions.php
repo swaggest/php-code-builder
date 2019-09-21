@@ -25,7 +25,7 @@ class ParameterDefinitions extends ClassStructure
      */
     public static function setUpProperties($properties, Schema $ownerSchema)
     {
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = Parameter::schema();
         $ownerSchema->description = "One or more JSON representations for parameters";
         $ownerSchema->setFromRef('#/definitions/parameterDefinitions');

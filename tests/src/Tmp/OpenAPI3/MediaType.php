@@ -71,7 +71,7 @@ class MediaType extends ClassStructure
         $properties->examples->additionalProperties->oneOf[1] = $propertiesExamplesAdditionalPropertiesOneOf1;
         $properties->encoding = Schema::object();
         $properties->encoding->additionalProperties = Encoding::schema();
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $ownerSchema->setPatternProperty('^x-', $x);

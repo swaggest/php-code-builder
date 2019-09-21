@@ -24,7 +24,7 @@ class Examples extends ClassStructure
      */
     public static function setUpProperties($properties, Schema $ownerSchema)
     {
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = true;
         $ownerSchema->setFromRef('#/definitions/examples');
     }

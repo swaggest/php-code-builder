@@ -52,7 +52,7 @@ class Info extends ClassStructure
         $properties->contact = Contact::schema();
         $properties->license = License::schema();
         $properties->version = Schema::string();
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $ownerSchema->setPatternProperty('^x-', $x);

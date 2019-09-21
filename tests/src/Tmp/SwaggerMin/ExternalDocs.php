@@ -37,7 +37,7 @@ class ExternalDocs extends ClassStructure
         $properties->description = Schema::string();
         $properties->url = Schema::string();
         $properties->url->format = "uri";
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $x->additionalProperties = true;

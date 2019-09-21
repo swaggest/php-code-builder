@@ -86,7 +86,7 @@ class PathItem extends ClassStructure
         $properties->parameters->description = "The parameters needed to send a valid API call.";
         $properties->parameters->uniqueItems = true;
         $properties->parameters->setFromRef('#/definitions/parametersList');
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $x->additionalProperties = true;

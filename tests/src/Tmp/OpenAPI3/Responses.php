@@ -47,7 +47,7 @@ class Responses extends ClassStructure
         );
         $propertiesDefaultOneOf1->setFromRef('#/definitions/Reference');
         $properties->default->oneOf[1] = $propertiesDefaultOneOf1;
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $property15D2XX = new Schema();
         $property15D2XX->oneOf[0] = Response::schema();

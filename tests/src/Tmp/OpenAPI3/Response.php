@@ -70,7 +70,7 @@ class Response extends ClassStructure
         );
         $propertiesLinksAdditionalPropertiesOneOf1->setFromRef('#/definitions/Reference');
         $properties->links->additionalProperties->oneOf[1] = $propertiesLinksAdditionalPropertiesOneOf1;
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $ownerSchema->setPatternProperty('^x-', $x);

@@ -44,7 +44,7 @@ class OAuth2SecurityScheme extends ClassStructure
         );
         $properties->flows = OAuthFlows::schema();
         $properties->description = Schema::string();
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $ownerSchema->setPatternProperty('^x-', $x);

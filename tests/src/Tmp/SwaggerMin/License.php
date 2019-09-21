@@ -38,7 +38,7 @@ class License extends ClassStructure
         $properties->url = Schema::string();
         $properties->url->description = "The URL pointing to the license.";
         $properties->url->format = "uri";
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $x->additionalProperties = true;

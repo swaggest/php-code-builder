@@ -49,7 +49,7 @@ class Response extends ClassStructure
         $properties->examples = Schema::object();
         $properties->examples->additionalProperties = true;
         $properties->examples->setFromRef('#/definitions/examples');
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $x->additionalProperties = true;

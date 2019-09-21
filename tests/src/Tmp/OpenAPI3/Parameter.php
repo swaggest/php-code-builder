@@ -113,7 +113,7 @@ class Parameter extends ClassStructure
         );
         $propertiesExamplesAdditionalPropertiesOneOf1->setFromRef('#/definitions/Reference');
         $properties->examples->additionalProperties->oneOf[1] = $propertiesExamplesAdditionalPropertiesOneOf1;
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $ownerSchema->setPatternProperty('^x-', $x);

@@ -32,7 +32,7 @@ class Paths extends ClassStructure
      */
     public static function setUpProperties($properties, Schema $ownerSchema)
     {
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = VendorExtension::schema();
         $ownerSchema->setPatternProperty('^x-', $x);

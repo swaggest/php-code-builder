@@ -65,7 +65,7 @@ class PathItem extends ClassStructure
         $propertiesParametersItemsOneOf1->setFromRef('#/definitions/Reference');
         $properties->parameters->items->oneOf[1] = $propertiesParametersItemsOneOf1;
         $properties->parameters->uniqueItems = true;
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $getPutPostDeleteOptionsHeadPatchTrace = Operation::schema();
         $ownerSchema->setPatternProperty('^(get|put|post|delete|options|head|patch|trace)$', $getPutPostDeleteOptionsHeadPatchTrace);

@@ -40,7 +40,7 @@ class ServerVariable extends ClassStructure
         $properties->enum->items = Schema::string();
         $properties->default = Schema::string();
         $properties->description = Schema::string();
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $ownerSchema->setPatternProperty('^x-', $x);

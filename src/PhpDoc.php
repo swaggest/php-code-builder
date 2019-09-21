@@ -66,9 +66,6 @@ class PhpDoc extends PhpTemplate
         $result = '';
         foreach ($this->tags as $tag) {
             if ($tag->name) {
-                if ($tag->name === 'method') {
-                    echo '.';
-                }
                 $value = $tag->value ? $this->padLines(' * ', ' ' . $tag->value, true, true) : '';
                 $result .= <<<PHP
  * @{$tag->name}{$value}

@@ -64,7 +64,7 @@ class PathItem extends ClassStructure
         $properties->head = Operation::schema();
         $properties->patch = Operation::schema();
         $properties->parameters = ParametersList::schema();
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = VendorExtension::schema();
         $ownerSchema->setPatternProperty('^x-', $x);

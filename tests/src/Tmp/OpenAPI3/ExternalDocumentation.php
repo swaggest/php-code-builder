@@ -36,7 +36,7 @@ class ExternalDocumentation extends ClassStructure
         $properties->description = Schema::string();
         $properties->url = Schema::string();
         $properties->url->format = "uri-reference";
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $ownerSchema->setPatternProperty('^x-', $x);

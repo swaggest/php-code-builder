@@ -31,7 +31,7 @@ class Discriminator extends ClassStructure
         $properties->propertyName = Schema::string();
         $properties->mapping = Schema::object();
         $properties->mapping->additionalProperties = Schema::string();
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->required = array(
             self::names()->propertyName,
         );

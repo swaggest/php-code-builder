@@ -27,7 +27,7 @@ class JsonReference extends ClassStructure
     {
         $properties->ref = Schema::string();
         $ownerSchema->addPropertyMapping('$ref', self::names()->ref);
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $ownerSchema->required = array(
             '$ref',

@@ -24,7 +24,7 @@ class Oauth2Scopes extends ClassStructure
      */
     public static function setUpProperties($properties, Schema $ownerSchema)
     {
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = Schema::string();
         $ownerSchema->setFromRef('#/definitions/oauth2Scopes');
     }

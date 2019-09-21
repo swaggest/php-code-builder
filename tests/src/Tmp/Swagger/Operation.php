@@ -85,7 +85,7 @@ class Operation extends ClassStructure
         $properties->deprecated = Schema::boolean();
         $properties->deprecated->default = false;
         $properties->security = Security::schema();
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = VendorExtension::schema();
         $ownerSchema->setPatternProperty('^x-', $x);
