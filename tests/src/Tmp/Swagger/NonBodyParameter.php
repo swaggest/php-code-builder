@@ -24,7 +24,7 @@ class NonBodyParameter extends ClassStructure
      */
     public static function setUpProperties($properties, Schema $ownerSchema)
     {
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->oneOf[0] = HeaderParameterSubSchema::schema();
         $ownerSchema->oneOf[1] = FormDataParameterSubSchema::schema();
         $ownerSchema->oneOf[2] = QueryParameterSubSchema::schema();

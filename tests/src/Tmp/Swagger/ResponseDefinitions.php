@@ -25,7 +25,7 @@ class ResponseDefinitions extends ClassStructure
      */
     public static function setUpProperties($properties, Schema $ownerSchema)
     {
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = Response::schema();
         $ownerSchema->description = "One or more JSON representations for parameters";
         $ownerSchema->setFromRef('#/definitions/responseDefinitions');

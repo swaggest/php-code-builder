@@ -63,7 +63,7 @@ class Oauth2AccessCodeSecurity extends ClassStructure
         $properties->tokenUrl = Schema::string();
         $properties->tokenUrl->format = "uri";
         $properties->description = Schema::string();
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = VendorExtension::schema();
         $ownerSchema->setPatternProperty('^x-', $x);

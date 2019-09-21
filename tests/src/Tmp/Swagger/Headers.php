@@ -24,7 +24,7 @@ class Headers extends ClassStructure
      */
     public static function setUpProperties($properties, Schema $ownerSchema)
     {
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = Header::schema();
         $ownerSchema->setFromRef('#/definitions/headers');
     }

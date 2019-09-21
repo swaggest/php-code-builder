@@ -42,7 +42,7 @@ class PasswordOAuthFlow extends ClassStructure
         $properties->refreshUrl->format = "uri-reference";
         $properties->scopes = Schema::object();
         $properties->scopes->additionalProperties = Schema::string();
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $ownerSchema->setPatternProperty('^x-', $x);

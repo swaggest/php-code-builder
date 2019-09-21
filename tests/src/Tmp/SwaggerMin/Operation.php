@@ -167,7 +167,7 @@ class Operation extends ClassStructure
         $properties->security->items->setFromRef('#/definitions/securityRequirement');
         $properties->security->uniqueItems = true;
         $properties->security->setFromRef('#/definitions/security');
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $x->additionalProperties = true;

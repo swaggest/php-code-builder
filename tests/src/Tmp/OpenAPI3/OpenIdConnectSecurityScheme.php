@@ -45,7 +45,7 @@ class OpenIdConnectSecurityScheme extends ClassStructure
         $properties->openIdConnectUrl = Schema::string();
         $properties->openIdConnectUrl->format = "uri-reference";
         $properties->description = Schema::string();
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $ownerSchema->setPatternProperty('^x-', $x);

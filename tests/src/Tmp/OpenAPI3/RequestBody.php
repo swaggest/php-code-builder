@@ -41,7 +41,7 @@ class RequestBody extends ClassStructure
         $properties->content->additionalProperties = MediaType::schema();
         $properties->required = Schema::boolean();
         $properties->required->default = false;
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $ownerSchema->setPatternProperty('^x-', $x);

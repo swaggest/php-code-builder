@@ -57,7 +57,7 @@ class BodyParameter extends ClassStructure
         $properties->required->description = "Determines whether or not this parameter is required or optional.";
         $properties->required->default = false;
         $properties->schema = DefinitionsSchema::schema();
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = VendorExtension::schema();
         $ownerSchema->setPatternProperty('^x-', $x);

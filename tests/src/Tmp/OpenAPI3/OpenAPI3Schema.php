@@ -73,7 +73,7 @@ class OpenAPI3Schema extends ClassStructure
         $properties->paths->setPatternProperty('^x-', $x);
         $properties->paths->setFromRef('#/definitions/Paths');
         $properties->components = Components::schema();
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $ownerSchema->setPatternProperty('^x-', $x);

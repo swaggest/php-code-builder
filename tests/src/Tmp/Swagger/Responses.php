@@ -32,7 +32,7 @@ class Responses extends ClassStructure
      */
     public static function setUpProperties($properties, Schema $ownerSchema)
     {
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $property093Default = ResponseValue::schema();
         $ownerSchema->setPatternProperty('^([0-9]{3})$|^(default)$', $property093Default);

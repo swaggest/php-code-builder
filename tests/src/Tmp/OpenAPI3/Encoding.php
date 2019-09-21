@@ -58,7 +58,7 @@ class Encoding extends ClassStructure
         $properties->explode = Schema::boolean();
         $properties->allowReserved = Schema::boolean();
         $properties->allowReserved->default = false;
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $ownerSchema->setFromRef('#/definitions/Encoding');
     }

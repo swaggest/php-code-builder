@@ -25,7 +25,7 @@ class Definitions extends ClassStructure
      */
     public static function setUpProperties($properties, Schema $ownerSchema)
     {
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = DefinitionsSchema::schema();
         $ownerSchema->description = "One or more JSON objects describing the schemas being consumed and produced by the API.";
         $ownerSchema->setFromRef('#/definitions/definitions');

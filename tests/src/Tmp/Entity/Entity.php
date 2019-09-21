@@ -16,7 +16,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
 /**
- * @method static Entity|string[]|int[]|bool[] import($data, Context $options = null)
+ * @method static Entity|string[]|int[]|bool[]|null|array import($data, Context $options = null)
  */
 class Entity extends ClassStructure
 {
@@ -35,7 +35,7 @@ class Entity extends ClassStructure
     {
         $properties->namedProperty = Schema::string();
         $ownerSchema->addPropertyMapping('namedProperty$$$#%', self::names()->namedProperty);
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = [Schema::OBJECT, Schema::NULL, Schema::_ARRAY];
         $ownerSchema->additionalProperties = Schema::string();
         $x = Schema::integer();
         $ownerSchema->setPatternProperty('^x-', $x);

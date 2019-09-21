@@ -67,7 +67,7 @@ class DefinitionsHeader extends ClassStructure
     {
         $properties->maximum = Schema::number();
         $properties->maximum->setFromRef('#/definitions/maximum');
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->setFromRef('#/definitions/header');
     }
 

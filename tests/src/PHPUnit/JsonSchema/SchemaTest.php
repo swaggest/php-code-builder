@@ -70,7 +70,7 @@ class Beech1 extends Swaggest\JsonSchema\Structure\ClassStructure
         $properties->sampleNumber = Swaggest\JsonSchema\Schema::number();
         $properties->sampleSelf = \Beech1::schema();
         $properties->another = \Beech2::schema();
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Swaggest\JsonSchema\Schema::OBJECT;
     }
 
     /**
@@ -161,7 +161,7 @@ class Beech2 extends Swaggest\JsonSchema\Structure\ClassStructure
     {
         $properties->hello = Swaggest\JsonSchema\Schema::boolean();
         $properties->world = Swaggest\JsonSchema\Schema::string();
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Swaggest\JsonSchema\Schema::OBJECT;
     }
 
     /**

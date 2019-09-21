@@ -50,7 +50,7 @@ class XML extends ClassStructure
         $properties->attribute->default = false;
         $properties->wrapped = Schema::boolean();
         $properties->wrapped->default = false;
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $ownerSchema->setPatternProperty('^x-', $x);

@@ -103,7 +103,14 @@ class SchemaBuilder
                     break;
 
                 default:
-                    $types = PhpCode::varExport($this->schema->type);
+                    if (!is_array($this->schema->type)) {
+                        throw new Exception('Unexpected type:' . $this->schema->type);
+                    }
+                    $types = [];
+                    foreach ($this->schema->type as $type) {
+                        $types[] = '::schema::' . PhpCode::makePhpConstantName($type);
+                    }
+                    $types = '[' . implode(', ', $types) . ']';
                     $result = $this->createVarName
                         ? "{$this->varName} = (new ::schema())->setType($types);"
                         : "{$this->varName}->type = $types;";
@@ -182,7 +189,8 @@ class SchemaBuilder
                 );
             } else {
                 $this->result->addSnippet(
-                    "{$this->varName}->type = 'object';\n"
+                    new PlaceholderString("{$this->varName}->type = ::schema::OBJECT;\n",
+                        array('::schema' => new TypeOf(Palette::schemaClass())))
                 );
             }
 

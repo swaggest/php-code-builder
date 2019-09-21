@@ -41,7 +41,7 @@ class Contact extends ClassStructure
         $properties->url->format = "uri-reference";
         $properties->email = Schema::string();
         $properties->email->format = "email";
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $ownerSchema->setPatternProperty('^x-', $x);

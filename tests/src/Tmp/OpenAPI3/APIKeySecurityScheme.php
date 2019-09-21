@@ -59,7 +59,7 @@ class APIKeySecurityScheme extends ClassStructure
             self::COOKIE,
         );
         $properties->description = Schema::string();
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $ownerSchema->setPatternProperty('^x-', $x);

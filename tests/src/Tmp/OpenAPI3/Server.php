@@ -40,7 +40,7 @@ class Server extends ClassStructure
         $properties->description = Schema::string();
         $properties->variables = Schema::object();
         $properties->variables->additionalProperties = ServerVariable::schema();
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $ownerSchema->setPatternProperty('^x-', $x);

@@ -39,7 +39,7 @@ class Tag extends ClassStructure
         $properties->name = Schema::string();
         $properties->description = Schema::string();
         $properties->externalDocs = ExternalDocumentation::schema();
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $ownerSchema->setPatternProperty('^x-', $x);

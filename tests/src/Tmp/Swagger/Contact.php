@@ -45,7 +45,7 @@ class Contact extends ClassStructure
         $properties->email = Schema::string();
         $properties->email->description = "The email address of the contact person/organization.";
         $properties->email->format = "email";
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = VendorExtension::schema();
         $ownerSchema->setPatternProperty('^x-', $x);

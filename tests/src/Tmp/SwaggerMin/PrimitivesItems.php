@@ -170,7 +170,7 @@ class PrimitivesItems extends ClassStructure implements SchemaExporter
         $properties->multipleOf->minimum = 0;
         $properties->multipleOf->exclusiveMinimum = true;
         $properties->multipleOf->setFromRef('#/definitions/multipleOf');
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $x->additionalProperties = true;

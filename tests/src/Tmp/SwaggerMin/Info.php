@@ -56,7 +56,7 @@ class Info extends ClassStructure
         $properties->termsOfService->description = "The terms of service for the API.";
         $properties->contact = Contact::schema();
         $properties->license = License::schema();
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $x->additionalProperties = true;

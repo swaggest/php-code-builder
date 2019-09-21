@@ -117,7 +117,7 @@ class PrimitivesItems extends ClassStructure implements SchemaExporter
         $properties->uniqueItems = UniqueItems::schema();
         $properties->enum = Enum::schema();
         $properties->multipleOf = MultipleOf::schema();
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = VendorExtension::schema();
         $ownerSchema->setPatternProperty('^x-', $x);

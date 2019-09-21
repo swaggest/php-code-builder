@@ -185,7 +185,7 @@ class SwaggerSchema extends ClassStructure
         $properties->tags->items = Tag::schema();
         $properties->tags->uniqueItems = true;
         $properties->externalDocs = ExternalDocs::schema();
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $x->additionalProperties = true;

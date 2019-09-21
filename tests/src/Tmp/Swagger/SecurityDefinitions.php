@@ -24,7 +24,7 @@ class SecurityDefinitions extends ClassStructure
      */
     public static function setUpProperties($properties, Schema $ownerSchema)
     {
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = new Schema();
         $ownerSchema->additionalProperties->oneOf[0] = BasicAuthenticationSecurity::schema();
         $ownerSchema->additionalProperties->oneOf[1] = ApiKeySecurity::schema();

@@ -307,7 +307,7 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
         $properties->deprecated = Schema::boolean();
         $properties->deprecated->default = false;
         $properties->xml = XML::schema();
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $ownerSchema->setPatternProperty('^x-', $x);

@@ -126,7 +126,7 @@ class Operation extends ClassStructure
         $properties->security->items->setFromRef('#/definitions/SecurityRequirement');
         $properties->servers = Schema::arr();
         $properties->servers->items = Server::schema();
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $ownerSchema->setPatternProperty('^x-', $x);

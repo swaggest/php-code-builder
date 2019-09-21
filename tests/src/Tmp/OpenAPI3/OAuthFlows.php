@@ -43,7 +43,7 @@ class OAuthFlows extends ClassStructure
         $properties->password = PasswordOAuthFlow::schema();
         $properties->clientCredentials = ClientCredentialsFlow::schema();
         $properties->authorizationCode = AuthorizationCodeOAuthFlow::schema();
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $ownerSchema->setPatternProperty('^x-', $x);

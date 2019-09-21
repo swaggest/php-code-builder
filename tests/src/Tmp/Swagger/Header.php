@@ -121,7 +121,7 @@ class Header extends ClassStructure implements SchemaExporter
         $properties->enum = Enum::schema();
         $properties->multipleOf = MultipleOf::schema();
         $properties->description = Schema::string();
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = VendorExtension::schema();
         $ownerSchema->setPatternProperty('^x-', $x);

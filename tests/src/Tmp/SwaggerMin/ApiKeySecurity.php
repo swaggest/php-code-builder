@@ -56,7 +56,7 @@ class ApiKeySecurity extends ClassStructure
             self::QUERY,
         );
         $properties->description = Schema::string();
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $x->additionalProperties = true;

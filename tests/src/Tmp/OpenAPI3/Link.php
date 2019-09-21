@@ -52,7 +52,7 @@ class Link extends ClassStructure
         $properties->requestBody = new Schema();
         $properties->description = Schema::string();
         $properties->server = Server::schema();
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $ownerSchema->setPatternProperty('^x-', $x);

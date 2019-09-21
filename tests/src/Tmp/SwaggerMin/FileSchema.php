@@ -82,7 +82,7 @@ class FileSchema extends ClassStructure implements SchemaExporter
         $properties->readOnly->default = false;
         $properties->externalDocs = ExternalDocs::schema();
         $properties->example = new Schema();
-        $ownerSchema->type = 'object';
+        $ownerSchema->type = Schema::OBJECT;
         $ownerSchema->additionalProperties = false;
         $x = new Schema();
         $x->additionalProperties = true;
