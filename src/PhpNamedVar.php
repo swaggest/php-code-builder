@@ -118,9 +118,14 @@ class PhpNamedVar
     public function renderPhpDocValue($withName = false)
     {
         $tagValue = '';
+        $phpDocType = '';
         if ($this->type) {
-            $tagValue .= $this->type->renderPhpDocType();
+            $phpDocType = $this->type->renderPhpDocType();
         }
+        if (!trim($phpDocType)) {
+            $phpDocType = PhpStdType::TYPE_MIXED;
+        }
+        $tagValue .= $phpDocType;
         if ($withName) {
             $tagValue .= ' $' . $this->name;
         }

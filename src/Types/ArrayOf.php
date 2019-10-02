@@ -44,7 +44,7 @@ class ArrayOf implements PhpAnyType
         if ($this->type instanceof OrType) {
             return $this->type->renderArrayPhpDocType();
         } elseif ($this->type === PhpStdType::mixed()) {
-            return '';
+            return 'array';
         } else {
             return $this->type->renderPhpDocType() . '[]';
         }
