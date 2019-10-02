@@ -137,6 +137,7 @@ class Oauth2PasswordSecurity extends ClassStructure
     /** @codeCoverageIgnoreEnd */
 
     /**
+     * @return array
      * @codeCoverageIgnoreStart
      */
     public function getXValues()

@@ -149,6 +149,7 @@ class Oauth2AccessCodeSecurity extends ClassStructure
     /** @codeCoverageIgnoreEnd */
 
     /**
+     * @return array
      * @codeCoverageIgnoreStart
      */
     public function getXValues()

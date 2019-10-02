@@ -483,6 +483,7 @@ class FormDataParameterSubSchema extends ClassStructure implements SchemaExporte
     /** @codeCoverageIgnoreEnd */
 
     /**
+     * @return array
      * @codeCoverageIgnoreStart
      */
     public function getXValues()

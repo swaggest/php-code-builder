@@ -87,6 +87,7 @@ class Server extends ClassStructure
     /** @codeCoverageIgnoreEnd */
 
     /**
+     * @return array
      * @codeCoverageIgnoreStart
      */
     public function getXValues()

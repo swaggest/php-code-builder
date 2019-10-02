@@ -36,7 +36,7 @@ PHP
 );
         $expected = <<<'PHP'
 /**
- * @param $arg1
+ * @param mixed $arg1
  * @param int $arg2
  */
 function test($arg1, $arg2)

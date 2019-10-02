@@ -117,6 +117,7 @@ class Responses extends ClassStructure
     /** @codeCoverageIgnoreEnd */
 
     /**
+     * @return array
      * @codeCoverageIgnoreStart
      */
     public function getXValues()
