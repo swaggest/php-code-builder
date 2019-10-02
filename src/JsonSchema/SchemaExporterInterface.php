@@ -55,7 +55,49 @@ class SchemaExporterInterface implements PhpBuilderClassHook
 
             $func = new PhpFunction('exportSchema');
             $func->setResult(PhpClass::byFQN(Schema::class));
-            $body = (new PhpCode())->addSnippet(new PlaceholderString(<<<PHP
+            $body = (new PhpCode())->addSnippet($this->buildHead());
+
+            $names = Schema::names();
+            foreach ($propertiesFound as $name) {
+                if ($name === $names->items
+                    || $name === $names->additionalProperties
+                    || $name === $names->additionalItems
+                    || $name === $names->not
+                    || $name === $names->if
+                    || $name === $names->then
+                    || $name === $names->else) {
+                    $body->addSnippet($this->buildSchemaProperty($name));
+                    continue;
+                }
+
+                if ($name === $names->allOf || $name === $names->oneOf || $name === $names->anyOf) {
+                    $body->addSnippet($this->buildSchemasProperty($name));
+                    continue;
+                }
+
+
+                if ($name === $names->properties) {
+                    $body->addSnippet($this->buildProperties());
+                    continue;
+                }
+
+
+                $body->addSnippet($this->buildDefault($name));
+
+            }
+
+            $body->addSnippet($this->buildTail());
+
+            $func->setBody($body);
+            $class->addMethod($func);
+            $class->addImplements(PhpInterface::byFQN(SchemaExporter::class));
+        }
+
+    }
+
+    protected function buildHead()
+    {
+        return new PlaceholderString(<<<PHP
 if (null === self::\$schemaStorage) {
     self::\$schemaStorage = new SplObjectStorage();
 }
@@ -68,30 +110,23 @@ if (self::\$schemaStorage->contains(\$this)) {
 }
 
 PHP
-                , [':schema' => new TypeOf(PhpClass::byFQN(Schema::class))]
-            ));
+            , [':schema' => new TypeOf(PhpClass::byFQN(Schema::class))]
+        );
+    }
 
-            $names = Schema::names();
-            foreach ($propertiesFound as $name) {
-                if ($name === $names->items
-                    || $name === $names->additionalProperties
-                    || $name === $names->additionalItems
-                    || $name === $names->not
-                    || $name === $names->if
-                    || $name === $names->then
-                    || $name === $names->else) {
-                    $body->addSnippet(<<<PHP
+    protected function buildSchemaProperty($name)
+    {
+        return <<<PHP
 if (\$this->$name !== null && \$this->$name instanceof SchemaExporter) {
     \$schema->$name = \$this->{$name}->exportSchema();
 }
 
-PHP
-                    );
-                    continue;
-                }
+PHP;
+    }
 
-                if ($name === $names->allOf || $name === $names->oneOf || $name === $names->anyOf) {
-                    $body->addSnippet(<<<PHP
+    protected function buildSchemasProperty($name)
+    {
+        return <<<PHP
 if (!empty(\$this->$name)) {
     foreach (\$this->$name as \$i => \$item) {
         if (\$item instanceof SchemaExporter) {
@@ -100,49 +135,38 @@ if (!empty(\$this->$name)) {
     }
 }
 
-PHP
-                    );
-                    continue;
-                }
+PHP;
+    }
 
-
-                if ($name === $names->properties) {
-                    $body->addSnippet(<<<PHP
-if (!empty(\$this->$name)) {
-    foreach (\$this->$name as \$propertyName => \$propertySchema) {
+    protected function buildProperties()
+    {
+        return <<<PHP
+if (!empty(\$this->properties)) {
+    foreach (\$this->properties as \$propertyName => \$propertySchema) {
         if (is_string(\$propertyName) && \$propertySchema instanceof SchemaExporter) {
             \$schema->setProperty(\$propertyName, \$propertySchema->exportSchema());
         }
     }
 }
 
-PHP
-                    );
-                    continue;
-                }
+PHP;
+    }
 
-
-                $body->addSnippet(<<<PHP
+    protected function buildDefault($name)
+    {
+        return <<<PHP
 \$schema->$name = \$this->$name;
 
-PHP
-                );
+PHP;
+    }
 
-            }
-
-            $body->addSnippet(<<<'PHP'
+    protected function buildTail()
+    {
+        return <<<'PHP'
 $schema->__fromRef = $this->__fromRef;
 $schema->setDocumentPath($this->getDocumentPath());
 $schema->addMeta($this, 'origin');
 return $schema;
-PHP
-            );
-
-            $func->setBody($body);
-            $class->addMethod($func);
-            $class->addImplements(PhpInterface::byFQN(SchemaExporter::class));
-        }
-
+PHP;
     }
-
 }
