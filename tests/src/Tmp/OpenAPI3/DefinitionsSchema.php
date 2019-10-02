@@ -735,6 +735,7 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
     /** @codeCoverageIgnoreEnd */
 
     /**
+     * @return array
      * @codeCoverageIgnoreStart
      */
     public function getXValues()

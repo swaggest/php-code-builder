@@ -195,6 +195,7 @@ class FileSchema extends ClassStructure implements SchemaExporter
     /** @codeCoverageIgnoreEnd */
 
     /**
+     * @return array
      * @codeCoverageIgnoreStart
      */
     public function getXValues()

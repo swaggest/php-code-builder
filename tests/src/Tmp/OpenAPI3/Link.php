@@ -27,6 +27,7 @@ class Link extends ClassStructure
     /** @var string */
     public $operationRef;
 
+    /** @var array */
     public $parameters;
 
     /** @var mixed */
@@ -90,7 +91,7 @@ class Link extends ClassStructure
     /** @codeCoverageIgnoreEnd */
 
     /**
-     * @param $parameters
+     * @param array $parameters
      * @return $this
      * @codeCoverageIgnoreStart
      */
@@ -138,6 +139,7 @@ class Link extends ClassStructure
     /** @codeCoverageIgnoreEnd */
 
     /**
+     * @return array
      * @codeCoverageIgnoreStart
      */
     public function getXValues()
