@@ -149,11 +149,14 @@ class PhpBuilder
         if ($schema->properties) {
             $phpNames = array();
             foreach ($schema->properties as $name => $property) {
-                $i = '';
-                do {
-                    $propertyName = PhpCode::makePhpName($name . $i);
-                    $i .= 'a';
-                } while (isset($phpNames[$propertyName]));
+                $propertyName = PhpCode::makePhpName($name);
+
+                $i = 2;
+                $basePropertyName = $propertyName;
+                while (isset($phpNames[$propertyName])) {
+                    $propertyName = $basePropertyName . $i;
+                    $i++;
+                }
                 $phpNames[$propertyName] = true;
 
                 $schemaBuilder = new SchemaBuilder($property, '$properties->' . $propertyName, $path . '->' . $name, $this);
