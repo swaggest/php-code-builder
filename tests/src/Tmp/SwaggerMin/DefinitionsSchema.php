@@ -19,6 +19,8 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 /**
  * A deterministic version of a JSON Schema object.
  * Built from #/definitions/schema
+ * @property mixed $default
+ * @property mixed $example
  */
 class DefinitionsSchema extends ClassStructure implements SchemaExporter
 {
@@ -49,9 +51,6 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
 
     /** @var string */
     public $description;
-
-    /** @var mixed */
-    public $default;
 
     /** @var float */
     public $multipleOf;
@@ -124,9 +123,6 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
 
     /** @var ExternalDocs information about external documentation */
     public $externalDocs;
-
-    /** @var mixed */
-    public $example;
 
     /** @var SplObjectStorage Schema storage keeps exported schemas to avoid infinite cycle recursions. */
     private static $schemaStorage;

@@ -18,6 +18,8 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/Schema
+ * @property mixed $default
+ * @property mixed $example
  */
 class DefinitionsSchema extends ClassStructure implements SchemaExporter
 {
@@ -113,9 +115,6 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
     /** @var string */
     public $format;
 
-    /** @var mixed */
-    public $default;
-
     /** @var bool */
     public $nullable;
 
@@ -127,9 +126,6 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
 
     /** @var bool */
     public $writeOnly;
-
-    /** @var mixed */
-    public $example;
 
     /** @var ExternalDocumentation */
     public $externalDocs;

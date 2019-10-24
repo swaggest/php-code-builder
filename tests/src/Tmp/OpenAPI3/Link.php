@@ -16,6 +16,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/Link
+ * @property mixed $requestBody
  */
 class Link extends ClassStructure
 {
@@ -29,9 +30,6 @@ class Link extends ClassStructure
 
     /** @var array */
     public $parameters;
-
-    /** @var mixed */
-    public $requestBody;
 
     /** @var string */
     public $description;

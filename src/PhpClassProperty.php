@@ -15,11 +15,32 @@ class PhpClassProperty extends PhpTemplate
     /** @var PhpNamedVar */
     private $namedVar;
 
+    /** @var bool Magical property is rendered as phpdoc */
+    private $isMagical = false;
+
+    /**
+     * @return bool
+     */
+    public function isMagical()
+    {
+        return $this->isMagical;
+    }
+
+    /**
+     * @param bool $isMagical
+     */
+    public function setIsMagical($isMagical)
+    {
+        $this->isMagical = $isMagical;
+    }
+
     public function __construct($name, PhpAnyType $type = null, $visibility = PhpFlags::VIS_PUBLIC)
     {
         $this->namedVar = new PhpNamedVar($name, $type);
         $this->visibility = $visibility;
     }
+
+
 
     /**
      * @param mixed $value

@@ -50,13 +50,13 @@ class Root extends Swaggest\JsonSchema\Structure\ClassStructure
     }
 }
 
+/**
+ * @property mixed $bar
+ */
 class RootOneOf0 extends Swaggest\JsonSchema\Structure\ClassStructure
 {
     /** @var mixed */
     public $foo;
-
-    /** @var mixed */
-    public $bar;
 
     /**
      * @param Swaggest\JsonSchema\Constraint\Properties|static $properties
@@ -73,13 +73,13 @@ class RootOneOf0 extends Swaggest\JsonSchema\Structure\ClassStructure
     }
 }
 
+/**
+ * @property mixed $bar
+ */
 class RootOneOf1 extends Swaggest\JsonSchema\Structure\ClassStructure
 {
     /** @var mixed */
     public $foo;
-
-    /** @var mixed */
-    public $bar;
 
     /**
      * @param Swaggest\JsonSchema\Constraint\Properties|static $properties
@@ -146,13 +146,13 @@ class Root extends Swaggest\JsonSchema\Structure\ClassStructure
     }
 }
 
+/**
+ * @property mixed $bar
+ */
 class RootAnyOf0 extends Swaggest\JsonSchema\Structure\ClassStructure
 {
     /** @var mixed */
     public $foo;
-
-    /** @var mixed */
-    public $bar;
 
     /**
      * @param Swaggest\JsonSchema\Constraint\Properties|static $properties
@@ -169,13 +169,13 @@ class RootAnyOf0 extends Swaggest\JsonSchema\Structure\ClassStructure
     }
 }
 
+/**
+ * @property mixed $bar
+ */
 class RootAnyOf1 extends Swaggest\JsonSchema\Structure\ClassStructure
 {
     /** @var mixed */
     public $foo;
-
-    /** @var mixed */
-    public $bar;
 
     /**
      * @param Swaggest\JsonSchema\Constraint\Properties|static $properties
@@ -243,13 +243,13 @@ class Root extends Swaggest\JsonSchema\Structure\ClassStructure
     }
 }
 
+/**
+ * @property mixed $bar
+ */
 class RootAllOf0 extends Swaggest\JsonSchema\Structure\ClassStructure
 {
     /** @var mixed */
     public $foo;
-
-    /** @var mixed */
-    public $bar;
 
     /**
      * @param Swaggest\JsonSchema\Constraint\Properties|static $properties
@@ -266,13 +266,13 @@ class RootAllOf0 extends Swaggest\JsonSchema\Structure\ClassStructure
     }
 }
 
+/**
+ * @property mixed $bar
+ */
 class RootAllOf1 extends Swaggest\JsonSchema\Structure\ClassStructure
 {
     /** @var mixed */
     public $foo;
-
-    /** @var mixed */
-    public $bar;
 
     /**
      * @param Swaggest\JsonSchema\Constraint\Properties|static $properties
@@ -334,13 +334,13 @@ class Root extends Swaggest\JsonSchema\Structure\ClassStructure
     }
 }
 
+/**
+ * @property mixed $bar
+ */
 class RootNot extends Swaggest\JsonSchema\Structure\ClassStructure
 {
     /** @var mixed */
     public $foo;
-
-    /** @var mixed */
-    public $bar;
 
     /**
      * @param Swaggest\JsonSchema\Constraint\Properties|static $properties

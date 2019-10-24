@@ -18,6 +18,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 /**
  * Built from #/definitions/Parameter
  * @method static Parameter|ParameterLocationParameterInPath|ParameterLocationParameterInQuery|ParameterLocationParameterInHeader|ParameterLocationParameterInCookie import($data, Context $options = null)
+ * @property mixed $example
  */
 class Parameter extends ClassStructure
 {
@@ -55,9 +56,6 @@ class Parameter extends ClassStructure
 
     /** @var MediaType[]|mixed[] */
     public $content;
-
-    /** @var mixed */
-    public $example;
 
     /** @var Example[]|string[][] */
     public $examples;
