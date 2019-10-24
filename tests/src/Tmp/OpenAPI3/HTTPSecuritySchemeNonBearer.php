@@ -13,13 +13,11 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Non Bearer
+ * @property mixed $scheme
  */
 class HTTPSecuritySchemeNonBearer extends ClassStructure
 {
     const BEARER = 'bearer';
-
-    /** @var mixed */
-    public $scheme;
 
     /**
      * @param Properties|static $properties

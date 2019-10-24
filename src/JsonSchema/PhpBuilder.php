@@ -8,6 +8,7 @@ use Swaggest\JsonSchema\Context;
 use Swaggest\JsonSchema\JsonSchema;
 use Swaggest\JsonSchema\Schema;
 use Swaggest\JsonSchema\SchemaContract;
+use Swaggest\JsonSchema\SchemaExporter;
 use Swaggest\PhpCodeBuilder\Exception;
 use Swaggest\PhpCodeBuilder\PhpAnyType;
 use Swaggest\PhpCodeBuilder\PhpClass;
@@ -148,6 +149,10 @@ class PhpBuilder
 
         if ($schema->properties) {
             $phpNames = array();
+            /**
+             * @var string $name
+             * @var Schema $property
+             */
             foreach ($schema->properties as $name => $property) {
                 $propertyName = PhpCode::makePhpName($name);
 
@@ -166,9 +171,15 @@ class PhpBuilder
                 if ($this->makeEnumConstants) {
                     $schemaBuilder->setSaveEnumConstInClass($class);
                 }
-                $phpProperty = new PhpClassProperty($propertyName, $this->getType($property, $path . '->' . $name));
+                $propertyType = $this->getType($property, $path . '->' . $name);
+                $phpProperty = new PhpClassProperty($propertyName, $propertyType);
                 $phpProperty->addMeta($property, self::SCHEMA);
                 $phpProperty->addMeta($name, self::PROPERTY_NAME);
+
+                if ($this->schemaIsNullable($property)) {
+                    $phpProperty->setIsMagical(true);
+                }
+
                 if ($property->description) {
                     $phpProperty->setDescription($property->description);
                 }
@@ -263,6 +274,73 @@ class PhpBuilder
     public static function getSchemaMeta(AbstractTemplate $template)
     {
         return $template->getMeta(self::SCHEMA);
+    }
+
+    /**
+     * Returns true if null is allowed by schema.
+     *
+     * @param Schema $property
+     * @return bool
+     */
+    private function schemaIsNullable($property)
+    {
+        if (!empty($property->enum) && !in_array(null, $property->enum)) {
+            return false;
+        }
+
+        if ($property->const !== null) {
+            return false;
+        }
+
+        if (!empty($property->anyOf)) {
+            $nullable = false;
+            foreach ($property->anyOf as $item) {
+                if ($item instanceof Schema) {
+                    if ($this->schemaIsNullable($item)) {
+                        $nullable = true;
+                        break;
+                    }
+                }
+            }
+            if (!$nullable) {
+                return false;
+            }
+        }
+
+        if (!empty($property->oneOf)) {
+            $nullable = false;
+            foreach ($property->oneOf as $item) {
+                if ($item instanceof Schema) {
+                    if ($this->schemaIsNullable($item)) {
+                        $nullable = true;
+                        break;
+                    }
+                }
+            }
+            if (!$nullable) {
+                return false;
+            }
+        }
+
+        if (!empty($property->allOf)) {
+            foreach ($property->allOf as $item) {
+                if ($item instanceof Schema) {
+                    if (!$this->schemaIsNullable($item)) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        if (
+            $property->type === null
+            || $property->type === Schema::NULL
+            || (is_array($property->type) && in_array(Schema::NULL, $property->type))
+        ) {
+            return true;
+        }
+
+        return false;
     }
 }
 

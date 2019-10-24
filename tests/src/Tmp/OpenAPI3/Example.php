@@ -16,6 +16,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/Example
+ * @property mixed $value
  */
 class Example extends ClassStructure
 {
@@ -26,9 +27,6 @@ class Example extends ClassStructure
 
     /** @var string */
     public $description;
-
-    /** @var mixed */
-    public $value;
 
     /** @var string */
     public $externalValue;

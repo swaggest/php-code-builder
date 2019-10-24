@@ -18,6 +18,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 /**
  * Built from #/definitions/Header
  * @method static Header import($data, Context $options = null)
+ * @property mixed $example
  */
 class Header extends ClassStructure
 {
@@ -51,9 +52,6 @@ class Header extends ClassStructure
 
     /** @var MediaType[]|mixed[] */
     public $content;
-
-    /** @var mixed */
-    public $example;
 
     /** @var Example[]|string[][] */
     public $examples;

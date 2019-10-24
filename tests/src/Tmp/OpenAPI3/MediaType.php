@@ -18,6 +18,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 /**
  * Built from #/definitions/MediaType
  * @method static MediaType import($data, Context $options = null)
+ * @property mixed $example
  */
 class MediaType extends ClassStructure
 {
@@ -25,9 +26,6 @@ class MediaType extends ClassStructure
 
     /** @var DefinitionsSchema|string[] */
     public $schema;
-
-    /** @var mixed */
-    public $example;
 
     /** @var Example[]|string[][] */
     public $examples;

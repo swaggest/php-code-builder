@@ -18,6 +18,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/formDataParameterSubSchema
+ * @property mixed $default
  */
 class FormDataParameterSubSchema extends ClassStructure implements SchemaExporter
 {
@@ -73,9 +74,6 @@ class FormDataParameterSubSchema extends ClassStructure implements SchemaExporte
 
     /** @var string */
     public $collectionFormat;
-
-    /** @var mixed */
-    public $default;
 
     /** @var float */
     public $maximum;

@@ -18,6 +18,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/primitivesItems
+ * @property mixed $default
  */
 class PrimitivesItems extends ClassStructure implements SchemaExporter
 {
@@ -52,9 +53,6 @@ class PrimitivesItems extends ClassStructure implements SchemaExporter
 
     /** @var string */
     public $collectionFormat;
-
-    /** @var mixed */
-    public $default;
 
     /** @var float */
     public $maximum;

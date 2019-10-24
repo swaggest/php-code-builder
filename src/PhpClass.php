@@ -78,6 +78,20 @@ PHP;
     {
         $result = '';
         foreach ($this->properties as $property) {
+            if ($property->isMagical()) {
+                $nv = $property->getNamedVar();
+                $typeString = PhpStdType::TYPE_MIXED;
+                $type = $nv->getType();
+                if ($type !== null) {
+                    $typeString = $type->renderPhpDocType();
+                }
+
+                $this->getPhpDoc()->add(
+                    PhpDoc::TAG_PROPERTY,
+                    trim($typeString . ' $' . $nv->getName() . ' ' . $nv->getDescription())
+                );
+                continue;
+            }
             $result .= $property->render();
         }
         return $result;
