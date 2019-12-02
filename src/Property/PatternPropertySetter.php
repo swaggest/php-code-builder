@@ -33,7 +33,7 @@ class PatternPropertySetter extends PhpFunction
         $this->setResult(PhpStdType::tSelf());
         $this->setBody(
             new PlaceholderString(<<<PHP
-if (preg_match(:helper::toPregPattern(self::{$patternConst->getName()}), \$name)) {
+if (!preg_match(:helper::toPregPattern(self::{$patternConst->getName()}), \$name)) {
     throw new StringException('Pattern mismatch', :stringException::PATTERN_MISMATCH);
 }
 \$this->addPatternPropertyName(self::{$patternConst->getName()}, \$name);

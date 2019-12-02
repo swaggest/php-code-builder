@@ -3,6 +3,7 @@
 namespace Swaggest\PhpCodeBuilder\Tests\PHPUnit\JsonSchema;
 
 
+use Swaggest\JsonSchema\Exception\StringException;
 use Swaggest\JsonSchema\Schema;
 use Swaggest\PhpCodeBuilder\App\PhpApp;
 use Swaggest\PhpCodeBuilder\JsonSchema\ClassHookCallback;
@@ -88,6 +89,10 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
         $e = Entity::import($data);
         $this->assertEquals(['x-sample' => 1], $e->getXValues());
         $this->assertEquals(['z-sample' => true], $e->getZValues());
+        $e->setXValue('x-sample', 2);
+        $this->assertEquals(['x-sample' => 2], $e->getXValues());
+        $e->setXValue('x-sample-3', 3);
+        $this->assertEquals(['x-sample' => 2, 'x-sample-3' => 3], $e->getXValues());
 
         $this->assertEquals(['foo1' => 'bar1', 'foo2' => 'bar2'], $e->getAdditionalPropertyValues());
 
@@ -98,6 +103,8 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
         $e->{'x-sample'} = 1;
         $e->{'z-sample'} = "one";
 
+        $this->expectException(StringException::class);
+        $e->setXValue('invalid-name', 'invalid');
 
     }
 

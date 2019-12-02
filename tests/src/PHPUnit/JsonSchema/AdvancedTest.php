@@ -477,7 +477,7 @@ class Root extends Swaggest\JsonSchema\Structure\ClassStructure
      */
     public function setXValue($name, $value)
     {
-        if (preg_match(Swaggest\JsonSchema\Helper::toPregPattern(self::X_PROPERTY_PATTERN), $name)) {
+        if (!preg_match(Swaggest\JsonSchema\Helper::toPregPattern(self::X_PROPERTY_PATTERN), $name)) {
             throw new StringException('Pattern mismatch', Swaggest\JsonSchema\Exception\StringException::PATTERN_MISMATCH);
         }
         $this->addPatternPropertyName(self::X_PROPERTY_PATTERN, $name);
@@ -512,7 +512,7 @@ class Root extends Swaggest\JsonSchema\Structure\ClassStructure
      */
     public function setZedValue($name, $value)
     {
-        if (preg_match(Swaggest\JsonSchema\Helper::toPregPattern(self::ZED_PROPERTY_PATTERN), $name)) {
+        if (!preg_match(Swaggest\JsonSchema\Helper::toPregPattern(self::ZED_PROPERTY_PATTERN), $name)) {
             throw new StringException('Pattern mismatch', Swaggest\JsonSchema\Exception\StringException::PATTERN_MISMATCH);
         }
         $this->addPatternPropertyName(self::ZED_PROPERTY_PATTERN, $name);
