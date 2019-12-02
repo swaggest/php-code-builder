@@ -73,7 +73,7 @@ class Responses extends ClassStructure
      */
     public function setProperty093DefaultValue($name, $value)
     {
-        if (preg_match(Helper::toPregPattern(self::CONST_0_9_3_DEFAULT_PROPERTY_PATTERN), $name)) {
+        if (!preg_match(Helper::toPregPattern(self::CONST_0_9_3_DEFAULT_PROPERTY_PATTERN), $name)) {
             throw new StringException('Pattern mismatch', StringException::PATTERN_MISMATCH);
         }
         $this->addPatternPropertyName(self::CONST_0_9_3_DEFAULT_PROPERTY_PATTERN, $name);
@@ -108,7 +108,7 @@ class Responses extends ClassStructure
      */
     public function setXValue($name, $value)
     {
-        if (preg_match(Helper::toPregPattern(self::X_PROPERTY_PATTERN), $name)) {
+        if (!preg_match(Helper::toPregPattern(self::X_PROPERTY_PATTERN), $name)) {
             throw new StringException('Pattern mismatch', StringException::PATTERN_MISMATCH);
         }
         $this->addPatternPropertyName(self::X_PROPERTY_PATTERN, $name);

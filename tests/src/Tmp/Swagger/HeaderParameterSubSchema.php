@@ -425,7 +425,7 @@ class HeaderParameterSubSchema extends ClassStructure implements SchemaExporter
      */
     public function setXValue($name, $value)
     {
-        if (preg_match(Helper::toPregPattern(self::X_PROPERTY_PATTERN), $name)) {
+        if (!preg_match(Helper::toPregPattern(self::X_PROPERTY_PATTERN), $name)) {
             throw new StringException('Pattern mismatch', StringException::PATTERN_MISMATCH);
         }
         $this->addPatternPropertyName(self::X_PROPERTY_PATTERN, $name);

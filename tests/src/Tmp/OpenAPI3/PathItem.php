@@ -160,7 +160,7 @@ class PathItem extends ClassStructure
      */
     public function setGetPutPostDeleteOptionsHeadPatchTraceValue($name, Operation $value)
     {
-        if (preg_match(Helper::toPregPattern(self::GET_PUT_POST_DELETE_OPTIONS_HEAD_PATCH_TRACE_PROPERTY_PATTERN), $name)) {
+        if (!preg_match(Helper::toPregPattern(self::GET_PUT_POST_DELETE_OPTIONS_HEAD_PATCH_TRACE_PROPERTY_PATTERN), $name)) {
             throw new StringException('Pattern mismatch', StringException::PATTERN_MISMATCH);
         }
         $this->addPatternPropertyName(self::GET_PUT_POST_DELETE_OPTIONS_HEAD_PATCH_TRACE_PROPERTY_PATTERN, $name);

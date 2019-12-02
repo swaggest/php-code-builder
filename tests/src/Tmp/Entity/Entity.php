@@ -112,7 +112,7 @@ class Entity extends ClassStructure
      */
     public function setXValue($name, $value)
     {
-        if (preg_match(Helper::toPregPattern(self::X_PROPERTY_PATTERN), $name)) {
+        if (!preg_match(Helper::toPregPattern(self::X_PROPERTY_PATTERN), $name)) {
             throw new StringException('Pattern mismatch', StringException::PATTERN_MISMATCH);
         }
         $this->addPatternPropertyName(self::X_PROPERTY_PATTERN, $name);
@@ -147,7 +147,7 @@ class Entity extends ClassStructure
      */
     public function setZValue($name, $value)
     {
-        if (preg_match(Helper::toPregPattern(self::Z_PROPERTY_PATTERN), $name)) {
+        if (!preg_match(Helper::toPregPattern(self::Z_PROPERTY_PATTERN), $name)) {
             throw new StringException('Pattern mismatch', StringException::PATTERN_MISMATCH);
         }
         $this->addPatternPropertyName(self::Z_PROPERTY_PATTERN, $name);

@@ -68,7 +68,7 @@ class Paths extends ClassStructure
      */
     public function setXValue($name, $value)
     {
-        if (preg_match(Helper::toPregPattern(self::X_PROPERTY_PATTERN), $name)) {
+        if (!preg_match(Helper::toPregPattern(self::X_PROPERTY_PATTERN), $name)) {
             throw new StringException('Pattern mismatch', StringException::PATTERN_MISMATCH);
         }
         $this->addPatternPropertyName(self::X_PROPERTY_PATTERN, $name);
@@ -103,7 +103,7 @@ class Paths extends ClassStructure
      */
     public function setProperty5e3697Value($name, PathItem $value)
     {
-        if (preg_match(Helper::toPregPattern(self::PROPERTY_PATTERN), $name)) {
+        if (!preg_match(Helper::toPregPattern(self::PROPERTY_PATTERN), $name)) {
             throw new StringException('Pattern mismatch', StringException::PATTERN_MISMATCH);
         }
         $this->addPatternPropertyName(self::PROPERTY_PATTERN, $name);

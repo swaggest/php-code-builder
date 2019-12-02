@@ -107,7 +107,7 @@ class Responses extends ClassStructure
      */
     public function setProperty15D2XXValue($name, $value)
     {
-        if (preg_match(Helper::toPregPattern(self::CONST_1_5_D_2_XX_PROPERTY_PATTERN), $name)) {
+        if (!preg_match(Helper::toPregPattern(self::CONST_1_5_D_2_XX_PROPERTY_PATTERN), $name)) {
             throw new StringException('Pattern mismatch', StringException::PATTERN_MISMATCH);
         }
         $this->addPatternPropertyName(self::CONST_1_5_D_2_XX_PROPERTY_PATTERN, $name);
@@ -142,7 +142,7 @@ class Responses extends ClassStructure
      */
     public function setXValue($name, $value)
     {
-        if (preg_match(Helper::toPregPattern(self::X_PROPERTY_PATTERN), $name)) {
+        if (!preg_match(Helper::toPregPattern(self::X_PROPERTY_PATTERN), $name)) {
             throw new StringException('Pattern mismatch', StringException::PATTERN_MISMATCH);
         }
         $this->addPatternPropertyName(self::X_PROPERTY_PATTERN, $name);
