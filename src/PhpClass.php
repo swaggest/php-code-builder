@@ -34,6 +34,9 @@ class PhpClass extends PhpClassTraitInterface
     /** @var PhpConstant[] */
     private $constants = array();
 
+    /** @var PhpTrait[] */
+    private $traits = array();
+
     private function renderImplements()
     {
         if ($this->implements) {
@@ -52,8 +55,8 @@ PHP;
 
     protected function toString()
     {
-        $content = $this->renderConstants() . $this->renderProperties()
-            . $this->renderMethods();
+        $content = $this->renderTraits() . $this->renderConstants()
+            . $this->renderProperties() . $this->renderMethods();
 
         $content = $this->indentLines(trim($content));
 
@@ -128,6 +131,33 @@ PHP;
             $this->constants[$constant->getName()] = $constant;
         }
         return $this;
+    }
+
+    /**
+     * Adds a new trait to the list of traits
+     *
+     * @param PhpTrait $trait
+     * @throws Exception if a trait already exists with same name
+     * @return self
+     */
+    public function addTrait(PhpTrait $trait)
+    {
+        if (!array_key_exists($trait->getName(), $this->traits)) {
+            $this->traits[$trait->getName()] = $trait;
+        } else {
+            throw new Exception('Duplicate trait');
+        }
+
+        return $this;
+    }
+
+    private function renderTraits()
+    {
+        $result = '';
+        foreach ($this->traits as $trait) {
+            $result .= $trait->render();
+        }
+        return $result;
     }
 
     private function renderIsAbstract()
