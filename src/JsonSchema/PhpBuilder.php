@@ -176,6 +176,10 @@ class PhpBuilder
                 $phpProperty->addMeta($property, self::SCHEMA);
                 $phpProperty->addMeta($name, self::PROPERTY_NAME);
 
+                if (!is_null($property->default)) {
+                    $phpProperty->setDefault($property->default);
+                }
+
                 if ($this->schemaIsNullable($property)) {
                     $phpProperty->setIsMagical(true);
                 }

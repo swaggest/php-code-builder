@@ -529,4 +529,87 @@ PHP;
         $this->assertSame($expected, $result);
 
     }
+
+
+    public function testClassPropertyDefaults()
+    {
+        $schemaData = json_decode(<<<'JSON'
+{
+    "properties": {
+        "stringDefault": {
+            "type": "string",
+            "default": "list"
+        },
+        "booleanDefault": {
+            "type": "boolean",
+            "default": false
+        },
+        "integerDefault": {
+            "type": "integer",
+            "default": 1
+        },
+        "arrayDefault": {
+            "type": "array",
+            "default": []
+        },
+        "noDefault": {
+            "type": "string"
+        }
+    }
+}
+JSON
+        );
+
+        $schema = Schema::import($schemaData);
+        $builder = new PhpBuilder();
+        $class = $builder->getClass($schema, 'Root');
+
+        $result = '';
+        foreach ($builder->getGeneratedClasses() as $class) {
+            $result .= $class->class . "\n\n";
+        }
+
+        $expected = <<<'PHP'
+class Root extends Swaggest\JsonSchema\Structure\ClassStructure
+{
+    /** @var string */
+    public $stringDefault = 'list';
+
+    /** @var bool */
+    public $booleanDefault = false;
+
+    /** @var int */
+    public $integerDefault = 1;
+
+    /** @var array */
+    public $arrayDefault = array (
+    );
+
+    /** @var string */
+    public $noDefault;
+
+    /**
+     * @param Swaggest\JsonSchema\Constraint\Properties|static $properties
+     * @param Swaggest\JsonSchema\Schema $ownerSchema
+     */
+    public static function setUpProperties($properties, Swaggest\JsonSchema\Schema $ownerSchema)
+    {
+        $properties->stringDefault = Swaggest\JsonSchema\Schema::string();
+        $properties->stringDefault->default = "list";
+        $properties->booleanDefault = Swaggest\JsonSchema\Schema::boolean();
+        $properties->booleanDefault->default = false;
+        $properties->integerDefault = Swaggest\JsonSchema\Schema::integer();
+        $properties->integerDefault->default = 1;
+        $properties->arrayDefault = Swaggest\JsonSchema\Schema::arr();
+        $properties->arrayDefault->default = array();
+        $properties->noDefault = Swaggest\JsonSchema\Schema::string();
+    }
+}
+
+
+PHP;
+
+        $this->assertSame($expected, $result);
+    }
+
 }
