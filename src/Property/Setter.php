@@ -23,6 +23,7 @@ class Setter extends PhpFunction
         );
 
         $this->skipCodeCoverage = true;
+        $this->outputArgumentsWithDefaults = false;
 
         $this->addArgument($property->getNamedVar());
 

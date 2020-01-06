@@ -562,6 +562,7 @@ JSON
 
         $schema = Schema::import($schemaData);
         $builder = new PhpBuilder();
+        $builder->buildSetters = true;
         $class = $builder->getClass($schema, 'Root');
 
         $result = '';
@@ -604,6 +605,66 @@ class Root extends Swaggest\JsonSchema\Structure\ClassStructure
         $properties->arrayDefault->default = array();
         $properties->noDefault = Swaggest\JsonSchema\Schema::string();
     }
+
+    /**
+     * @param string $stringDefault
+     * @return $this
+     * @codeCoverageIgnoreStart
+     */
+    public function setStringDefault($stringDefault)
+    {
+        $this->stringDefault = $stringDefault;
+        return $this;
+    }
+    /** @codeCoverageIgnoreEnd */
+
+    /**
+     * @param bool $booleanDefault
+     * @return $this
+     * @codeCoverageIgnoreStart
+     */
+    public function setBooleanDefault($booleanDefault)
+    {
+        $this->booleanDefault = $booleanDefault;
+        return $this;
+    }
+    /** @codeCoverageIgnoreEnd */
+
+    /**
+     * @param int $integerDefault
+     * @return $this
+     * @codeCoverageIgnoreStart
+     */
+    public function setIntegerDefault($integerDefault)
+    {
+        $this->integerDefault = $integerDefault;
+        return $this;
+    }
+    /** @codeCoverageIgnoreEnd */
+
+    /**
+     * @param array $arrayDefault
+     * @return $this
+     * @codeCoverageIgnoreStart
+     */
+    public function setArrayDefault($arrayDefault)
+    {
+        $this->arrayDefault = $arrayDefault;
+        return $this;
+    }
+    /** @codeCoverageIgnoreEnd */
+
+    /**
+     * @param string $noDefault
+     * @return $this
+     * @codeCoverageIgnoreStart
+     */
+    public function setNoDefault($noDefault)
+    {
+        $this->noDefault = $noDefault;
+        return $this;
+    }
+    /** @codeCoverageIgnoreEnd */
 }
 
 
