@@ -101,7 +101,10 @@ class PhpNamedVar
         if ($this->default instanceof PhpTemplate) {
             $result = $this->default->render();
         } else {
-            $result = var_export($this->default, true);
+            $result = PhpCode::varExport($this->default);
+            if (strpos($result, '::__set_state(') !== false || strpos($result, '(object)') !== false) {
+                return '';
+            }
         }
 
         return ' = ' . $result;

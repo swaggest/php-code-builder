@@ -143,7 +143,7 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
         $properties->additionalProperties = new Schema();
         $properties->additionalProperties->anyOf[0] = DefinitionsSchema::schema();
         $properties->additionalProperties->anyOf[1] = Schema::boolean();
-        $properties->additionalProperties->default = (object)array();
+        $properties->additionalProperties->default = (object)[];
         $properties->type = HttpJsonSchemaOrgDraft04SchemaPropertiesType::schema();
         $properties->items = new Schema();
         $properties->items->anyOf[0] = DefinitionsSchema::schema();
@@ -151,13 +151,13 @@ class DefinitionsSchema extends ClassStructure implements SchemaExporter
         $propertiesItemsAnyOf1->items = DefinitionsSchema::schema();
         $propertiesItemsAnyOf1->minItems = 1;
         $properties->items->anyOf[1] = $propertiesItemsAnyOf1;
-        $properties->items->default = (object)array();
+        $properties->items->default = (object)[];
         $properties->allOf = Schema::arr();
         $properties->allOf->items = DefinitionsSchema::schema();
         $properties->allOf->minItems = 1;
         $properties->properties = Schema::object();
         $properties->properties->additionalProperties = DefinitionsSchema::schema();
-        $properties->properties->default = (object)array();
+        $properties->properties->default = (object)[];
         $properties->discriminator = Schema::string();
         $properties->readOnly = Schema::boolean();
         $properties->readOnly->default = false;

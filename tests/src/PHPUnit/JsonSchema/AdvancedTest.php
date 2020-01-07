@@ -552,6 +552,14 @@ PHP;
             "type": "array",
             "default": []
         },
+        "objectDefault": {
+            "type": "object",
+            "default": {"key":"val"}
+        },
+        "arrayOfObjectsDefault": {
+            "type": "array",
+            "default": [{"key":"val"},{"key":"val"}]
+        },
         "noDefault": {
             "type": "string"
         }
@@ -584,8 +592,13 @@ class Root extends Swaggest\JsonSchema\Structure\ClassStructure
     public $integerDefault = 1;
 
     /** @var array */
-    public $arrayDefault = array (
-    );
+    public $arrayDefault = [];
+
+    /** @var mixed */
+    public $objectDefault;
+
+    /** @var array */
+    public $arrayOfObjectsDefault;
 
     /** @var string */
     public $noDefault;
@@ -603,7 +616,20 @@ class Root extends Swaggest\JsonSchema\Structure\ClassStructure
         $properties->integerDefault = Swaggest\JsonSchema\Schema::integer();
         $properties->integerDefault->default = 1;
         $properties->arrayDefault = Swaggest\JsonSchema\Schema::arr();
-        $properties->arrayDefault->default = array();
+        $properties->arrayDefault->default = [];
+        $properties->objectDefault = Swaggest\JsonSchema\Schema::object();
+        $properties->objectDefault->default = (object)[
+            'key' => 'val',
+        ];
+        $properties->arrayOfObjectsDefault = Swaggest\JsonSchema\Schema::arr();
+        $properties->arrayOfObjectsDefault->default = [
+            (object)[
+                'key' => 'val',
+            ],
+            (object)[
+                'key' => 'val',
+            ],
+        ];
         $properties->noDefault = Swaggest\JsonSchema\Schema::string();
     }
 
@@ -651,6 +677,30 @@ class Root extends Swaggest\JsonSchema\Structure\ClassStructure
     public function setArrayDefault($arrayDefault)
     {
         $this->arrayDefault = $arrayDefault;
+        return $this;
+    }
+    /** @codeCoverageIgnoreEnd */
+
+    /**
+     * @param mixed $objectDefault
+     * @return $this
+     * @codeCoverageIgnoreStart
+     */
+    public function setObjectDefault($objectDefault)
+    {
+        $this->objectDefault = $objectDefault;
+        return $this;
+    }
+    /** @codeCoverageIgnoreEnd */
+
+    /**
+     * @param array $arrayOfObjectsDefault
+     * @return $this
+     * @codeCoverageIgnoreStart
+     */
+    public function setArrayOfObjectsDefault($arrayOfObjectsDefault)
+    {
+        $this->arrayOfObjectsDefault = $arrayOfObjectsDefault;
         return $this;
     }
     /** @codeCoverageIgnoreEnd */
@@ -713,7 +763,7 @@ JSON
             $result .= $class->class . "\n\n";
         }
 
-        $expected = <<<'PHP'
+        $expected = <<<'PHPfragment'
     /** @var string */
     public $stringDefault;
 
@@ -728,7 +778,7 @@ JSON
 
     /** @var string */
     public $noDefault;
-PHP;
+PHPfragment;
 
         $this->assertContains($expected, $result);
     }
