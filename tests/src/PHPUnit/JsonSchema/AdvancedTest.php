@@ -529,4 +529,208 @@ PHP;
         $this->assertSame($expected, $result);
 
     }
+
+
+    public function testClassPropertyDefaultsActivated()
+    {
+        $schemaData = json_decode(<<<'JSON'
+{
+    "properties": {
+        "stringDefault": {
+            "type": "string",
+            "default": "list"
+        },
+        "booleanDefault": {
+            "type": "boolean",
+            "default": false
+        },
+        "integerDefault": {
+            "type": "integer",
+            "default": 1
+        },
+        "arrayDefault": {
+            "type": "array",
+            "default": []
+        },
+        "noDefault": {
+            "type": "string"
+        }
+    }
+}
+JSON
+        );
+
+        $schema = Schema::import($schemaData);
+        $builder = new PhpBuilder();
+        $builder->buildSetters = true;
+        $builder->declarePropertyDefaults = true;
+        $class = $builder->getClass($schema, 'Root');
+
+        $result = '';
+        foreach ($builder->getGeneratedClasses() as $class) {
+            $result .= $class->class . "\n\n";
+        }
+
+        $expected = <<<'PHP'
+class Root extends Swaggest\JsonSchema\Structure\ClassStructure
+{
+    /** @var string */
+    public $stringDefault = 'list';
+
+    /** @var bool */
+    public $booleanDefault = false;
+
+    /** @var int */
+    public $integerDefault = 1;
+
+    /** @var array */
+    public $arrayDefault = array (
+    );
+
+    /** @var string */
+    public $noDefault;
+
+    /**
+     * @param Swaggest\JsonSchema\Constraint\Properties|static $properties
+     * @param Swaggest\JsonSchema\Schema $ownerSchema
+     */
+    public static function setUpProperties($properties, Swaggest\JsonSchema\Schema $ownerSchema)
+    {
+        $properties->stringDefault = Swaggest\JsonSchema\Schema::string();
+        $properties->stringDefault->default = "list";
+        $properties->booleanDefault = Swaggest\JsonSchema\Schema::boolean();
+        $properties->booleanDefault->default = false;
+        $properties->integerDefault = Swaggest\JsonSchema\Schema::integer();
+        $properties->integerDefault->default = 1;
+        $properties->arrayDefault = Swaggest\JsonSchema\Schema::arr();
+        $properties->arrayDefault->default = array();
+        $properties->noDefault = Swaggest\JsonSchema\Schema::string();
+    }
+
+    /**
+     * @param string $stringDefault
+     * @return $this
+     * @codeCoverageIgnoreStart
+     */
+    public function setStringDefault($stringDefault)
+    {
+        $this->stringDefault = $stringDefault;
+        return $this;
+    }
+    /** @codeCoverageIgnoreEnd */
+
+    /**
+     * @param bool $booleanDefault
+     * @return $this
+     * @codeCoverageIgnoreStart
+     */
+    public function setBooleanDefault($booleanDefault)
+    {
+        $this->booleanDefault = $booleanDefault;
+        return $this;
+    }
+    /** @codeCoverageIgnoreEnd */
+
+    /**
+     * @param int $integerDefault
+     * @return $this
+     * @codeCoverageIgnoreStart
+     */
+    public function setIntegerDefault($integerDefault)
+    {
+        $this->integerDefault = $integerDefault;
+        return $this;
+    }
+    /** @codeCoverageIgnoreEnd */
+
+    /**
+     * @param array $arrayDefault
+     * @return $this
+     * @codeCoverageIgnoreStart
+     */
+    public function setArrayDefault($arrayDefault)
+    {
+        $this->arrayDefault = $arrayDefault;
+        return $this;
+    }
+    /** @codeCoverageIgnoreEnd */
+
+    /**
+     * @param string $noDefault
+     * @return $this
+     * @codeCoverageIgnoreStart
+     */
+    public function setNoDefault($noDefault)
+    {
+        $this->noDefault = $noDefault;
+        return $this;
+    }
+    /** @codeCoverageIgnoreEnd */
+}
+
+
+PHP;
+
+        $this->assertSame($expected, $result);
+    }
+
+    public function testClassPropertyDefaultsDeactivated()
+    {
+        $schemaData = json_decode(<<<'JSON'
+{
+    "properties": {
+        "stringDefault": {
+            "type": "string",
+            "default": "list"
+        },
+        "booleanDefault": {
+            "type": "boolean",
+            "default": false
+        },
+        "integerDefault": {
+            "type": "integer",
+            "default": 1
+        },
+        "arrayDefault": {
+            "type": "array",
+            "default": []
+        },
+        "noDefault": {
+            "type": "string"
+        }
+    }
+}
+JSON
+        );
+
+        $schema = Schema::import($schemaData);
+        $builder = new PhpBuilder();
+        $builder->buildSetters = true;
+        $class = $builder->getClass($schema, 'Root');
+
+        $result = '';
+        foreach ($builder->getGeneratedClasses() as $class) {
+            $result .= $class->class . "\n\n";
+        }
+
+        $expected = <<<'PHP'
+    /** @var string */
+    public $stringDefault;
+
+    /** @var bool */
+    public $booleanDefault;
+
+    /** @var int */
+    public $integerDefault;
+
+    /** @var array */
+    public $arrayDefault;
+
+    /** @var string */
+    public $noDefault;
+PHP;
+
+        $this->assertContains($expected, $result);
+    }
+
 }

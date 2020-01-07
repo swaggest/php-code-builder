@@ -25,6 +25,7 @@ class PhpFunction extends PhpTemplate
     private $throws;
 
     private $body;
+    protected $outputArgumentsWithDefaults = true;
     public $skipCodeCoverage = false;
 
 
@@ -99,7 +100,8 @@ PHP;
     {
         $result = '';
         foreach ($this->arguments as $argument) {
-            $result .= "{$argument->renderArgumentType()}\${$argument->getName()}{$argument->renderDefault()}, ";
+            $default = $this->outputArgumentsWithDefaults ? $argument->renderDefault() : '';
+            $result .= "{$argument->renderArgumentType()}\${$argument->getName()}{$default}, ";
         }
         if ($result) {
             $result = substr($result, 0, -2);
