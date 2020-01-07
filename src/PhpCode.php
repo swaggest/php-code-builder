@@ -134,6 +134,42 @@ class PhpCode extends PhpTemplate
     public static function varExport($value)
     {
         /** @var string $result */
+        $result = '';
+
+        if (is_array($value)) {
+            if (count($value) === 0) {
+                return '[]';
+            }
+
+            $i = 0;
+            $sequential = true;
+            foreach ($value as $k => $v) {
+                if ($k !== $i) {
+                    $sequential = false;
+                    break;
+                }
+                ++$i;
+            }
+            $t = new self();
+            $result .= "[\n";
+            if ($sequential) {
+                foreach ($value as $item) {
+                    $result .= $t->padLines('    ', self::varExport($item), false) . ",\n";
+                }
+            } else {
+                foreach ($value as $key => $item) {
+                    $result .= $t->padLines('    ', self::varExport($key) . ' => ' . self::varExport($item), false) . ",\n";
+                }
+            }
+            $result .= "]";
+            return $result;
+        }
+
+        if ($value instanceof \stdClass) {
+            return '(object)' . self::varExport((array)$value);
+        }
+
+
         $result = var_export($value, true);
         $result = str_replace("stdClass::__set_state", "(object)", $result);
         $result = str_replace("array (\n", "array(\n", $result);

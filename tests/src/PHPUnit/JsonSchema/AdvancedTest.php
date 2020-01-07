@@ -592,7 +592,7 @@ class Root extends Swaggest\JsonSchema\Structure\ClassStructure
     public $integerDefault = 1;
 
     /** @var array */
-    public $arrayDefault = array();
+    public $arrayDefault = [];
 
     /** @var mixed */
     public $objectDefault;
@@ -616,22 +616,20 @@ class Root extends Swaggest\JsonSchema\Structure\ClassStructure
         $properties->integerDefault = Swaggest\JsonSchema\Schema::integer();
         $properties->integerDefault->default = 1;
         $properties->arrayDefault = Swaggest\JsonSchema\Schema::arr();
-        $properties->arrayDefault->default = array();
+        $properties->arrayDefault->default = [];
         $properties->objectDefault = Swaggest\JsonSchema\Schema::object();
-        $properties->objectDefault->default = (object)array(
+        $properties->objectDefault->default = (object)[
             'key' => 'val',
-        );
+        ];
         $properties->arrayOfObjectsDefault = Swaggest\JsonSchema\Schema::arr();
-        $properties->arrayOfObjectsDefault->default = array(
-            0 => 
-            (object) array(
-                 'key' => 'val',
-            ),
-            1 => 
-            (object) array(
-                 'key' => 'val',
-            ),
-        );
+        $properties->arrayOfObjectsDefault->default = [
+            (object)[
+                'key' => 'val',
+            ],
+            (object)[
+                'key' => 'val',
+            ],
+        ];
         $properties->noDefault = Swaggest\JsonSchema\Schema::string();
     }
 
@@ -765,7 +763,7 @@ JSON
             $result .= $class->class . "\n\n";
         }
 
-        $expected = <<<'PHP'
+        $expected = <<<'PHPfragment'
     /** @var string */
     public $stringDefault;
 
@@ -780,7 +778,7 @@ JSON
 
     /** @var string */
     public $noDefault;
-PHP;
+PHPfragment;
 
         $this->assertContains($expected, $result);
     }
