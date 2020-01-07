@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.24] - 2020-01-07
+
+### Added
+- Option to declare default property values in PHP classes generated from JSON schema, [#29](https://github.com/swaggest/php-code-builder/pull/29).
+
 ## [0.2.23] - 2019-12-11
 
 ### Added
@@ -35,6 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Description trimming bug.
 
+[0.2.24]: https://github.com/swaggest/php-code-builder/compare/v0.2.23...v0.2.24
 [0.2.23]: https://github.com/swaggest/php-code-builder/compare/v0.2.22...v0.2.23
 [0.2.22]: https://github.com/swaggest/php-code-builder/compare/v0.2.21...v0.2.22
 [0.2.21]: https://github.com/swaggest/php-code-builder/compare/v0.2.20...v0.2.21
