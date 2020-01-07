@@ -68,6 +68,12 @@ class PhpBuilder
     public $classPreparedHook;
 
     /**
+     * Use default values to initialize properties
+     * @var bool
+     */
+    public $declarePropertyDefaults = false;
+
+    /**
      * @param SchemaContract $schema
      * @param string $path
      * @return PhpAnyType
@@ -176,7 +182,7 @@ class PhpBuilder
                 $phpProperty->addMeta($property, self::SCHEMA);
                 $phpProperty->addMeta($name, self::PROPERTY_NAME);
 
-                if (!is_null($property->default)) {
+                if (!is_null($property->default) && $this->declarePropertyDefaults) {
                     $phpProperty->setDefault($property->default);
                 }
 

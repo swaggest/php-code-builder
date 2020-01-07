@@ -531,7 +531,7 @@ PHP;
     }
 
 
-    public function testClassPropertyDefaults()
+    public function testClassPropertyDefaultsActivated()
     {
         $schemaData = json_decode(<<<'JSON'
 {
@@ -563,6 +563,7 @@ JSON
         $schema = Schema::import($schemaData);
         $builder = new PhpBuilder();
         $builder->buildSetters = true;
+        $builder->declarePropertyDefaults = true;
         $class = $builder->getClass($schema, 'Root');
 
         $result = '';
@@ -671,6 +672,65 @@ class Root extends Swaggest\JsonSchema\Structure\ClassStructure
 PHP;
 
         $this->assertSame($expected, $result);
+    }
+
+    public function testClassPropertyDefaultsDeactivated()
+    {
+        $schemaData = json_decode(<<<'JSON'
+{
+    "properties": {
+        "stringDefault": {
+            "type": "string",
+            "default": "list"
+        },
+        "booleanDefault": {
+            "type": "boolean",
+            "default": false
+        },
+        "integerDefault": {
+            "type": "integer",
+            "default": 1
+        },
+        "arrayDefault": {
+            "type": "array",
+            "default": []
+        },
+        "noDefault": {
+            "type": "string"
+        }
+    }
+}
+JSON
+        );
+
+        $schema = Schema::import($schemaData);
+        $builder = new PhpBuilder();
+        $builder->buildSetters = true;
+        $class = $builder->getClass($schema, 'Root');
+
+        $result = '';
+        foreach ($builder->getGeneratedClasses() as $class) {
+            $result .= $class->class . "\n\n";
+        }
+
+        $expected = <<<'PHP'
+    /** @var string */
+    public $stringDefault;
+
+    /** @var bool */
+    public $booleanDefault;
+
+    /** @var int */
+    public $integerDefault;
+
+    /** @var array */
+    public $arrayDefault;
+
+    /** @var string */
+    public $noDefault;
+PHP;
+
+        $this->assertContains($expected, $result);
     }
 
 }
