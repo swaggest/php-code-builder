@@ -1,0 +1,47 @@
+/**
+ * @method static mixed import($data, Swaggest\JsonSchema\Context $options = null)
+ */
+class Root extends Swaggest\JsonSchema\Structure\ClassStructure
+{
+    /**
+     * @param Swaggest\JsonSchema\Constraint\Properties|static $properties
+     * @param Swaggest\JsonSchema\Schema $ownerSchema
+     */
+    public static function setUpProperties($properties, Swaggest\JsonSchema\Schema $ownerSchema)
+    {
+        $ownerSchema->type = Swaggest\JsonSchema\Schema::OBJECT;
+        $ownerSchema->additionalProperties = true;
+    }
+
+    /**
+     * @return array
+     * @codeCoverageIgnoreStart
+     */
+    public function getAdditionalPropertyValues()
+    {
+        $result = array();
+        if (!$names = $this->getAdditionalPropertyNames()) {
+            return $result;
+        }
+        foreach ($names as $name) {
+            $result[$name] = $this->$name;
+        }
+        return $result;
+    }
+    /** @codeCoverageIgnoreEnd */
+
+    /**
+     * @param string $name
+     * @param mixed $value
+     * @return self
+     * @codeCoverageIgnoreStart
+     */
+    public function setAdditionalPropertyValue($name, $value)
+    {
+        $this->addAdditionalPropertyName($name);
+        $this->{$name} = $value;
+        return $this;
+    }
+    /** @codeCoverageIgnoreEnd */
+}
+
