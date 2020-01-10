@@ -783,4 +783,43 @@ PHPfragment;
         $this->assertContains($expected, $result);
     }
 
+    public function testBuildingAdditionalPropertyMethodsOnTrue()
+    {
+        $schemaData = json_decode(<<<'JSON'
+{
+  "type": "object",
+  "additionalProperties": true
+}
+JSON
+        );
+
+        // Keeping the old behavior
+        $schema = Schema::import($schemaData);
+        $builder = new PhpBuilder();
+        $class = $builder->getClass($schema, 'Root');
+
+        $result = '';
+        foreach ($builder->getGeneratedClasses() as $class) {
+            $result .= $class->class . "\n\n";
+        }
+
+        $expected = file_get_contents(__DIR__ . '/../../../resources/JsonSchema/AdvancedTest/' . __FUNCTION__ . '-old-behavior.txt');
+
+        $this->assertSame($expected, $result, 'Getter and setter not created (old behavior - flag: false)');
+
+        // Testing the new behavior with setted flag
+        $schema = Schema::import($schemaData);
+        $builder = new PhpBuilder();
+        $builder->buildAdditionalPropertyMethodsOnTrue = true;
+        $class = $builder->getClass($schema, 'Root');
+
+        $result = '';
+        foreach ($builder->getGeneratedClasses() as $class) {
+            $result .= $class->class . "\n\n";
+        }
+
+        $expected = file_get_contents(__DIR__ . '/../../../resources/JsonSchema/AdvancedTest/' . __FUNCTION__ . '-new-behavior.txt');
+
+        $this->assertSame($expected, $result, 'Getter and setter created (new behavior - flag: true)');
+    }
 }

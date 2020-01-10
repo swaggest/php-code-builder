@@ -19,6 +19,7 @@ use Swaggest\PhpCodeBuilder\PhpDoc;
 use Swaggest\PhpCodeBuilder\PhpFlags;
 use Swaggest\PhpCodeBuilder\PhpFunction;
 use Swaggest\PhpCodeBuilder\PhpNamedVar;
+use Swaggest\PhpCodeBuilder\PhpStdType;
 use Swaggest\PhpCodeBuilder\Property\AdditionalPropertiesGetter;
 use Swaggest\PhpCodeBuilder\Property\AdditionalPropertySetter;
 use Swaggest\PhpCodeBuilder\Property\Getter;
@@ -72,6 +73,13 @@ class PhpBuilder
      * @var bool
      */
     public $declarePropertyDefaults = false;
+
+    /**
+     * Build setter and getter methods for additional properties
+     * on a boolean true value for `additionalProperties`.
+     * @var bool
+     */
+    public $buildAdditionalPropertyMethodsOnTrue = false;
 
     /**
      * @param SchemaContract $schema
@@ -210,9 +218,19 @@ class PhpBuilder
             }
         }
 
+        $additionalPropertiesType = null;
+        $buildAdditionalPropertiesMethods = false;
         if ($schema->additionalProperties instanceof Schema) {
-            $class->addMethod(new AdditionalPropertiesGetter($this->getType($schema->additionalProperties)));
-            $class->addMethod(new AdditionalPropertySetter($this->getType($schema->additionalProperties)));
+            $additionalPropertiesType = $this->getType($schema->additionalProperties);
+            $buildAdditionalPropertiesMethods = true;
+        } elseif ($this->buildAdditionalPropertyMethodsOnTrue && $schema->additionalProperties === true) {
+            $additionalPropertiesType = PhpStdType::mixed();
+            $buildAdditionalPropertiesMethods = true;
+        }
+
+        if ($buildAdditionalPropertiesMethods) {
+            $class->addMethod(new AdditionalPropertiesGetter($additionalPropertiesType));
+            $class->addMethod(new AdditionalPropertySetter($additionalPropertiesType));
         }
 
         if ($schema->patternProperties !== null) {
