@@ -50,6 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Description trimming bug.
 
+[0.2.26]: https://github.com/swaggest/php-code-builder/compare/v0.2.25...v0.2.26
 [0.2.25]: https://github.com/swaggest/php-code-builder/compare/v0.2.24...v0.2.25
 [0.2.24]: https://github.com/swaggest/php-code-builder/compare/v0.2.23...v0.2.24
 [0.2.23]: https://github.com/swaggest/php-code-builder/compare/v0.2.22...v0.2.23

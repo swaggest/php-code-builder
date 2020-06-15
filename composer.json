@@ -1,5 +1,5 @@
 {
-  "name": "blackstark123/php-code-builder",
+  "name": "swaggest/php-code-builder",
   "type": "library",
   "description": "Swaggest JSON-schema enabled PHP code builder",
   "keywords": ["library"],
