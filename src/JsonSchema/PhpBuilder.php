@@ -138,7 +138,9 @@ class PhpBuilder
         if ($this->classCreatedHook !== null) {
             $this->classCreatedHook->process($class, $path, $schema);
         }
-        $class->setExtends(Palette::classStructureClass());
+        if (is_null($class->getExtends())) {
+            $class->setExtends(Palette::classStructureClass());
+        }
 
         $setupProperties = new PhpFunction('setUpProperties');
         $setupProperties
