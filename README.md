@@ -130,3 +130,7 @@ $user = \Swaggest\PhpCodeBuilder\Tests\Tmp\Example\User::import(
 
 var_dump($user->info->options->allowNotifications); // bool(false)
 ```
+
+## CLI Tool
+
+You can use [json-cli](https://github.com/swaggest/json-cli#genphp) to render JSON Schema into PHP classes from command line.
