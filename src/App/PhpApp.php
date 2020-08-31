@@ -64,6 +64,7 @@ class PhpApp extends App
         $file = new PhpFile();
         if ($ns) {
             $file->setNamespace($ns);
+            $file->getNamespaces()->add($class->getFullyQualifiedName());
         }
         $file->getCode()->addSnippet($class);
         $this->files[$filepath] = $file;

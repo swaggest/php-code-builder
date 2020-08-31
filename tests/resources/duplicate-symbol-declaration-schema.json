@@ -1,0 +1,30 @@
+{
+  "title": "Standalone Image",
+  "meta:class": "SomeThing",
+  "type": "object",
+  "properties": {
+      "inline_elements": {
+          "type": "array",
+          "items": {
+              "anyOf": [
+                  { "$ref": "#/definitions/InlineElementImage" }
+              ]
+          }
+      }
+  },
+  "definitions": {
+      "InlineElementImage": {
+          "meta:class": "SomeThing",
+          "meta:namespace": "InlineElements",
+          "type": "object",
+          "properties": {
+              "height": {
+                  "type": "number"
+              },
+              "width": {
+                  "type": "number"
+              }
+          }
+      }
+  }
+}
