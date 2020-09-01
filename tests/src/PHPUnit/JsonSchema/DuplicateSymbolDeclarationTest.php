@@ -68,7 +68,7 @@ class DuplicateSymbolDeclarationTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, $s->inlineElements);
         $this->assertInstanceOf(
             InlineElementSomeThing::class,
-            $s->inlineElements[0],
+            $s->inlineElements[0]
         );
         $this->assertEquals(640, $s->inlineElements[0]->width);
     }
