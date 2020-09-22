@@ -355,7 +355,8 @@ class SchemaBuilder
                 continue;
             }
 
-            if (!property_exists($emptySchema, $key) && $key !== $names->const && $key[0] !== '$') {
+            if (!property_exists($emptySchema, $key) && $key !== $names->const && $key !== $names->default
+                && $key[0] !== '$') {
                 continue;
             }
 

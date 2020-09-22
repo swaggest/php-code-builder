@@ -552,6 +552,10 @@ PHP;
             "type": "array",
             "default": []
         },
+        "arrayNullableDefault": {
+            "type": ["null","array"],
+            "default": null
+        },
         "objectDefault": {
             "type": "object",
             "default": {"key":"val"}
@@ -580,6 +584,9 @@ JSON
         }
 
         $expected = <<<'PHP'
+/**
+ * @property null|array $arrayNullableDefault
+ */
 class Root extends Swaggest\JsonSchema\Structure\ClassStructure
 {
     /** @var string */
@@ -617,6 +624,8 @@ class Root extends Swaggest\JsonSchema\Structure\ClassStructure
         $properties->integerDefault->default = 1;
         $properties->arrayDefault = Swaggest\JsonSchema\Schema::arr();
         $properties->arrayDefault->default = [];
+        $properties->arrayNullableDefault = (new Swaggest\JsonSchema\Schema())->setType([Swaggest\JsonSchema\Schema::NULL, Swaggest\JsonSchema\Schema::_ARRAY]);
+        $properties->arrayNullableDefault->default = NULL;
         $properties->objectDefault = Swaggest\JsonSchema\Schema::object();
         $properties->objectDefault->default = (object)[
             'key' => 'val',
@@ -677,6 +686,18 @@ class Root extends Swaggest\JsonSchema\Structure\ClassStructure
     public function setArrayDefault($arrayDefault)
     {
         $this->arrayDefault = $arrayDefault;
+        return $this;
+    }
+    /** @codeCoverageIgnoreEnd */
+
+    /**
+     * @param null|array $arrayNullableDefault
+     * @return $this
+     * @codeCoverageIgnoreStart
+     */
+    public function setArrayNullableDefault($arrayNullableDefault)
+    {
+        $this->arrayNullableDefault = $arrayNullableDefault;
         return $this;
     }
     /** @codeCoverageIgnoreEnd */
