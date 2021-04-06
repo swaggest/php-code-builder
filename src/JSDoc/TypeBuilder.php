@@ -109,11 +109,13 @@ class TypeBuilder
                     $or [] = $this->processed->offsetGet($schema);
                     $typeAdded = true;
                 } else {
-                    $typeName = $this->typeName($schema, $path);
-                    $this->makeObjectTypeDef($schema, $path);
+                    if ($schema instanceof Schema) {
+                        $typeName = $this->typeName($schema, $path);
+                        $this->makeObjectTypeDef($schema, $path);
 
-                    $or [] = $typeName;
-                    $typeAdded = true;
+                        $or [] = $typeName;
+                        $typeAdded = true;
+                    }
                 }
 
             }
@@ -226,13 +228,15 @@ class TypeBuilder
  * @type {object}
 
 JSDOC;
-        foreach ($schema->properties as $propertyName => $propertySchema) {
-            $typeString = $this->getTypeString($propertySchema, $path . '/' . $propertyName);
-            $res .= <<<JSDOC
+        if (!empty($schema->properties)) {
+            foreach ($schema->properties as $propertyName => $propertySchema) {
+                $typeString = $this->getTypeString($propertySchema, $path . '/' . $propertyName);
+                $res .= <<<JSDOC
  * @property {{$typeString}} {$propertyName}{$this->description($propertySchema)}.
 
 JSDOC;
 
+            }
         }
 
         $res .= <<<JSDOC
