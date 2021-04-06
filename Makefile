@@ -14,7 +14,7 @@ test:
 	@php -derror_reporting="E_ALL & ~E_DEPRECATED" vendor/bin/phpunit
 
 test-coverage:
-	@php -derror_reporting="E_ALL & ~E_DEPRECATED" -dzend_extension=xdebug.so vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml
+	@php -derror_reporting="E_ALL & ~E_DEPRECATED" -dzend_extension=xdebug.so -dxdebug.mode=coverage vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml
 
 gen:
 	@php ./tools/generate_swagger_structures.php
