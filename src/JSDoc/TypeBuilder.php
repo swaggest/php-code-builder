@@ -2,6 +2,7 @@
 
 namespace Swaggest\PhpCodeBuilder\JSDoc;
 
+use Swaggest\CodeBuilder\CodeBuilder;
 use Swaggest\JsonSchema\Schema;
 use Swaggest\PhpCodeBuilder\PhpCode;
 
@@ -21,8 +22,15 @@ class TypeBuilder
         $this->processed = new \SplObjectStorage();
     }
 
-    public function getTypeString(Schema $schema, $path = '')
+    /**
+     * @param Schema|boolean $schema
+     * @param string $path
+     * @return string
+     */
+    public function getTypeString($schema, $path = '')
     {
+        $schema = Schema::unboolSchema($schema);
+
         $isOptional = false;
         $isObject = false;
         $isArray = false;
@@ -36,6 +44,32 @@ class TypeBuilder
         }
 
         $or = [];
+
+        if ($schema->oneOf !== null) {
+            foreach ($schema->oneOf as $item) {
+                $or[] = $this->getTypeString($item);
+            }
+        }
+
+        if ($schema->anyOf !== null) {
+            foreach ($schema->anyOf as $item) {
+                $or[] = $this->getTypeString($item);
+            }
+        }
+
+        if ($schema->allOf !== null) {
+            foreach ($schema->allOf as $item) {
+                $or[] = $this->getTypeString($item);
+            }
+        }
+
+        if ($schema->then !== null) {
+            $or[] = $this->getTypeString($schema->then);
+        }
+
+        if ($schema->else !== null) {
+            $or[] = $this->getTypeString($schema->else);
+        }
 
         foreach ($type as $i => $t) {
             switch ($t) {
@@ -93,7 +127,7 @@ class TypeBuilder
             if (!empty($schema->patternProperties)) {
                 foreach ($schema->patternProperties as $pattern => $propertySchema) {
                     if ($propertySchema instanceof Schema) {
-                        $typeName = $this->getTypeString($schema->additionalProperties, $path . '/patternProperties/' . $pattern);
+                        $typeName = $this->getTypeString($propertySchema, $path . '/patternProperties/' . $pattern);
                         $or [] = $typeName;
                         $typeAdded = true;
                     }
@@ -137,7 +171,20 @@ class TypeBuilder
             $or [] = 'boolean';
         }
 
-        return join('|', $or);
+        $res = '';
+        foreach ($or as $item) {
+            if (!empty($item) && $item !== '*') {
+                $res .= '|' . $item;
+            }
+        }
+
+        if ($res !== '') {
+            $res = substr($res, 1);
+        } else {
+            $res = '*';
+        }
+
+        return $res;
     }
 
     private function typeName(Schema $schema, $path)
@@ -160,8 +207,21 @@ class TypeBuilder
         $typeName = $this->typeName($schema, $path);
         $this->processed->attach($schema, $typeName);
 
+        $head = '';
+        if (!empty($schema->title)) {
+            $head .= $schema->title . "\n";
+        }
+
+        if (!empty($schema->description)) {
+            $head .= $schema->description . "\n";
+        }
+
+        if ($head !== '') {
+            $head = "\n" . CodeBuilder::padLines(' * ', trim($head), false);
+        }
+
         $res = <<<JSDOC
-/**
+/**$head
  * @typedef {$typeName}
  * @type {object}
 
@@ -177,6 +237,7 @@ JSDOC;
 
         $res .= <<<JSDOC
  */
+
 
 JSDOC;
 
