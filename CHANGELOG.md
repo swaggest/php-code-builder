@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.30] - 2021-04-08
+
+### Added
+- Support for const/enum in JSDoc.
+- Control to prefix JSDoc types.
+
 ## [0.2.29] - 2021-04-07
 
 ### Added

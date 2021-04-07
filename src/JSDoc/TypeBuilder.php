@@ -15,6 +15,8 @@ class TypeBuilder
         '#/definitions'
     ];
 
+    public $addNamePrefix = '';
+
     public $file = '';
 
     public function __construct()
@@ -38,7 +40,36 @@ class TypeBuilder
         $isString = false;
         $isNumber = false;
 
+        if ($schema->const !== null) {
+            return '(' + var_export($schema->const, true) + ')';
+        }
+
+        if (!empty($schema->enum)) {
+            $res = '';
+            foreach ($schema->enum as $value) {
+                $res .= var_export($value, true) . '|';
+            }
+            return '(' . substr($res, 0, -1) . ')';
+        }
+
+        if (!empty($schema->getFromRefs())) {
+            $refs = $schema->getFromRefs();
+            $path = $refs[0];
+        }
+
         $type = $schema->type;
+        if ($type === null) {
+            $type = [];
+
+            if (!empty($schema->properties) || !empty($schema->additionalProperties) || !empty($schema->patternProperties)) {
+                $type[] = Schema::OBJECT;
+            }
+
+            if (!empty($schema->items) || !empty($schema->additionalItems)) {
+                $type[] = Schema::_ARRAY;
+            }
+        }
+
         if (!is_array($type)) {
             $type = [$type];
         }
@@ -46,29 +77,29 @@ class TypeBuilder
         $or = [];
 
         if ($schema->oneOf !== null) {
-            foreach ($schema->oneOf as $item) {
-                $or[] = $this->getTypeString($item);
+            foreach ($schema->oneOf as $i => $item) {
+                $or[] = $this->getTypeString($item, $path . '/oneOf/' . $i);
             }
         }
 
         if ($schema->anyOf !== null) {
-            foreach ($schema->anyOf as $item) {
-                $or[] = $this->getTypeString($item);
+            foreach ($schema->anyOf as $i => $item) {
+                $or[] = $this->getTypeString($item, $path . '/anyOf/' . $i);
             }
         }
 
         if ($schema->allOf !== null) {
-            foreach ($schema->allOf as $item) {
-                $or[] = $this->getTypeString($item);
+            foreach ($schema->allOf as $i => $item) {
+                $or[] = $this->getTypeString($item, $path . '/allOf/' . $i);
             }
         }
 
         if ($schema->then !== null) {
-            $or[] = $this->getTypeString($schema->then);
+            $or[] = $this->getTypeString($schema->then, $path . '/then');
         }
 
         if ($schema->else !== null) {
-            $or[] = $this->getTypeString($schema->else);
+            $or[] = $this->getTypeString($schema->else, $path . '/else');
         }
 
         foreach ($type as $i => $t) {
@@ -201,7 +232,7 @@ class TypeBuilder
             }
         }
 
-        return PhpCode::makePhpName($path, false);
+        return PhpCode::makePhpName($this->addNamePrefix . '_' . $path, false);
     }
 
     private function makeObjectTypeDef(Schema $schema, $path)
