@@ -41,7 +41,7 @@ class TypeBuilder
         $isNumber = false;
 
         if ($schema->const !== null) {
-            return '(' + var_export($schema->const, true) + ')';
+            return '(' . var_export($schema->const, true) . ')';
         }
 
         if (!empty($schema->enum)) {
