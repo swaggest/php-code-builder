@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.31] - 2021-04-12
 
+### Added
+- Support for optional values in JSDoc.
+
 ### Fixed
 - Map types in JSDoc.
 

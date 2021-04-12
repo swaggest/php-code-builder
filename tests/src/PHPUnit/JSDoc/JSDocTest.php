@@ -36,12 +36,12 @@ JSON;
         $this->assertSame(<<<'JS'
 /**
  * @typedef Person
- * @type {object}
- * @property {string} name - Person name.
- * @property {number} age.
- * @property {boolean} isMale.
- * @property {Person} partner.
- * @property {array<Person>} children.
+ * @type {Object}
+ * @property {String} name - Person name.
+ * @property {Number} age
+ * @property {Boolean} isMale
+ * @property {Person} partner
+ * @property {Array<Person>} children
  */
 
 

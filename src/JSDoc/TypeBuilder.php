@@ -207,7 +207,7 @@ class TypeBuilder
         $res = '';
         foreach ($or as $item) {
             if (!empty($item) && $item !== '*') {
-                $res .= '|' . $item;
+                $res .= '|' . ($isOptional ? '?' : '') . $item;
             }
         }
 
