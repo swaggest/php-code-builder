@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.31] - 2021-04-12
+
+### Added
+- Support for optional values in JSDoc.
+
+### Fixed
+- Map types in JSDoc.
+
 ## [0.2.30] - 2021-04-08
 
 ### Added
@@ -74,6 +82,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Description trimming bug.
 
+[0.2.31]: https://github.com/swaggest/php-code-builder/compare/v0.2.30...v0.2.31
 [0.2.30]: https://github.com/swaggest/php-code-builder/compare/v0.2.29...v0.2.30
 [0.2.29]: https://github.com/swaggest/php-code-builder/compare/v0.2.28...v0.2.29
 [0.2.28]: https://github.com/swaggest/php-code-builder/compare/v0.2.27...v0.2.28

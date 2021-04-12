@@ -153,7 +153,7 @@ class TypeBuilder
 
             if ($schema->additionalProperties instanceof Schema) {
                 $typeName = $this->getTypeString($schema->additionalProperties, $path . '/additionalProperties');
-                $or [] = "object<string, $typeName>";
+                $or [] = "Object.<String,$typeName>";
                 $typeAdded = true;
             }
 
@@ -168,7 +168,7 @@ class TypeBuilder
             }
 
             if (!$typeAdded) {
-                $or [] = 'object';
+                $or [] = 'Object';
             }
         }
 
@@ -177,37 +177,37 @@ class TypeBuilder
 
             if ($schema->items instanceof Schema) {
                 $typeName = $this->getTypeString($schema->items, $path . '/items');
-                $or [] = "array<$typeName>";
+                $or [] = "Array<$typeName>";
                 $typeAdded = true;
             }
 
             if ($schema->additionalItems instanceof Schema) {
                 $typeName = $this->getTypeString($schema->additionalItems, $path . '/additionalItems');
-                $or [] = "array<$typeName>";
+                $or [] = "Array<$typeName>";
                 $typeAdded = true;
             }
 
             if (!$typeAdded) {
-                $or [] = 'array';
+                $or [] = 'Array';
             }
         }
 
         if ($isString) {
-            $or [] = 'string';
+            $or [] = 'String';
         }
 
         if ($isNumber) {
-            $or [] = 'number';
+            $or [] = 'Number';
         }
 
         if ($isBoolean) {
-            $or [] = 'boolean';
+            $or [] = 'Boolean';
         }
 
         $res = '';
         foreach ($or as $item) {
             if (!empty($item) && $item !== '*') {
-                $res .= '|' . $item;
+                $res .= '|' . ($isOptional ? '?' : '') . $item;
             }
         }
 
@@ -256,14 +256,14 @@ class TypeBuilder
         $res = <<<JSDOC
 /**$head
  * @typedef {$typeName}
- * @type {object}
+ * @type {Object}
 
 JSDOC;
         if (!empty($schema->properties)) {
             foreach ($schema->properties as $propertyName => $propertySchema) {
                 $typeString = $this->getTypeString($propertySchema, $path . '/' . $propertyName);
                 $res .= <<<JSDOC
- * @property {{$typeString}} {$propertyName}{$this->description($propertySchema)}.
+ * @property {{$typeString}} {$propertyName}{$this->description($propertySchema)}
 
 JSDOC;
 
@@ -285,7 +285,7 @@ JSDOC;
     {
         $res = str_replace("\n", " ", $schema->title . $schema->description);
         if ($res) {
-            return ' - ' . rtrim($res, '.');
+            return ' - ' . rtrim($res, '.') . '.';
         }
 
         return '';
