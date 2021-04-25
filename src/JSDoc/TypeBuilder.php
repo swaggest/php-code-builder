@@ -193,7 +193,12 @@ class TypeBuilder
         }
 
         if ($isString) {
-            $or [] = 'String';
+            if ($schema->format === 'binary') {
+                $or[] = 'File';
+                $or[] = 'Blob';
+            } else {
+                $or[] = 'String';
+            }
         }
 
         if ($isNumber) {

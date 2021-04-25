@@ -46,10 +46,12 @@ JSON;
 
 ### <a id="person"></a>Person
 
+
+
 |Property  |Type                          |Description |
 |----------|------------------------------|------------|
-|`name`    |('John'|'Jane')               |Person name.|
-|`age`     |(123)                         |            |
+|`name`    |`'John'`, `'Jane'`            |Person name.|
+|`age`     |`123`                         |            |
 |`isMale`  |`Boolean`                     |            |
 |`partner` |[`Person`](#person)           |            |
 |`children`|`Array<`[`Person`](#person)`>`|            |
@@ -57,6 +59,8 @@ JSON;
 
 ### <a id="unit"></a>Unit
 This is a unit of something.
+
+
 
 |Property   |Type                          |
 |-----------|------------------------------|

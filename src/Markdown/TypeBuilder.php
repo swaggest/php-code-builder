@@ -9,6 +9,9 @@ use Swaggest\PhpCodeBuilder\PhpCode;
 
 class TypeBuilder
 {
+    const EXAMPLES = 'examples';
+    const EXAMPLE = 'example';
+
     /** @var \SplObjectStorage */
     private $processed;
 
@@ -33,6 +36,10 @@ class TypeBuilder
      */
     public function getTypeString($schema, $path = '')
     {
+        if ($schema === null) {
+            return '';
+        }
+
         $schema = Schema::unboolSchema($schema);
 
         $isOptional = false;
@@ -43,15 +50,15 @@ class TypeBuilder
         $isNumber = false;
 
         if ($schema->const !== null) {
-            return '(' . var_export($schema->const, true) . ')';
+            return '`' . var_export($schema->const, true) . '`';
         }
 
         if (!empty($schema->enum)) {
             $res = '';
             foreach ($schema->enum as $value) {
-                $res .= var_export($value, true) . '|';
+                $res .= '`' . var_export($value, true) . '`, ';
             }
-            return '(' . substr($res, 0, -1) . ')';
+            return substr($res, 0, -2);
         }
 
         if (!empty($schema->getFromRefs())) {
@@ -134,23 +141,28 @@ class TypeBuilder
             }
         }
 
+
+        $namedTypeAdded = false;
+        if (!empty($schema->properties) || $this->hasConstraints($schema)) {
+            if ($this->processed->contains($schema)) {
+                $or [] = $this->processed->offsetGet($schema);
+                $namedTypeAdded = true;
+            } else {
+                if ($schema instanceof Schema) {
+                    $typeName = $this->typeName($schema, $path);
+                    $this->makeTypeDef($schema, $path);
+
+                    $or [] = $typeName;
+                    $namedTypeAdded = true;
+                }
+            }
+        }
+
         if ($isObject) {
             $typeAdded = false;
 
-            if (!empty($schema->properties)) {
-                if ($this->processed->contains($schema)) {
-                    $or [] = $this->processed->offsetGet($schema);
-                    $typeAdded = true;
-                } else {
-                    if ($schema instanceof Schema) {
-                        $typeName = $this->typeName($schema, $path);
-                        $this->makeObjectTypeDef($schema, $path);
-
-                        $or [] = $typeName;
-                        $typeAdded = true;
-                    }
-                }
-
+            if ($namedTypeAdded) {
+                $typeAdded = true;
             }
 
             if ($schema->additionalProperties instanceof Schema) {
@@ -194,6 +206,10 @@ class TypeBuilder
             }
         }
 
+        if ($isOptional) {
+            $or [] = '`null`';
+        }
+
         if ($isString) {
             $or [] = '`String`';
         }
@@ -209,15 +225,17 @@ class TypeBuilder
         $res = '';
         foreach ($or as $item) {
             if (!empty($item) && $item !== '*') {
-                $res .= '|' . ($isOptional ? '?' : '') . $item;
+                $res .= ', ' . $item;
             }
         }
 
         if ($res !== '') {
-            $res = substr($res, 1);
+            $res = substr($res, 2);
         } else {
             $res = '`*`';
         }
+
+        $res = str_replace('``', '', $res);
 
         return $res;
     }
@@ -247,7 +265,48 @@ class TypeBuilder
         return '[`' . $name . '`](#' . strtolower($name) . ')';
     }
 
-    private function makeObjectTypeDef(Schema $schema, $path)
+    private static function constraints()
+    {
+        static $constraints;
+
+        if ($constraints === null) {
+            $names = Schema::names();
+            $constraints = [
+                $names->multipleOf,
+                $names->maximum,
+                $names->exclusiveMaximum,
+                $names->minimum,
+                $names->exclusiveMinimum,
+                $names->maxLength,
+                $names->minLength,
+                $names->pattern,
+                $names->maxItems,
+                $names->minItems,
+                $names->uniqueItems,
+                $names->maxProperties,
+                $names->minProperties,
+                $names->format,
+            ];
+        }
+
+        return $constraints;
+    }
+
+    /**
+     * @param Schema $schema
+     */
+    private function hasConstraints($schema)
+    {
+        foreach (self::constraints() as $name) {
+            if ($schema->$name !== null) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function makeTypeDef(Schema $schema, $path)
     {
         $tn = $this->typeName($schema, $path, true);
         $typeName = $this->typeName($schema, $path);
@@ -261,6 +320,29 @@ class TypeBuilder
         if (!empty($schema->description)) {
             $head .= $schema->description . "\n";
         }
+         
+        $examples = [];
+        if (!empty($schema->{self::EXAMPLES})) {
+            $examples = $schema->{self::EXAMPLES};
+        }
+
+        if (!empty($schema->{self::EXAMPLE})) {
+            $examples[] = $schema->{self::EXAMPLE};
+        }
+
+        if (!empty($examples)) {
+            $head .= "Example:\n\n";
+            foreach ($examples as $example) {
+                $head .= <<<MD
+```json
+$example
+```
+
+
+MD;
+
+            }
+        }
 
         $tnl = strtolower($tn);
 
@@ -272,6 +354,30 @@ $head
 
 MD;
 
+        
+        $rows = [];
+        foreach (self::constraints() as $name) {
+            if ($schema->$name !== null) {
+                $value = $schema->$name;
+
+                if ($value instanceof Schema) {
+                    $value = $this->typeName($value, $path . '/' . $name);
+                }
+
+                $rows [] = [
+                    'Constraint' => $name,
+                    'Value' => $value,
+                ];
+            }
+        }
+        $res .= TableRenderer::create(new \ArrayIterator($rows))
+            ->stripEmptyColumns()
+            ->setColDelimiter('|')
+            ->setHeadRowDelimiter('-')
+            ->setOutlineVertical(true)
+            ->setShowHeader();
+
+        $res .= "\n\n";
 
         $rows = [];
         $hasDescription = false;
@@ -282,8 +388,12 @@ MD;
                 if (!empty($desc)) {
                     $hasDescription = true;
                 }
+                $isRequired = false;
+                if (!empty($schema->required)) {
+                    $isRequired = in_array($propertyName, $schema->required);
+                }
                 $rows [] = array(
-                    'Property' => '`' . $propertyName . '`',
+                    'Property' => '`' . $propertyName . '`' . ($isRequired ? ' (required)' : ''),
                     'Type' => $typeString,
                     'Description' => $desc,
                 );
@@ -296,6 +406,7 @@ MD;
             }
 
             $res .= TableRenderer::create(new \ArrayIterator($rows))
+                ->stripEmptyColumns()
                 ->setColDelimiter('|')
                 ->setHeadRowDelimiter('-')
                 ->setOutlineVertical(true)
