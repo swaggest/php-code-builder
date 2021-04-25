@@ -30,7 +30,7 @@ class TypeBuilder
 
 
     /**
-     * @param Schema|boolean $schema
+     * @param Schema|boolean|null $schema
      * @param string $path
      * @return string
      */
