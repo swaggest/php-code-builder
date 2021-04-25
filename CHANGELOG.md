@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.32] - 2021-04-25
+
+### Added
+- Support for Markdown rendering of JSON Schema.
+- Support for binary strings (files) in JSDoc.
+
 ## [0.2.31] - 2021-04-12
 
 ### Added
@@ -82,6 +88,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Description trimming bug.
 
+[0.2.32]: https://github.com/swaggest/php-code-builder/compare/v0.2.31...v0.2.32
 [0.2.31]: https://github.com/swaggest/php-code-builder/compare/v0.2.30...v0.2.31
 [0.2.30]: https://github.com/swaggest/php-code-builder/compare/v0.2.29...v0.2.30
 [0.2.29]: https://github.com/swaggest/php-code-builder/compare/v0.2.28...v0.2.29

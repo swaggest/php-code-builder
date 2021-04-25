@@ -8,7 +8,7 @@ lint:
 	@php $$HOME/.cache/composer/phpstan-${PHPSTAN_VERSION}.phar analyze -l 7 -c phpstan.neon ./src
 
 docker-lint:
-	@docker run -v $$PWD:/app --rm phpstan/phpstan analyze -l 7 -c phpstan.neon ./src
+	@docker run -v $$PWD:/app --rm phpstan/phpstan:${PHPSTAN_VERSION} analyze -l 7 -c phpstan.neon ./src
 
 test:
 	@php -derror_reporting="E_ALL & ~E_DEPRECATED" vendor/bin/phpunit

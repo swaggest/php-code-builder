@@ -1,13 +1,17 @@
 <?php
 
-namespace Swaggest\PhpCodeBuilder\JSDoc;
+namespace Swaggest\PhpCodeBuilder\Markdown;
 
 use Swaggest\CodeBuilder\CodeBuilder;
+use Swaggest\CodeBuilder\TableRenderer;
 use Swaggest\JsonSchema\Schema;
 use Swaggest\PhpCodeBuilder\PhpCode;
 
 class TypeBuilder
 {
+    const EXAMPLES = 'examples';
+    const EXAMPLE = 'example';
+
     /** @var \SplObjectStorage */
     private $processed;
 
@@ -24,13 +28,18 @@ class TypeBuilder
         $this->processed = new \SplObjectStorage();
     }
 
+
     /**
-     * @param Schema|boolean $schema
+     * @param Schema|boolean|null $schema
      * @param string $path
      * @return string
      */
     public function getTypeString($schema, $path = '')
     {
+        if ($schema === null) {
+            return '';
+        }
+
         $schema = Schema::unboolSchema($schema);
 
         $isOptional = false;
@@ -41,15 +50,15 @@ class TypeBuilder
         $isNumber = false;
 
         if ($schema->const !== null) {
-            return '(' . var_export($schema->const, true) . ')';
+            return '`' . var_export($schema->const, true) . '`';
         }
 
         if (!empty($schema->enum)) {
             $res = '';
             foreach ($schema->enum as $value) {
-                $res .= var_export($value, true) . '|';
+                $res .= '`' . var_export($value, true) . '`, ';
             }
-            return '(' . substr($res, 0, -1) . ')';
+            return substr($res, 0, -2);
         }
 
         if (!empty($schema->getFromRefs())) {
@@ -132,28 +141,33 @@ class TypeBuilder
             }
         }
 
+
+        $namedTypeAdded = false;
+        if (!empty($schema->properties) || $this->hasConstraints($schema)) {
+            if ($this->processed->contains($schema)) {
+                $or [] = $this->processed->offsetGet($schema);
+                $namedTypeAdded = true;
+            } else {
+                if ($schema instanceof Schema) {
+                    $typeName = $this->typeName($schema, $path);
+                    $this->makeTypeDef($schema, $path);
+
+                    $or [] = $typeName;
+                    $namedTypeAdded = true;
+                }
+            }
+        }
+
         if ($isObject) {
             $typeAdded = false;
 
-            if (!empty($schema->properties)) {
-                if ($this->processed->contains($schema)) {
-                    $or [] = $this->processed->offsetGet($schema);
-                    $typeAdded = true;
-                } else {
-                    if ($schema instanceof Schema) {
-                        $typeName = $this->typeName($schema, $path);
-                        $this->makeObjectTypeDef($schema, $path);
-
-                        $or [] = $typeName;
-                        $typeAdded = true;
-                    }
-                }
-
+            if ($namedTypeAdded) {
+                $typeAdded = true;
             }
 
             if ($schema->additionalProperties instanceof Schema) {
                 $typeName = $this->getTypeString($schema->additionalProperties, $path . '/additionalProperties');
-                $or [] = "Object.<String,$typeName>";
+                $or [] = "`Map<String,`$typeName`>`";
                 $typeAdded = true;
             }
 
@@ -168,7 +182,7 @@ class TypeBuilder
             }
 
             if (!$typeAdded) {
-                $or [] = 'Object';
+                $or [] = '`Object`';
             }
         }
 
@@ -177,55 +191,56 @@ class TypeBuilder
 
             if ($schema->items instanceof Schema) {
                 $typeName = $this->getTypeString($schema->items, $path . '/items');
-                $or [] = "Array<$typeName>";
+                $or [] = "`Array<`$typeName`>`";
                 $typeAdded = true;
             }
 
             if ($schema->additionalItems instanceof Schema) {
                 $typeName = $this->getTypeString($schema->additionalItems, $path . '/additionalItems');
-                $or [] = "Array<$typeName>";
+                $or [] = "`Array<`$typeName`>`";
                 $typeAdded = true;
             }
 
             if (!$typeAdded) {
-                $or [] = 'Array';
+                $or [] = '`Array`';
             }
+        }
+
+        if ($isOptional) {
+            $or [] = '`null`';
         }
 
         if ($isString) {
-            if ($schema->format === 'binary') {
-                $or[] = 'File';
-                $or[] = 'Blob';
-            } else {
-                $or[] = 'String';
-            }
+            $or [] = '`String`';
         }
 
         if ($isNumber) {
-            $or [] = 'Number';
+            $or [] = '`Number`';
         }
 
         if ($isBoolean) {
-            $or [] = 'Boolean';
+            $or [] = '`Boolean`';
         }
 
         $res = '';
         foreach ($or as $item) {
             if (!empty($item) && $item !== '*') {
-                $res .= '|' . ($isOptional ? '?' : '') . $item;
+                $res .= ', ' . $item;
             }
         }
 
         if ($res !== '') {
-            $res = substr($res, 1);
+            $res = substr($res, 2);
         } else {
-            $res = '*';
+            $res = '`*`';
         }
+
+        $res = str_replace('``', '', $res);
 
         return $res;
     }
 
-    private function typeName(Schema $schema, $path)
+    private function typeName(Schema $schema, $path, $raw = false)
     {
         if ($fromRefs = $schema->getFromRefs()) {
             $path = $fromRefs[count($fromRefs) - 1];
@@ -237,49 +252,171 @@ class TypeBuilder
             }
         }
 
-        return PhpCode::makePhpName($this->addNamePrefix . '_' . $path, false);
+        if (($path === '#' || empty($path)) && !empty($schema->title)) {
+            $path = $schema->title;
+        }
+
+        $name = PhpCode::makePhpName($this->addNamePrefix . '_' . $path, false);
+
+        if ($raw) {
+            return $name;
+        }
+
+        return '[`' . $name . '`](#' . strtolower($name) . ')';
     }
 
-    private function makeObjectTypeDef(Schema $schema, $path)
+    private static function constraints()
     {
+        static $constraints;
+
+        if ($constraints === null) {
+            $names = Schema::names();
+            $constraints = [
+                $names->multipleOf,
+                $names->maximum,
+                $names->exclusiveMaximum,
+                $names->minimum,
+                $names->exclusiveMinimum,
+                $names->maxLength,
+                $names->minLength,
+                $names->pattern,
+                $names->maxItems,
+                $names->minItems,
+                $names->uniqueItems,
+                $names->maxProperties,
+                $names->minProperties,
+                $names->format,
+            ];
+        }
+
+        return $constraints;
+    }
+
+    /**
+     * @param Schema $schema
+     */
+    private function hasConstraints($schema)
+    {
+        foreach (self::constraints() as $name) {
+            if ($schema->$name !== null) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function makeTypeDef(Schema $schema, $path)
+    {
+        $tn = $this->typeName($schema, $path, true);
         $typeName = $this->typeName($schema, $path);
         $this->processed->attach($schema, $typeName);
 
         $head = '';
-        if (!empty($schema->title)) {
+        if (!empty($schema->title) && $schema->title != $tn) {
             $head .= $schema->title . "\n";
         }
 
         if (!empty($schema->description)) {
             $head .= $schema->description . "\n";
         }
-
-        if ($head !== '') {
-            $head = "\n" . CodeBuilder::padLines(' * ', trim($head), false);
+         
+        $examples = [];
+        if (!empty($schema->{self::EXAMPLES})) {
+            $examples = $schema->{self::EXAMPLES};
         }
 
-        $res = <<<JSDOC
-/**$head
- * @typedef {$typeName}
- * @type {Object}
+        if (!empty($schema->{self::EXAMPLE})) {
+            $examples[] = $schema->{self::EXAMPLE};
+        }
 
-JSDOC;
-        if (!empty($schema->properties)) {
-            foreach ($schema->properties as $propertyName => $propertySchema) {
-                $typeString = $this->getTypeString($propertySchema, $path . '/' . $propertyName);
-                $res .= <<<JSDOC
- * @property {{$typeString}} {$propertyName}{$this->description($propertySchema)}
+        if (!empty($examples)) {
+            $head .= "Example:\n\n";
+            foreach ($examples as $example) {
+                $head .= <<<MD
+```json
+$example
+```
 
-JSDOC;
+
+MD;
 
             }
         }
 
-        $res .= <<<JSDOC
- */
+        $tnl = strtolower($tn);
+
+        $res = <<<MD
 
 
-JSDOC;
+### <a id="$tnl"></a>$tn
+$head
+
+MD;
+
+        
+        $rows = [];
+        foreach (self::constraints() as $name) {
+            if ($schema->$name !== null) {
+                $value = $schema->$name;
+
+                if ($value instanceof Schema) {
+                    $value = $this->typeName($value, $path . '/' . $name);
+                }
+
+                $rows [] = [
+                    'Constraint' => $name,
+                    'Value' => $value,
+                ];
+            }
+        }
+        $res .= TableRenderer::create(new \ArrayIterator($rows))
+            ->stripEmptyColumns()
+            ->setColDelimiter('|')
+            ->setHeadRowDelimiter('-')
+            ->setOutlineVertical(true)
+            ->setShowHeader();
+
+        $res .= "\n\n";
+
+        $rows = [];
+        $hasDescription = false;
+        if (!empty($schema->properties)) {
+            foreach ($schema->properties as $propertyName => $propertySchema) {
+                $typeString = $this->getTypeString($propertySchema, $path . '/' . $propertyName);
+                $desc = $this->description($propertySchema);
+                if (!empty($desc)) {
+                    $hasDescription = true;
+                }
+                $isRequired = false;
+                if (!empty($schema->required)) {
+                    $isRequired = in_array($propertyName, $schema->required);
+                }
+                $rows [] = array(
+                    'Property' => '`' . $propertyName . '`' . ($isRequired ? ' (required)' : ''),
+                    'Type' => $typeString,
+                    'Description' => $desc,
+                );
+            }
+
+            if (!$hasDescription) {
+                foreach ($rows as &$row) {
+                    unset($row['Description']);
+                }
+            }
+
+            $res .= TableRenderer::create(new \ArrayIterator($rows))
+                ->stripEmptyColumns()
+                ->setColDelimiter('|')
+                ->setHeadRowDelimiter('-')
+                ->setOutlineVertical(true)
+                ->setShowHeader();
+
+        }
+
+        $res .= <<<MD
+
+MD;
 
         $this->file .= $res;
 
@@ -290,7 +427,7 @@ JSDOC;
     {
         $res = str_replace("\n", " ", $schema->title . $schema->description);
         if ($res) {
-            return ' - ' . rtrim($res, '.') . '.';
+            return rtrim($res, '.') . '.';
         }
 
         return '';
