@@ -14,8 +14,7 @@ class AdvancedTest extends \PHPUnit_Framework_TestCase
 {"oneOf": [
   {"properties": {
     "foo": {"enum": ["a"]},
-    "bar": {"multipleOf": 3},
-    "baz": {"const": 123}
+    "bar": {"multipleOf": 3}
   }},
   {"properties": {
     "foo": {"enum": ["b"]},
