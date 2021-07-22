@@ -8,6 +8,68 @@ use Swaggest\PhpCodeBuilder\JsonSchema\PhpBuilder;
 
 class AdvancedTest extends \PHPUnit_Framework_TestCase
 {
+    public function testEnumConst()
+    {
+        $schemaData = json_decode(<<<'JSON'
+{
+  "properties": {
+    "foo": {"enum": ["a","b","B"]},
+    "bar": {"multipleOf": 3,"const":"A"}
+  }
+}
+JSON
+        );
+
+        $schema = Schema::import($schemaData);
+        $builder = new PhpBuilder();
+        $builder->makeEnumConstants = true;
+        $class = $builder->getClass($schema, 'Root');
+
+        $result = '';
+        foreach ($builder->getGeneratedClasses() as $class) {
+            $result .= $class->class . "\n\n";
+        }
+
+        $expected = <<<'JSON'
+class Root extends Swaggest\JsonSchema\Structure\ClassStructure
+{
+    const A = 'a';
+
+    const B = 'b';
+
+    const B2 = 'B';
+
+    /** @var mixed */
+    public $foo;
+
+    /** @var mixed */
+    public $bar;
+
+    /**
+     * @param Swaggest\JsonSchema\Constraint\Properties|static $properties
+     * @param Swaggest\JsonSchema\Schema $ownerSchema
+     */
+    public static function setUpProperties($properties, Swaggest\JsonSchema\Schema $ownerSchema)
+    {
+        $properties->foo = new Swaggest\JsonSchema\Schema();
+        $properties->foo->enum = array(
+            self::A,
+            self::B,
+            self::B2,
+        );
+        $properties->bar = new Swaggest\JsonSchema\Schema();
+        $properties->bar->multipleOf = 3;
+        $properties->bar->const = "A";
+    }
+}
+
+
+JSON;
+;
+
+        $this->assertSame($expected, $result);
+    }
+
     public function testOneOf()
     {
         $schemaData = json_decode(<<<'JSON'

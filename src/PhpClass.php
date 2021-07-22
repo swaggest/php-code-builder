@@ -125,7 +125,8 @@ PHP;
     {
         if (array_key_exists($constant->getName(), $this->constants)) {
             if ($this->constants[$constant->getName()]->getValue() !== $constant->getValue()) {
-                throw new Exception('Duplicate const with different value');
+                throw new Exception('Duplicate const "' . $constant->getName() . '" with different value, ' .
+                    $constant->getValue() . ' !== ' . $this->constants[$constant->getName()]->getValue());
             }
         } else {
             $this->constants[$constant->getName()] = $constant;
@@ -137,8 +138,8 @@ PHP;
      * Adds a new trait to the list of traits
      *
      * @param PhpTrait $trait
-     * @throws Exception if a trait already exists with same name
      * @return self
+     * @throws Exception if a trait already exists with same name
      */
     public function addTrait(PhpTrait $trait)
     {

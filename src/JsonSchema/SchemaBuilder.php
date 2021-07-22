@@ -285,7 +285,18 @@ class SchemaBuilder
                 }
                 $value = var_export($enumItem, true);
                 if ($this->saveEnumConstInClass !== null && is_scalar($enumItem) && !is_bool($enumItem)) {
-                    $this->saveEnumConstInClass->addConstant(new PhpConstant($name, $enumItem));
+                    $checkName = $name;
+                    $i = 1;
+                    do {
+                        try {
+                            $this->saveEnumConstInClass->addConstant(new PhpConstant($checkName, $enumItem));
+                            $name = $checkName;
+                            break;
+                        } catch (\Swaggest\PhpCodeBuilder\Exception $exception) {
+                            $i++;
+                            $checkName = $name . $i;
+                        }
+                    } while(true);
                     $this->result->addSnippet(
                         "    self::$name,\n"
                     );
