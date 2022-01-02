@@ -19,7 +19,7 @@
     "php": ">=5.6.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^5"
+    "phpunit/phpunit": "4.8.36"
   },
   "autoload": {
     "psr-4": {
@@ -31,12 +31,17 @@
       "Swaggest\\PhpCodeBuilder\\Tests\\": "tests/src/"
     }
   },
-  "scripts": {
-    "test": "php -dxdebug.coverage_enable=1 ./vendor/bin/phpunit --coverage-text"
-  },
   "config": {
     "platform": {
       "php": "5.6.10"
     }
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "patch -N -s -p0 < ./tests/phpunit.patch"
+    ],
+    "post-update-cmd": [
+      "patch -N -s -p0 < ./tests/phpunit.patch"
+    ]
   }
 }

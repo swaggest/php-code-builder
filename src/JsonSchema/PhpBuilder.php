@@ -398,11 +398,13 @@ class DynamicIterator implements \Iterator, \ArrayAccess
     }
 
 
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return $this->current;
     }
 
+    #[\ReturnTypeWillChange]
     public function next()
     {
         if (empty($this->rows)) {
@@ -414,36 +416,43 @@ class DynamicIterator implements \Iterator, \ArrayAccess
         ++$this->key;
     }
 
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return $this->key;
     }
 
+    #[\ReturnTypeWillChange]
     public function valid()
     {
         return $this->valid;
     }
 
+    #[\ReturnTypeWillChange]
     public function rewind()
     {
         $this->next();
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return array_key_exists($offset, $this->rows);
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->rows[$offset];
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         $this->rows[$offset] = $value;
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         unset($this->rows[$offset]);
