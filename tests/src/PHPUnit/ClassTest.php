@@ -2,6 +2,7 @@
 
 namespace Swaggest\PhpCodeBuilder\Tests\PHPUnit;
 
+use Swaggest\PhpCodeBuilder\Exception;
 use Swaggest\PhpCodeBuilder\PhpClass;
 use Swaggest\PhpCodeBuilder\PhpClassProperty;
 use Swaggest\PhpCodeBuilder\PhpFlags;
@@ -103,8 +104,7 @@ PHP
 
     public function testThrowExceptionOnDuplicateTrait()
     {
-        $this->expectException(\Swaggest\PhpCodeBuilder\Exception::class);
-
+        $this->setExpectedException(Exception::class);
         $class = new PhpClass();
         $class->addTrait(new PhpTrait('\Foo\Bar'));
         $class->addTrait(new PhpTrait('\Foo\Bar'));

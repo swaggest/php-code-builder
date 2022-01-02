@@ -103,7 +103,7 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
         $e->{'x-sample'} = 1;
         $e->{'z-sample'} = "one";
 
-        $this->expectException(StringException::class);
+        $this->setExpectedException(StringException::class);
         $e->setXValue('invalid-name', 'invalid');
 
     }
