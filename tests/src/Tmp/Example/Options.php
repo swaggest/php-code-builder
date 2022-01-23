@@ -14,46 +14,47 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 /**
  * Built from #/definitions/options
  */
-class Options extends ClassStructure {
-	/** @var bool */
-	public $rememberSession;
+class Options extends ClassStructure
+{
+    /** @var bool */
+    public $rememberSession;
 
-	/** @var bool */
-	public $allowNotifications;
+    /** @var bool */
+    public $allowNotifications;
 
-	/**
-	 * @param Properties|static $properties
-	 * @param Schema $ownerSchema
-	 */
-	public static function setUpProperties($properties, Schema $ownerSchema)
-	{
-		$properties->rememberSession = Schema::boolean();
-		$properties->allowNotifications = Schema::boolean();
-		$ownerSchema->type = 'object';
-		$ownerSchema->setFromRef('#/definitions/options');
-	}
+    /**
+     * @param Properties|static $properties
+     * @param Schema $ownerSchema
+     */
+    public static function setUpProperties($properties, Schema $ownerSchema)
+    {
+        $properties->rememberSession = Schema::boolean();
+        $properties->allowNotifications = Schema::boolean();
+        $ownerSchema->type = Schema::OBJECT;
+        $ownerSchema->setFromRef('#/definitions/options');
+    }
 
-	/**
-	 * @param bool $rememberSession
-	 * @return $this
-	 * @codeCoverageIgnoreStart
-	 */
-	public function setRememberSession($rememberSession)
-	{
-		$this->rememberSession = $rememberSession;
-		return $this;
-	}
-	/** @codeCoverageIgnoreEnd */
+    /**
+     * @param bool $rememberSession
+     * @return $this
+     * @codeCoverageIgnoreStart
+     */
+    public function setRememberSession($rememberSession)
+    {
+        $this->rememberSession = $rememberSession;
+        return $this;
+    }
+    /** @codeCoverageIgnoreEnd */
 
-	/**
-	 * @param bool $allowNotifications
-	 * @return $this
-	 * @codeCoverageIgnoreStart
-	 */
-	public function setAllowNotifications($allowNotifications)
-	{
-		$this->allowNotifications = $allowNotifications;
-		return $this;
-	}
-	/** @codeCoverageIgnoreEnd */
+    /**
+     * @param bool $allowNotifications
+     * @return $this
+     * @codeCoverageIgnoreStart
+     */
+    public function setAllowNotifications($allowNotifications)
+    {
+        $this->allowNotifications = $allowNotifications;
+        return $this;
+    }
+    /** @codeCoverageIgnoreEnd */
 }
