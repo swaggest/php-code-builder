@@ -104,5 +104,9 @@ echo json_encode($jsonData), "\n";
 $user->name = 123;
 
 // Exception: String expected, 123 received at #->$ref[#]->properties:name
-$jsonData = \Swaggest\PhpCodeBuilder\Tests\Tmp\Example\User::export($user);
+try {
+    $jsonData = \Swaggest\PhpCodeBuilder\Tests\Tmp\Example\User::export($user);
+} catch (Exception $e) {
+    echo 'Failed to export user: ' . $e->getMessage(). "\n";
+}
 
