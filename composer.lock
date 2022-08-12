@@ -155,16 +155,16 @@
         },
         {
             "name": "swaggest/code-builder",
-            "version": "v0.3.4",
+            "version": "v0.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swaggest/code-builder.git",
-                "reference": "bf5d8c2866ae1b3079d7899244eab070ebbe9fb8"
+                "reference": "0d6d8cb57f1774c4ea4a55829faac50b7b1d310a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swaggest/code-builder/zipball/bf5d8c2866ae1b3079d7899244eab070ebbe9fb8",
-                "reference": "bf5d8c2866ae1b3079d7899244eab070ebbe9fb8",
+                "url": "https://api.github.com/repos/swaggest/code-builder/zipball/0d6d8cb57f1774c4ea4a55829faac50b7b1d310a",
+                "reference": "0d6d8cb57f1774c4ea4a55829faac50b7b1d310a",
                 "shasum": ""
             },
             "require": {
@@ -200,9 +200,9 @@
             ],
             "support": {
                 "issues": "https://github.com/swaggest/code-builder/issues",
-                "source": "https://github.com/swaggest/code-builder/tree/v0.3.4"
+                "source": "https://github.com/swaggest/code-builder/tree/v0.3.5"
             },
-            "time": "2021-04-23T07:27:29+00:00"
+            "time": "2022-04-28T20:38:04+00:00"
         },
         {
             "name": "swaggest/json-diff",
@@ -329,12 +329,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Symfony\\Polyfill\\Mbstring\\": ""
-                },
                 "files": [
                     "bootstrap.php"
-                ]
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Mbstring\\": ""
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -644,13 +644,13 @@
                 }
             },
             "autoload": {
-                "classmap": [
-                    "src/"
-                ],
                 "files": [
                     "src/Facade.php",
                     "src/Factory.php",
                     "src/Iterator.php"
+                ],
+                "classmap": [
+                    "src/"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1508,12 +1508,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Symfony\\Polyfill\\Ctype\\": ""
-                },
                 "files": [
                     "bootstrap.php"
-                ]
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Ctype\\": ""
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -1694,5 +1694,5 @@
     "platform-overrides": {
         "php": "5.6.10"
     },
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.3.0"
 }

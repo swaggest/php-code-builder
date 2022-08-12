@@ -50,7 +50,7 @@ JSON;
 
 |Property  |Type                          |Description |
 |----------|------------------------------|------------|
-|`name`    |`'John'`, `'Jane'`            |Person name.|
+|`name`    |`'John'`, <br>`'Jane'`        |Person name.|
 |`age`     |`123`                         |            |
 |`isMale`  |`Boolean`                     |            |
 |`partner` |[`Person`](#person)           |            |
