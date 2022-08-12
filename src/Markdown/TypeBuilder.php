@@ -56,9 +56,9 @@ class TypeBuilder
         if (!empty($schema->enum)) {
             $res = '';
             foreach ($schema->enum as $value) {
-                $res .= '`' . var_export($value, true) . '`, ';
+                $res .= '<br>`' . var_export($value, true) . '`, ';
             }
-            return substr($res, 0, -2);
+            return substr($res, 4, -2);
         }
 
         if (!empty($schema->getFromRefs())) {
@@ -222,6 +222,10 @@ class TypeBuilder
             $or [] = '`Boolean`';
         }
 
+        if ($schema->format !== null) {
+            $or []= 'Format: `' . $schema->format . '`';
+        }
+
         $res = '';
         foreach ($or as $item) {
             if (!empty($item) && $item !== '*') {
@@ -285,7 +289,6 @@ class TypeBuilder
                 $names->uniqueItems,
                 $names->maxProperties,
                 $names->minProperties,
-                $names->format,
             ];
         }
 
@@ -320,7 +323,7 @@ class TypeBuilder
         if (!empty($schema->description)) {
             $head .= $schema->description . "\n";
         }
-         
+
         $examples = [];
         if (!empty($schema->{self::EXAMPLES})) {
             $examples = $schema->{self::EXAMPLES};
@@ -354,7 +357,7 @@ $head
 
 MD;
 
-        
+
         $rows = [];
         foreach (self::constraints() as $name) {
             if ($schema->$name !== null) {
