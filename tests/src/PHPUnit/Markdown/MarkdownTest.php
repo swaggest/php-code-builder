@@ -79,7 +79,7 @@ MD
 
 
 
-MD,
-$tb->tableOfContents());
+MD
+            , $tb->tableOfContents());
     }
 }
