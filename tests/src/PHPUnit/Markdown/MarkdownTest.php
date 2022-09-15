@@ -69,5 +69,17 @@ This is a unit of something.
 
 MD
             , $tb->file);
+
+        $tb->sortTypes();
+        $this->assertSame(<<<'MD'
+# Types
+
+  * [`Person`](#person)
+  * [`Unit`](#unit)
+
+
+
+MD
+            , $tb->tableOfContents());
     }
 }
