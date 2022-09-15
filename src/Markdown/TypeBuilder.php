@@ -21,6 +21,12 @@ class TypeBuilder
 
     public $addNamePrefix = '';
 
+    /**
+     * Map of type name to type doc.
+     * @var array<string,string>
+     */
+    public $types = [];
+
     public $file = '';
 
     public function __construct()
@@ -223,7 +229,7 @@ class TypeBuilder
         }
 
         if ($schema->format !== null) {
-            $or []= 'Format: `' . $schema->format . '`';
+            $or [] = 'Format: `' . $schema->format . '`';
         }
 
         $res = '';
@@ -421,9 +427,32 @@ MD;
 
 MD;
 
+        $this->types[$typeName] = $res;
         $this->file .= $res;
 
         return $typeName;
+    }
+
+    public function sortTypes()
+    {
+        ksort($this->types);
+    }
+
+    public function tableOfContents()
+    {
+        if (count($this->types) === 0) {
+            return '';
+        }
+
+        $res = '# Types' . "\n\n";
+
+        foreach ($this->types as $name => $doc) {
+            $res .= '  * ' . $name . "\n";
+        }
+
+        $res .= "\n\n";
+
+        return $res;
     }
 
     private function description(Schema $schema)
