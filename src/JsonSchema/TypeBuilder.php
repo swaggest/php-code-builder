@@ -40,18 +40,21 @@ class TypeBuilder
      */
     private function processLogicType()
     {
-        $orSchemas = null;
         if ($this->schema->allOf !== null) {
-            $orSchemas = $this->schema->allOf;
-        } elseif ($this->schema->anyOf !== null) {
-            $orSchemas = $this->schema->anyOf;
-        } elseif ($this->schema->oneOf !== null) {
-            $orSchemas = $this->schema->oneOf;
+            foreach ($this->schema->allOf as $i => $item) {
+                $this->result->add($this->phpBuilder->getType($item, $this->path . '->allOf[' . $i . ']'));
+            }
         }
 
-        if ($orSchemas !== null) {
-            foreach ($orSchemas as $item) {
-                $this->result->add($this->phpBuilder->getType($item, $this->path));
+        if ($this->schema->anyOf !== null) {
+            foreach ($this->schema->anyOf as $i => $item) {
+                $this->result->add($this->phpBuilder->getType($item, $this->path . '->anyOf[' . $i . ']'));
+            }
+        }
+
+        if ($this->schema->oneOf !== null) {
+            foreach ($this->schema->oneOf as $i => $item) {
+                $this->result->add($this->phpBuilder->getType($item, $this->path . '->oneOf[' . $i . ']'));
             }
         }
     }

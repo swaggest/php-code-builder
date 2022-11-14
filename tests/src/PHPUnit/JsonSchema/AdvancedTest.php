@@ -30,7 +30,7 @@ JSON
             $result .= $class->class . "\n\n";
         }
 
-        $expected = <<<'JSON'
+        $expected = <<<'PHP'
 class Root extends Swaggest\JsonSchema\Structure\ClassStructure
 {
     const A = 'a';
@@ -64,7 +64,7 @@ class Root extends Swaggest\JsonSchema\Structure\ClassStructure
 }
 
 
-JSON;
+PHP;
 ;
 
         $this->assertSame($expected, $result);

@@ -49,7 +49,13 @@ class PhpFunction extends PhpTemplate
             $tail = (new PhpDocTag(PhpDoc::TAG_CODE_COVERAGE_IGNORE_END))->render() . "\n";
         }
 
-        $body = trim($this->body);
+        $body = $this->body;
+        if ($body === null) {
+            $body = '';
+        }
+
+        $body = trim($body);
+
         if ($body !== '') {
             $body = $this->indentLines($body . "\n");
         }
