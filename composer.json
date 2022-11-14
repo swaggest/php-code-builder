@@ -19,7 +19,7 @@
     "php": ">=5.6.0"
   },
   "require-dev": {
-    "phperf/phpunit": "4.8.37"
+    "phperf/phpunit": "4.8.38"
   },
   "autoload": {
     "psr-4": {

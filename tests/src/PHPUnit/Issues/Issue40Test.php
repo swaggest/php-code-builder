@@ -60,7 +60,6 @@ JSON;
         exec('git diff ' . $appPath, $out);
         $out = implode("\n", $out);
         $this->assertSame('', $out, "Generated files changed");
-
     }
 
 

@@ -82,4 +82,77 @@ MD
 MD
             , $tb->tableOfContents());
     }
+
+    /**
+     * @return void
+     * @throws \Swaggest\JsonSchema\Exception
+     * @throws \Swaggest\JsonSchema\InvalidValue
+     * @see https://github.com/swaggest/json-cli/issues/39#issuecomment-1313568814
+     */
+    function testIssue39() {
+        $schemaData = <<<'JSON'
+{
+    "id": "/Test",
+    "anyOf": [
+        {
+            "type": "object",
+            "properties": {
+                "test1": {
+                    "type": "string"
+                }
+            }
+        },
+        {
+            "type": "object",
+            "properties": {
+                "test2": {
+                    "type": "integer"
+                }
+            }
+        }
+    ]
+}
+JSON;
+        $schema = Schema::import(json_decode($schemaData));
+        $this->assertNotEmpty($schema);
+
+        $tb = new TypeBuilder();
+
+        $typeString = $tb->getTypeString($schema);
+        $this->assertSame('[`AnyOf0`](#anyof0), [`AnyOf1`](#anyof1)', $typeString);
+        $this->assertSame(<<<'MD'
+
+
+### <a id="anyof0"></a>AnyOf0
+
+
+
+|Property|Type    |
+|--------|--------|
+|`test1` |`String`|
+
+
+### <a id="anyof1"></a>AnyOf1
+
+
+
+|Property|Type    |
+|--------|--------|
+|`test2` |`Number`|
+
+MD
+            , $tb->file);
+
+        $tb->sortTypes();
+        $this->assertSame(<<<'MD'
+# Types
+
+  * [`AnyOf0`](#anyof0)
+  * [`AnyOf1`](#anyof1)
+
+
+
+MD
+            , $tb->tableOfContents());
+    }
 }
