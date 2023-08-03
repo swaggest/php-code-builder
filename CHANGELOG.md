@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.39] - 2023-08-04
+
+### Fixed
+-  Check for unique type schemas in Markdown rendering.
+
 ## [0.2.38] - 2022-11-14
 
 ### Fixed
@@ -118,6 +123,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Description trimming bug.
 
+[0.2.39]: https://github.com/swaggest/php-code-builder/compare/v0.2.38...v0.2.39
 [0.2.38]: https://github.com/swaggest/php-code-builder/compare/v0.2.37...v0.2.38
 [0.2.37]: https://github.com/swaggest/php-code-builder/compare/v0.2.36...v0.2.37
 [0.2.36]: https://github.com/swaggest/php-code-builder/compare/v0.2.35...v0.2.36
