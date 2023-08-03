@@ -2,7 +2,6 @@
 
 namespace Swaggest\PhpCodeBuilder\Markdown;
 
-use Swaggest\CodeBuilder\CodeBuilder;
 use Swaggest\CodeBuilder\TableRenderer;
 use Swaggest\JsonSchema\Schema;
 use Swaggest\PhpCodeBuilder\PhpCode;
@@ -26,6 +25,8 @@ class TypeBuilder
      * @var array<string,string>
      */
     public $types = [];
+
+    public $uniqueTypeSchemas = [];
 
     public $file = '';
 
@@ -315,14 +316,10 @@ class TypeBuilder
         return false;
     }
 
-    private function makeTypeDef(Schema $schema, $path)
+    public function renderTypeDef(Schema $schema, $typeName, $path)
     {
-        $tn = $this->typeName($schema, $path, true);
-        $typeName = $this->typeName($schema, $path);
-        $this->processed->attach($schema, $typeName);
-
         $head = '';
-        if (!empty($schema->title) && $schema->title != $tn) {
+        if (!empty($schema->title) && $schema->title != $typeName) {
             $head .= $schema->title . "\n";
         }
 
@@ -353,12 +350,12 @@ MD;
             }
         }
 
-        $tnl = strtolower($tn);
+        $tnl = strtolower($typeName);
 
         $res = <<<MD
 
 
-### <a id="$tnl"></a>$tn
+### <a id="$tnl"></a>$typeName
 $head
 
 MD;
@@ -384,6 +381,7 @@ MD;
             ->setColDelimiter('|')
             ->setHeadRowDelimiter('-')
             ->setOutlineVertical(true)
+            ->multilineCellDelimiter('<br>')
             ->setShowHeader();
 
         $res .= "\n\n";
@@ -419,6 +417,7 @@ MD;
                 ->setColDelimiter('|')
                 ->setHeadRowDelimiter('-')
                 ->setOutlineVertical(true)
+                ->multilineCellDelimiter('<br>')
                 ->setShowHeader();
 
         }
@@ -427,7 +426,23 @@ MD;
 
 MD;
 
+        return $res;
+    }
+
+    private function makeTypeDef(Schema $schema, $path)
+    {
+        $tn = $this->typeName($schema, $path, true);
+        $typeName = $this->typeName($schema, $path);
+        $this->processed->attach($schema, $typeName);
+
+        $res = $this->renderTypeDef($schema, $tn, $path);
+
+        if (isset($this->uniqueTypeSchemas[$res])) {
+            return $this->uniqueTypeSchemas[$res];
+        }
+
         $this->types[$typeName] = $res;
+        $this->uniqueTypeSchemas[$res] = $typeName;
         $this->file .= $res;
 
         return $typeName;

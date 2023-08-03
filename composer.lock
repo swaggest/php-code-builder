@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c915f1af363bcb3133a32aefcef10fe9",
+    "content-hash": "0e2b820d1a993299c578ef75c6fd9542",
     "packages": [
         {
             "name": "php-yaoi/php-yaoi",
@@ -104,77 +104,25 @@
             "time": "2016-09-17T00:15:18+00:00"
         },
         {
-            "name": "psr/log",
-            "version": "1.1.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/log.git",
-                "reference": "d49695b909c3b7628b6289db5479a1c204601f11"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/d49695b909c3b7628b6289db5479a1c204601f11",
-                "reference": "d49695b909c3b7628b6289db5479a1c204601f11",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Psr\\Log\\": "Psr/Log/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP-FIG",
-                    "homepage": "https://www.php-fig.org/"
-                }
-            ],
-            "description": "Common interface for logging libraries",
-            "homepage": "https://github.com/php-fig/log",
-            "keywords": [
-                "log",
-                "psr",
-                "psr-3"
-            ],
-            "support": {
-                "source": "https://github.com/php-fig/log/tree/1.1.4"
-            },
-            "time": "2021-05-03T11:20:27+00:00"
-        },
-        {
             "name": "swaggest/code-builder",
-            "version": "v0.3.5",
+            "version": "v0.3.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swaggest/code-builder.git",
-                "reference": "0d6d8cb57f1774c4ea4a55829faac50b7b1d310a"
+                "reference": "ffc1f70ab80cafbe39cd48ed9502ea8d365804ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swaggest/code-builder/zipball/0d6d8cb57f1774c4ea4a55829faac50b7b1d310a",
-                "reference": "0d6d8cb57f1774c4ea4a55829faac50b7b1d310a",
+                "url": "https://api.github.com/repos/swaggest/code-builder/zipball/ffc1f70ab80cafbe39cd48ed9502ea8d365804ff",
+                "reference": "ffc1f70ab80cafbe39cd48ed9502ea8d365804ff",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.4.0",
-                "php-yaoi/php-yaoi": "*",
-                "psr/log": "^1.0.1"
+                "php-yaoi/php-yaoi": "*"
             },
             "require-dev": {
-                "codeclimate/php-test-reporter": "0.1.2",
-                "phpunit/phpunit": "4.8.23"
+                "phperf/phpunit": "4.8.37"
             },
             "type": "library",
             "autoload": {
@@ -200,9 +148,9 @@
             ],
             "support": {
                 "issues": "https://github.com/swaggest/code-builder/issues",
-                "source": "https://github.com/swaggest/code-builder/tree/v0.3.5"
+                "source": "https://github.com/swaggest/code-builder/tree/v0.3.8"
             },
-            "time": "2022-04-28T20:38:04+00:00"
+            "time": "2023-08-03T16:30:39+00:00"
         },
         {
             "name": "swaggest/json-diff",
@@ -434,8 +382,22 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/instantiator/issues",
-                "source": "https://github.com/doctrine/instantiator/tree/master"
+                "source": "https://github.com/doctrine/instantiator/tree/1.0.5"
             },
+            "funding": [
+                {
+                    "url": "https://www.doctrine-project.org/sponsorship.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.patreon.com/phpdoctrine",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Finstantiator",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2015-06-14T21:17:01+00:00"
         },
         {
