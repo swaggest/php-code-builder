@@ -288,7 +288,14 @@ JSDOC;
 
     private function description(Schema $schema)
     {
-        $res = str_replace("\n", " ", $schema->title . $schema->description);
+        $res = str_replace("\n", " ", trim($schema->title));
+        if (trim($schema->description)) {
+            if ($res) {
+                $res .= ". ";
+            }
+
+            $res .= str_replace("\n", " ", trim($schema->description));
+        }
         if ($res) {
             return ' - ' . rtrim($res, '.') . '.';
         }

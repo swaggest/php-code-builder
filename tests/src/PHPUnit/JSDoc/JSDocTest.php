@@ -16,7 +16,7 @@ class JSDocTest extends \PHPUnit_Framework_TestCase
         "Person": {
             "type": "object",
             "properties": {
-                "name": {"type": "string", "description": "Person name."},
+                "name": {"type": "string", "title":"     Name    ", "description": "The name of the person."},
                 "age": {"type": "integer"},
                 "isMale": {"type": "boolean"},
                 "partner": {"$ref": "#/definitions/Person"},
@@ -37,7 +37,7 @@ JSON;
 /**
  * @typedef Person
  * @type {Object}
- * @property {String} name - Person name.
+ * @property {String} name - Name. The name of the person.
  * @property {Number} age
  * @property {Boolean} isMale
  * @property {Person} partner
