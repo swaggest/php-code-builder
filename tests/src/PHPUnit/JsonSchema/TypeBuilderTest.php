@@ -22,6 +22,7 @@ class TypeBuilderTest extends \PHPUnit_Framework_TestCase
     "definitions": {
         "header": {
             "type": "object",
+            "description": "Something with an interpolated ${VALUE}",
             "properties": {
                 "maximum": {"$ref": "#/definitions/maximum"}
             }
@@ -68,6 +69,7 @@ class DefinitionsHeader extends ClassStructure
         $properties->maximum = Schema::number();
         $properties->maximum->setFromRef('#/definitions/maximum');
         $ownerSchema->type = Schema::OBJECT;
+        $ownerSchema->description = "Something with an interpolated \${VALUE}";
         $ownerSchema->setFromRef('#/definitions/header');
     }
 
@@ -92,7 +94,7 @@ PHP
 
         eval(substr($file->render(), 6));
         $exported = Schema::export($className::schema());
-        $this->assertSame('{"properties":{"maximum":{"$ref":"#/definitions/maximum"}},"type":"object","definitions":{"maximum":{"type":"number"}}}',
+        $this->assertSame('{"description":"Something with an interpolated ${VALUE}","properties":{"maximum":{"$ref":"#/definitions/maximum"}},"type":"object","definitions":{"maximum":{"type":"number"}}}',
             json_encode($exported, JSON_UNESCAPED_SLASHES));
     }
 

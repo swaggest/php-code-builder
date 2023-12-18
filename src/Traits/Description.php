@@ -2,9 +2,6 @@
 
 namespace Swaggest\PhpCodeBuilder\Traits;
 
-
-use Swaggest\PhpCodeBuilder\PhpDoc;
-
 trait Description
 {
     use PhpDocable;

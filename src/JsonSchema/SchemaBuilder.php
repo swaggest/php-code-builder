@@ -396,7 +396,7 @@ class SchemaBuilder
             } elseif ($value instanceof \stdClass) {
                 $export = '(object)' . PhpCode::varExport((array)$value);
             } elseif (is_string($value)) {
-                $export = '"' . str_replace(array('\\', "\n", "\r", "\t", '"'), array('\\\\', '\n', '\r', '\t', '\"'), $value) . '"';
+                $export = '"' . str_replace(array('\\', "\n", "\r", "\t", '"', '${', '{$'), array('\\\\', '\n', '\r', '\t', '\"', '\${', '{\$'), $value) . '"';
             } else {
                 $export = PhpCode::varExport($value);
             }
