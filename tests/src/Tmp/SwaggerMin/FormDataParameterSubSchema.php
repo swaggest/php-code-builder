@@ -18,7 +18,28 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/formDataParameterSubSchema
+ * @property bool $required Determines whether or not this parameter is required or optional.
+ * @property string $in Determines the location of the parameter.
+ * @property string $description A brief description of the parameter. This could contain examples of use.  GitHub Flavored Markdown is allowed.
+ * @property string $name The name of the parameter.
+ * @property bool $allowEmptyValue allows sending a parameter by name only or with an empty value.
+ * @property string $type
+ * @property string $format
+ * @property PrimitivesItems $items
+ * @property string $collectionFormat
  * @property mixed $default
+ * @property float $maximum
+ * @property bool $exclusiveMaximum
+ * @property float $minimum
+ * @property bool $exclusiveMinimum
+ * @property int $maxLength
+ * @property int $minLength
+ * @property string $pattern
+ * @property int $maxItems
+ * @property int $minItems
+ * @property bool $uniqueItems
+ * @property array $enum
+ * @property float $multipleOf
  */
 class FormDataParameterSubSchema extends ClassStructure implements SchemaExporter
 {
@@ -47,69 +68,6 @@ class FormDataParameterSubSchema extends ClassStructure implements SchemaExporte
     const MULTI = 'multi';
 
     const X_PROPERTY_PATTERN = '^x-';
-
-    /** @var bool Determines whether or not this parameter is required or optional. */
-    public $required;
-
-    /** @var string Determines the location of the parameter. */
-    public $in;
-
-    /** @var string A brief description of the parameter. This could contain examples of use.  GitHub Flavored Markdown is allowed. */
-    public $description;
-
-    /** @var string The name of the parameter. */
-    public $name;
-
-    /** @var bool allows sending a parameter by name only or with an empty value. */
-    public $allowEmptyValue;
-
-    /** @var string */
-    public $type;
-
-    /** @var string */
-    public $format;
-
-    /** @var PrimitivesItems */
-    public $items;
-
-    /** @var string */
-    public $collectionFormat;
-
-    /** @var float */
-    public $maximum;
-
-    /** @var bool */
-    public $exclusiveMaximum;
-
-    /** @var float */
-    public $minimum;
-
-    /** @var bool */
-    public $exclusiveMinimum;
-
-    /** @var int */
-    public $maxLength;
-
-    /** @var int */
-    public $minLength;
-
-    /** @var string */
-    public $pattern;
-
-    /** @var int */
-    public $maxItems;
-
-    /** @var int */
-    public $minItems;
-
-    /** @var bool */
-    public $uniqueItems;
-
-    /** @var array */
-    public $enum;
-
-    /** @var float */
-    public $multipleOf;
 
     /** @var SplObjectStorage Schema storage keeps exported schemas to avoid infinite cycle recursions. */
     private static $schemaStorage;

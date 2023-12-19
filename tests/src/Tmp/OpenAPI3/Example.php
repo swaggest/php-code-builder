@@ -16,20 +16,14 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/Example
+ * @property string $summary
+ * @property string $description
  * @property mixed $value
+ * @property string $externalValue
  */
 class Example extends ClassStructure
 {
     const X_PROPERTY_PATTERN = '^x-';
-
-    /** @var string */
-    public $summary;
-
-    /** @var string */
-    public $description;
-
-    /** @var string */
-    public $externalValue;
 
     /**
      * @param Properties|static $properties

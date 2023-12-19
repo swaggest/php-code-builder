@@ -16,6 +16,8 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/Server
+ * @property string $description
+ * @property ServerVariable[] $variables
  */
 class Server extends ClassStructure
 {
@@ -23,12 +25,6 @@ class Server extends ClassStructure
 
     /** @var string */
     public $url;
-
-    /** @var string */
-    public $description;
-
-    /** @var ServerVariable[] */
-    public $variables;
 
     /**
      * @param Properties|static $properties

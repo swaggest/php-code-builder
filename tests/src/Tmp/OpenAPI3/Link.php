@@ -16,26 +16,16 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/Link
+ * @property string $operationId
+ * @property string $operationRef
+ * @property array $parameters
  * @property mixed $requestBody
+ * @property string $description
+ * @property Server $server
  */
 class Link extends ClassStructure
 {
     const X_PROPERTY_PATTERN = '^x-';
-
-    /** @var string */
-    public $operationId;
-
-    /** @var string */
-    public $operationRef;
-
-    /** @var array */
-    public $parameters;
-
-    /** @var string */
-    public $description;
-
-    /** @var Server */
-    public $server;
 
     /**
      * @param Properties|static $properties

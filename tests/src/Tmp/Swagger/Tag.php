@@ -16,6 +16,8 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/tag
+ * @property string $description
+ * @property ExternalDocs $externalDocs information about external documentation
  */
 class Tag extends ClassStructure
 {
@@ -23,12 +25,6 @@ class Tag extends ClassStructure
 
     /** @var string */
     public $name;
-
-    /** @var string */
-    public $description;
-
-    /** @var ExternalDocs information about external documentation */
-    public $externalDocs;
 
     /**
      * @param Properties|static $properties

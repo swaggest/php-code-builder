@@ -16,46 +16,24 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/Operation
+ * @property string[]|array $tags
+ * @property string $summary
+ * @property string $description
+ * @property ExternalDocumentation $externalDocs
+ * @property string $operationId
+ * @property Parameter[]|mixed[]|ParameterLocationParameterInPath[]|ParameterLocationParameterInQuery[]|ParameterLocationParameterInHeader[]|ParameterLocationParameterInCookie[]|string[][]|array $parameters
+ * @property RequestBody|string[] $requestBody
+ * @property PathItem[]|Operation[][][]|string[][] $callbacks
+ * @property bool $deprecated
+ * @property string[][]|array[][]|array $security
+ * @property Server[]|array $servers
  */
 class Operation extends ClassStructure
 {
     const X_PROPERTY_PATTERN = '^x-';
 
-    /** @var string[]|array */
-    public $tags;
-
-    /** @var string */
-    public $summary;
-
-    /** @var string */
-    public $description;
-
-    /** @var ExternalDocumentation */
-    public $externalDocs;
-
-    /** @var string */
-    public $operationId;
-
-    /** @var Parameter[]|mixed[]|ParameterLocationParameterInPath[]|ParameterLocationParameterInQuery[]|ParameterLocationParameterInHeader[]|ParameterLocationParameterInCookie[]|string[][]|array */
-    public $parameters;
-
-    /** @var RequestBody|string[] */
-    public $requestBody;
-
     /** @var Responses|Response[]|string[][] */
     public $responses;
-
-    /** @var PathItem[]|Operation[][][]|string[][] */
-    public $callbacks;
-
-    /** @var bool */
-    public $deprecated;
-
-    /** @var string[][]|array[][]|array */
-    public $security;
-
-    /** @var Server[]|array */
-    public $servers;
 
     /**
      * @param Properties|static $properties

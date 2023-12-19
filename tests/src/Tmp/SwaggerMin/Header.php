@@ -18,7 +18,23 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/header
+ * @property string $format
+ * @property PrimitivesItems $items
+ * @property string $collectionFormat
  * @property mixed $default
+ * @property float $maximum
+ * @property bool $exclusiveMaximum
+ * @property float $minimum
+ * @property bool $exclusiveMinimum
+ * @property int $maxLength
+ * @property int $minLength
+ * @property string $pattern
+ * @property int $maxItems
+ * @property int $minItems
+ * @property bool $uniqueItems
+ * @property array $enum
+ * @property float $multipleOf
+ * @property string $description
  */
 class Header extends ClassStructure implements SchemaExporter
 {
@@ -44,54 +60,6 @@ class Header extends ClassStructure implements SchemaExporter
 
     /** @var string */
     public $type;
-
-    /** @var string */
-    public $format;
-
-    /** @var PrimitivesItems */
-    public $items;
-
-    /** @var string */
-    public $collectionFormat;
-
-    /** @var float */
-    public $maximum;
-
-    /** @var bool */
-    public $exclusiveMaximum;
-
-    /** @var float */
-    public $minimum;
-
-    /** @var bool */
-    public $exclusiveMinimum;
-
-    /** @var int */
-    public $maxLength;
-
-    /** @var int */
-    public $minLength;
-
-    /** @var string */
-    public $pattern;
-
-    /** @var int */
-    public $maxItems;
-
-    /** @var int */
-    public $minItems;
-
-    /** @var bool */
-    public $uniqueItems;
-
-    /** @var array */
-    public $enum;
-
-    /** @var float */
-    public $multipleOf;
-
-    /** @var string */
-    public $description;
 
     /** @var SplObjectStorage Schema storage keeps exported schemas to avoid infinite cycle recursions. */
     private static $schemaStorage;

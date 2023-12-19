@@ -19,7 +19,13 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 /**
  * A deterministic version of a JSON Schema object.
  * Built from #/definitions/fileSchema
+ * @property string $format
+ * @property string $title
+ * @property string $description
  * @property mixed $default
+ * @property string[]|array $required
+ * @property bool $readOnly
+ * @property ExternalDocs $externalDocs information about external documentation
  * @property mixed $example
  */
 class FileSchema extends ClassStructure implements SchemaExporter
@@ -29,25 +35,7 @@ class FileSchema extends ClassStructure implements SchemaExporter
     const X_PROPERTY_PATTERN = '^x-';
 
     /** @var string */
-    public $format;
-
-    /** @var string */
-    public $title;
-
-    /** @var string */
-    public $description;
-
-    /** @var string[]|array */
-    public $required;
-
-    /** @var string */
     public $type;
-
-    /** @var bool */
-    public $readOnly;
-
-    /** @var ExternalDocs information about external documentation */
-    public $externalDocs;
 
     /** @var SplObjectStorage Schema storage keeps exported schemas to avoid infinite cycle recursions. */
     private static $schemaStorage;

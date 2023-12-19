@@ -17,19 +17,13 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 /**
  * Contact information for the owners of the API.
  * Built from #/definitions/contact
+ * @property string $name The identifying name of the contact person/organization.
+ * @property string $url The URL pointing to the contact information.
+ * @property string $email The email address of the contact person/organization.
  */
 class Contact extends ClassStructure
 {
     const X_PROPERTY_PATTERN = '^x-';
-
-    /** @var string The identifying name of the contact person/organization. */
-    public $name;
-
-    /** @var string The URL pointing to the contact information. */
-    public $url;
-
-    /** @var string The email address of the contact person/organization. */
-    public $email;
 
     /**
      * @param Properties|static $properties

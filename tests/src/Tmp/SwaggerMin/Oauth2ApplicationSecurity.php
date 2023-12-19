@@ -16,6 +16,8 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/oauth2ApplicationSecurity
+ * @property string[] $scopes
+ * @property string $description
  */
 class Oauth2ApplicationSecurity extends ClassStructure
 {
@@ -31,14 +33,8 @@ class Oauth2ApplicationSecurity extends ClassStructure
     /** @var string */
     public $flow;
 
-    /** @var string[] */
-    public $scopes;
-
     /** @var string */
     public $tokenUrl;
-
-    /** @var string */
-    public $description;
 
     /**
      * @param Properties|static $properties

@@ -13,6 +13,8 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Parameter in path
+ * @property mixed $in
+ * @property mixed $style
  */
 class ParameterLocationParameterInPath extends ClassStructure
 {
@@ -23,12 +25,6 @@ class ParameterLocationParameterInPath extends ClassStructure
     const LABEL = 'label';
 
     const SIMPLE = 'simple';
-
-    /** @var mixed */
-    public $in;
-
-    /** @var mixed */
-    public $style;
 
     /** @var mixed */
     public $required;

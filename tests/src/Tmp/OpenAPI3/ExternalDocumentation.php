@@ -16,13 +16,11 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/ExternalDocumentation
+ * @property string $description
  */
 class ExternalDocumentation extends ClassStructure
 {
     const X_PROPERTY_PATTERN = '^x-';
-
-    /** @var string */
-    public $description;
 
     /** @var string */
     public $url;

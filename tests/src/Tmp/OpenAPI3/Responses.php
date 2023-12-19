@@ -18,15 +18,13 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 /**
  * Built from #/definitions/Responses
  * @method static Responses|Response[]|string[][] import($data, Context $options = null)
+ * @property Response|string[] $default
  */
 class Responses extends ClassStructure
 {
     const CONST_1_5_D_2_XX_PROPERTY_PATTERN = '^[1-5](?:\\d{2}|XX)$';
 
     const X_PROPERTY_PATTERN = '^x-';
-
-    /** @var Response|string[] */
-    public $default;
 
     /**
      * @param Properties|static $properties

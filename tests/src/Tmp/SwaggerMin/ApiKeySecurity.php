@@ -16,6 +16,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/apiKeySecurity
+ * @property string $description
  */
 class ApiKeySecurity extends ClassStructure
 {
@@ -35,9 +36,6 @@ class ApiKeySecurity extends ClassStructure
 
     /** @var string */
     public $in;
-
-    /** @var string */
-    public $description;
 
     /**
      * @param Properties|static $properties

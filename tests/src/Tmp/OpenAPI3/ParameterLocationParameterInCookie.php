@@ -13,18 +13,14 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Parameter in cookie
+ * @property mixed $in
+ * @property mixed $style
  */
 class ParameterLocationParameterInCookie extends ClassStructure
 {
     const COOKIE = 'cookie';
 
     const FORM = 'form';
-
-    /** @var mixed */
-    public $in;
-
-    /** @var mixed */
-    public $style;
 
     /**
      * @param Properties|static $properties

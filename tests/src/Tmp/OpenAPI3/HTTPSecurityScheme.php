@@ -18,6 +18,8 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 /**
  * Built from #/definitions/HTTPSecurityScheme
  * @method static HTTPSecurityScheme|HTTPSecuritySchemeBearer|HTTPSecuritySchemeNonBearer import($data, Context $options = null)
+ * @property string $bearerFormat
+ * @property string $description
  */
 class HTTPSecurityScheme extends ClassStructure
 {
@@ -27,12 +29,6 @@ class HTTPSecurityScheme extends ClassStructure
 
     /** @var string */
     public $scheme;
-
-    /** @var string */
-    public $bearerFormat;
-
-    /** @var string */
-    public $description;
 
     /** @var string */
     public $type;

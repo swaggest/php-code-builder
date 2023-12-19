@@ -16,6 +16,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/basicAuthenticationSecurity
+ * @property string $description
  */
 class BasicAuthenticationSecurity extends ClassStructure
 {
@@ -25,9 +26,6 @@ class BasicAuthenticationSecurity extends ClassStructure
 
     /** @var string */
     public $type;
-
-    /** @var string */
-    public $description;
 
     /**
      * @param Properties|static $properties

@@ -18,25 +18,15 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 /**
  * Built from #/definitions/PathItem
  * @method static PathItem|Operation[] import($data, Context $options = null)
+ * @property string $ref
+ * @property string $summary
+ * @property string $description
+ * @property Server[]|array $servers
+ * @property Parameter[]|mixed[]|ParameterLocationParameterInPath[]|ParameterLocationParameterInQuery[]|ParameterLocationParameterInHeader[]|ParameterLocationParameterInCookie[]|string[][]|array $parameters
  */
 class PathItem extends ClassStructure
 {
     const GET_PUT_POST_DELETE_OPTIONS_HEAD_PATCH_TRACE_PROPERTY_PATTERN = '^(get|put|post|delete|options|head|patch|trace)$';
-
-    /** @var string */
-    public $ref;
-
-    /** @var string */
-    public $summary;
-
-    /** @var string */
-    public $description;
-
-    /** @var Server[]|array */
-    public $servers;
-
-    /** @var Parameter[]|mixed[]|ParameterLocationParameterInPath[]|ParameterLocationParameterInQuery[]|ParameterLocationParameterInHeader[]|ParameterLocationParameterInCookie[]|string[][]|array */
-    public $parameters;
 
     /**
      * @param Properties|static $properties

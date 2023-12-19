@@ -17,6 +17,10 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 /**
  * General information about the API.
  * Built from #/definitions/info
+ * @property string $description A longer description of the API. Should be different from the title.  GitHub Flavored Markdown is allowed.
+ * @property string $termsOfService The terms of service for the API.
+ * @property Contact $contact Contact information for the owners of the API.
+ * @property License $license
  */
 class Info extends ClassStructure
 {
@@ -27,18 +31,6 @@ class Info extends ClassStructure
 
     /** @var string A semantic version number of the API. */
     public $version;
-
-    /** @var string A longer description of the API. Should be different from the title.  GitHub Flavored Markdown is allowed. */
-    public $description;
-
-    /** @var string The terms of service for the API. */
-    public $termsOfService;
-
-    /** @var Contact Contact information for the owners of the API. */
-    public $contact;
-
-    /** @var License */
-    public $license;
 
     /**
      * @param Properties|static $properties

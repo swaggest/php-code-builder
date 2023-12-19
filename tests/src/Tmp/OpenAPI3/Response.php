@@ -16,6 +16,9 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/Response
+ * @property Header[]|mixed[]|string[][] $headers
+ * @property MediaType[]|mixed[] $content
+ * @property Link[]|string[][] $links
  */
 class Response extends ClassStructure
 {
@@ -23,15 +26,6 @@ class Response extends ClassStructure
 
     /** @var string */
     public $description;
-
-    /** @var Header[]|mixed[]|string[][] */
-    public $headers;
-
-    /** @var MediaType[]|mixed[] */
-    public $content;
-
-    /** @var Link[]|string[][] */
-    public $links;
 
     /**
      * @param Properties|static $properties

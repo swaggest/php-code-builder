@@ -16,6 +16,8 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/bodyParameter
+ * @property string $description A brief description of the parameter. This could contain examples of use.  GitHub Flavored Markdown is allowed.
+ * @property bool $required Determines whether or not this parameter is required or optional.
  */
 class BodyParameter extends ClassStructure
 {
@@ -23,17 +25,11 @@ class BodyParameter extends ClassStructure
 
     const X_PROPERTY_PATTERN = '^x-';
 
-    /** @var string A brief description of the parameter. This could contain examples of use.  GitHub Flavored Markdown is allowed. */
-    public $description;
-
     /** @var string The name of the parameter. */
     public $name;
 
     /** @var string Determines the location of the parameter. */
     public $in;
-
-    /** @var bool Determines whether or not this parameter is required or optional. */
-    public $required;
 
     /** @var DefinitionsSchema A deterministic version of a JSON Schema object. */
     public $schema;

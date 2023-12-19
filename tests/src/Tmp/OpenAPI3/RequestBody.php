@@ -16,19 +16,15 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/RequestBody
+ * @property string $description
+ * @property bool $required
  */
 class RequestBody extends ClassStructure
 {
     const X_PROPERTY_PATTERN = '^x-';
 
-    /** @var string */
-    public $description;
-
     /** @var MediaType[]|mixed[] */
     public $content;
-
-    /** @var bool */
-    public $required;
 
     /**
      * @param Properties|static $properties

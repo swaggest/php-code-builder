@@ -13,6 +13,8 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Parameter in query
+ * @property mixed $in
+ * @property mixed $style
  */
 class ParameterLocationParameterInQuery extends ClassStructure
 {
@@ -25,12 +27,6 @@ class ParameterLocationParameterInQuery extends ClassStructure
     const PIPE_DELIMITED = 'pipeDelimited';
 
     const DEEP_OBJECT = 'deepObject';
-
-    /** @var mixed */
-    public $in;
-
-    /** @var mixed */
-    public $style;
 
     /**
      * @param Properties|static $properties

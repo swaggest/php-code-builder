@@ -16,6 +16,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/OpenIdConnectSecurityScheme
+ * @property string $description
  */
 class OpenIdConnectSecurityScheme extends ClassStructure
 {
@@ -28,9 +29,6 @@ class OpenIdConnectSecurityScheme extends ClassStructure
 
     /** @var string */
     public $openIdConnectUrl;
-
-    /** @var string */
-    public $description;
 
     /**
      * @param Properties|static $properties

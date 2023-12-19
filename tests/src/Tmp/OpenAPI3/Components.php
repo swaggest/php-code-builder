@@ -16,37 +16,19 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/Components
+ * @property DefinitionsSchema[]|string[][] $schemas
+ * @property string[][]|Response[] $responses
+ * @property string[][]|Parameter[]|mixed[]|ParameterLocationParameterInPath[]|ParameterLocationParameterInQuery[]|ParameterLocationParameterInHeader[]|ParameterLocationParameterInCookie[] $parameters
+ * @property string[][]|Example[] $examples
+ * @property string[][]|RequestBody[] $requestBodies
+ * @property string[][]|Header[]|mixed[] $headers
+ * @property string[][]|APIKeySecurityScheme[]|HTTPSecurityScheme[]|HTTPSecuritySchemeBearer[]|HTTPSecuritySchemeNonBearer[]|OAuth2SecurityScheme[]|OpenIdConnectSecurityScheme[] $securitySchemes
+ * @property string[][]|Link[] $links
+ * @property string[][]|PathItem[]|Operation[][][] $callbacks
  */
 class Components extends ClassStructure
 {
     const X_PROPERTY_PATTERN = '^x-';
-
-    /** @var DefinitionsSchema[]|string[][] */
-    public $schemas;
-
-    /** @var string[][]|Response[] */
-    public $responses;
-
-    /** @var string[][]|Parameter[]|mixed[]|ParameterLocationParameterInPath[]|ParameterLocationParameterInQuery[]|ParameterLocationParameterInHeader[]|ParameterLocationParameterInCookie[] */
-    public $parameters;
-
-    /** @var string[][]|Example[] */
-    public $examples;
-
-    /** @var string[][]|RequestBody[] */
-    public $requestBodies;
-
-    /** @var string[][]|Header[]|mixed[] */
-    public $headers;
-
-    /** @var string[][]|APIKeySecurityScheme[]|HTTPSecurityScheme[]|HTTPSecuritySchemeBearer[]|HTTPSecuritySchemeNonBearer[]|OAuth2SecurityScheme[]|OpenIdConnectSecurityScheme[] */
-    public $securitySchemes;
-
-    /** @var string[][]|Link[] */
-    public $links;
-
-    /** @var string[][]|PathItem[]|Operation[][][] */
-    public $callbacks;
 
     /**
      * @param Properties|static $properties

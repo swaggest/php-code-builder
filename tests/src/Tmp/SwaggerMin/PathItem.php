@@ -16,37 +16,19 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/pathItem
+ * @property string $ref
+ * @property Operation $get
+ * @property Operation $put
+ * @property Operation $post
+ * @property Operation $delete
+ * @property Operation $options
+ * @property Operation $head
+ * @property Operation $patch
+ * @property BodyParameter[]|HeaderParameterSubSchema[]|FormDataParameterSubSchema[]|QueryParameterSubSchema[]|PathParameterSubSchema[]|JsonReference[]|array $parameters The parameters needed to send a valid API call.
  */
 class PathItem extends ClassStructure
 {
     const X_PROPERTY_PATTERN = '^x-';
-
-    /** @var string */
-    public $ref;
-
-    /** @var Operation */
-    public $get;
-
-    /** @var Operation */
-    public $put;
-
-    /** @var Operation */
-    public $post;
-
-    /** @var Operation */
-    public $delete;
-
-    /** @var Operation */
-    public $options;
-
-    /** @var Operation */
-    public $head;
-
-    /** @var Operation */
-    public $patch;
-
-    /** @var BodyParameter[]|HeaderParameterSubSchema[]|FormDataParameterSubSchema[]|QueryParameterSubSchema[]|PathParameterSubSchema[]|JsonReference[]|array The parameters needed to send a valid API call. */
-    public $parameters;
 
     /**
      * @param Properties|static $properties

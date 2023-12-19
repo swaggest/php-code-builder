@@ -13,18 +13,14 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Parameter in header
+ * @property mixed $in
+ * @property mixed $style
  */
 class ParameterLocationParameterInHeader extends ClassStructure
 {
     const HEADER = 'header';
 
     const SIMPLE = 'simple';
-
-    /** @var mixed */
-    public $in;
-
-    /** @var mixed */
-    public $style;
 
     /**
      * @param Properties|static $properties

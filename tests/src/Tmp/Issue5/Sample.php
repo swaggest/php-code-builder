@@ -11,14 +11,12 @@ use Swaggest\JsonSchema\Schema;
 use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
+/**
+ * @property string $foo
+ * @property string $bar
+ */
 class Sample extends ClassStructure
 {
-    /** @var string */
-    public $foo;
-
-    /** @var string */
-    public $bar;
-
     /**
      * @param Properties|static $properties
      * @param Schema $ownerSchema

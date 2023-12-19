@@ -11,12 +11,12 @@ use Swaggest\JsonSchema\Schema;
 use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
+/**
+ * @property mixed $foo
+ */
 class IfClass extends ClassStructure
 {
     const BAR = 'bar';
-
-    /** @var mixed */
-    public $foo;
 
     /**
      * @param Properties|static $properties

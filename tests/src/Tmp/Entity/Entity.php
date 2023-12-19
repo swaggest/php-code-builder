@@ -17,15 +17,13 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * @method static Entity|string[]|int[]|bool[]|null|array import($data, Context $options = null)
+ * @property string $namedProperty
  */
 class Entity extends ClassStructure
 {
     const X_PROPERTY_PATTERN = '^x-';
 
     const Z_PROPERTY_PATTERN = '^z-';
-
-    /** @var string */
-    public $namedProperty;
 
     /**
      * @param Properties|static $properties

@@ -11,14 +11,12 @@ use Swaggest\JsonSchema\Schema;
 use Swaggest\JsonSchema\Structure\ClassStructure;
 
 
+/**
+ * @property float $height
+ * @property float $width
+ */
 class SomeThing extends ClassStructure
 {
-    /** @var float */
-    public $height;
-
-    /** @var float */
-    public $width;
-
     /**
      * @param Properties|static $properties
      * @param Schema $ownerSchema

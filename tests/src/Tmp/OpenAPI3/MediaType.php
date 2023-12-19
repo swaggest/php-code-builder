@@ -18,20 +18,14 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 /**
  * Built from #/definitions/MediaType
  * @method static MediaType import($data, Context $options = null)
+ * @property DefinitionsSchema|string[] $schema
  * @property mixed $example
+ * @property Example[]|string[][] $examples
+ * @property Encoding[] $encoding
  */
 class MediaType extends ClassStructure
 {
     const X_PROPERTY_PATTERN = '^x-';
-
-    /** @var DefinitionsSchema|string[] */
-    public $schema;
-
-    /** @var Example[]|string[][] */
-    public $examples;
-
-    /** @var Encoding[] */
-    public $encoding;
 
     /**
      * @param Properties|static $properties

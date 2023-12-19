@@ -16,19 +16,15 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/ServerVariable
+ * @property string[]|array $enum
+ * @property string $description
  */
 class ServerVariable extends ClassStructure
 {
     const X_PROPERTY_PATTERN = '^x-';
 
-    /** @var string[]|array */
-    public $enum;
-
     /** @var string */
     public $default;
-
-    /** @var string */
-    public $description;
 
     /**
      * @param Properties|static $properties

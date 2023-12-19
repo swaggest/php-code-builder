@@ -16,6 +16,10 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/Info
+ * @property string $description
+ * @property string $termsOfService
+ * @property Contact $contact
+ * @property License $license
  */
 class Info extends ClassStructure
 {
@@ -23,18 +27,6 @@ class Info extends ClassStructure
 
     /** @var string */
     public $title;
-
-    /** @var string */
-    public $description;
-
-    /** @var string */
-    public $termsOfService;
-
-    /** @var Contact */
-    public $contact;
-
-    /** @var License */
-    public $license;
 
     /** @var string */
     public $version;

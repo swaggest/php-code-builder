@@ -13,14 +13,12 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/Discriminator
+ * @property string[] $mapping
  */
 class Discriminator extends ClassStructure
 {
     /** @var string */
     public $propertyName;
-
-    /** @var string[] */
-    public $mapping;
 
     /**
      * @param Properties|static $properties

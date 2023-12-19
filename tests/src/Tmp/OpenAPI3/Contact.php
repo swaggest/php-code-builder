@@ -16,19 +16,13 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/Contact
+ * @property string $name
+ * @property string $url
+ * @property string $email
  */
 class Contact extends ClassStructure
 {
     const X_PROPERTY_PATTERN = '^x-';
-
-    /** @var string */
-    public $name;
-
-    /** @var string */
-    public $url;
-
-    /** @var string */
-    public $email;
 
     /**
      * @param Properties|static $properties

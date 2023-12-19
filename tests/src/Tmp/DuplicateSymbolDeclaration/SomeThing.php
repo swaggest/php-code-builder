@@ -12,11 +12,11 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 use Swaggest\PhpCodeBuilder\Tests\Tmp\DuplicateSymbolDeclaration\InlineElements\SomeThing as SomeThing1;
 
 
+/**
+ * @property SomeThing1[]|array $inlineElements
+ */
 class SomeThing extends ClassStructure
 {
-    /** @var SomeThing1[]|array */
-    public $inlineElements;
-
     /**
      * @param Properties|static $properties
      * @param Schema $ownerSchema

@@ -16,6 +16,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/license
+ * @property string $url The URL pointing to the license.
  */
 class License extends ClassStructure
 {
@@ -23,9 +24,6 @@ class License extends ClassStructure
 
     /** @var string The name of the license type. It's encouraged to use an OSI compatible license. */
     public $name;
-
-    /** @var string The URL pointing to the license. */
-    public $url;
 
     /**
      * @param Properties|static $properties

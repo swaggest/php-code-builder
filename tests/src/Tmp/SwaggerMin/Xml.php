@@ -16,25 +16,15 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/xml
+ * @property string $name
+ * @property string $namespace
+ * @property string $prefix
+ * @property bool $attribute
+ * @property bool $wrapped
  */
 class Xml extends ClassStructure
 {
     const X_PROPERTY_PATTERN = '^x-';
-
-    /** @var string */
-    public $name;
-
-    /** @var string */
-    public $namespace;
-
-    /** @var string */
-    public $prefix;
-
-    /** @var bool */
-    public $attribute;
-
-    /** @var bool */
-    public $wrapped;
 
     /**
      * @param Properties|static $properties

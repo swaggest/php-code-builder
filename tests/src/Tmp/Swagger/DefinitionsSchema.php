@@ -19,96 +19,40 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 /**
  * A deterministic version of a JSON Schema object.
  * Built from #/definitions/schema
+ * @property string $ref
+ * @property string $format
+ * @property string $title
+ * @property string $description
  * @property mixed $default
+ * @property float $multipleOf
+ * @property float $maximum
+ * @property bool $exclusiveMaximum
+ * @property float $minimum
+ * @property bool $exclusiveMinimum
+ * @property int $maxLength
+ * @property int $minLength
+ * @property string $pattern
+ * @property int $maxItems
+ * @property int $minItems
+ * @property bool $uniqueItems
+ * @property int $maxProperties
+ * @property int $minProperties
+ * @property string[]|array $required
+ * @property array $enum
+ * @property DefinitionsSchema|bool $additionalProperties
+ * @property array $type
+ * @property DefinitionsSchema|DefinitionsSchema[]|array $items
+ * @property DefinitionsSchema[]|array $allOf
+ * @property DefinitionsSchema[] $properties
+ * @property string $discriminator
+ * @property bool $readOnly
+ * @property Xml $xml
+ * @property ExternalDocs $externalDocs information about external documentation
  * @property mixed $example
  */
 class DefinitionsSchema extends ClassStructure implements SchemaExporter
 {
     const X_PROPERTY_PATTERN = '^x-';
-
-    /** @var string */
-    public $ref;
-
-    /** @var string */
-    public $format;
-
-    /** @var string */
-    public $title;
-
-    /** @var string */
-    public $description;
-
-    /** @var float */
-    public $multipleOf;
-
-    /** @var float */
-    public $maximum;
-
-    /** @var bool */
-    public $exclusiveMaximum;
-
-    /** @var float */
-    public $minimum;
-
-    /** @var bool */
-    public $exclusiveMinimum;
-
-    /** @var int */
-    public $maxLength;
-
-    /** @var int */
-    public $minLength;
-
-    /** @var string */
-    public $pattern;
-
-    /** @var int */
-    public $maxItems;
-
-    /** @var int */
-    public $minItems;
-
-    /** @var bool */
-    public $uniqueItems;
-
-    /** @var int */
-    public $maxProperties;
-
-    /** @var int */
-    public $minProperties;
-
-    /** @var string[]|array */
-    public $required;
-
-    /** @var array */
-    public $enum;
-
-    /** @var DefinitionsSchema|bool */
-    public $additionalProperties;
-
-    /** @var array */
-    public $type;
-
-    /** @var DefinitionsSchema|DefinitionsSchema[]|array */
-    public $items;
-
-    /** @var DefinitionsSchema[]|array */
-    public $allOf;
-
-    /** @var DefinitionsSchema[] */
-    public $properties;
-
-    /** @var string */
-    public $discriminator;
-
-    /** @var bool */
-    public $readOnly;
-
-    /** @var Xml */
-    public $xml;
-
-    /** @var ExternalDocs information about external documentation */
-    public $externalDocs;
 
     /** @var SplObjectStorage Schema storage keeps exported schemas to avoid infinite cycle recursions. */
     private static $schemaStorage;

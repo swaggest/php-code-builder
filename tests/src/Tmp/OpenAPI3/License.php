@@ -16,6 +16,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/License
+ * @property string $url
  */
 class License extends ClassStructure
 {
@@ -23,9 +24,6 @@ class License extends ClassStructure
 
     /** @var string */
     public $name;
-
-    /** @var string */
-    public $url;
 
     /**
      * @param Properties|static $properties

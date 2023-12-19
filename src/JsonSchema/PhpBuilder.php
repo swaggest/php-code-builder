@@ -163,6 +163,13 @@ class PhpBuilder
             $this->dynamicIterator->push($generatedClass);
         }
 
+        $required = [];
+        if (is_array($schema->required)) {
+            foreach ($schema->required as $name) {
+                $required[$name] = true;
+            }
+        }
+
         if ($schema->properties) {
             $phpNames = array();
             /**
@@ -196,7 +203,7 @@ class PhpBuilder
                     $phpProperty->setDefault($property->default);
                 }
 
-                if ($this->schemaIsNullable($property)) {
+                if ($this->schemaIsNullable($property) || !isset($required[$name])) {
                     $phpProperty->setIsMagical(true);
                 }
 

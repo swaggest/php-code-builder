@@ -16,6 +16,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/ImplicitOAuthFlow
+ * @property string $refreshUrl
  */
 class ImplicitOAuthFlow extends ClassStructure
 {
@@ -23,9 +24,6 @@ class ImplicitOAuthFlow extends ClassStructure
 
     /** @var string */
     public $authorizationUrl;
-
-    /** @var string */
-    public $refreshUrl;
 
     /** @var string[] */
     public $scopes;

@@ -16,6 +16,8 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/AuthorizationCodeOAuthFlow
+ * @property string $refreshUrl
+ * @property string[] $scopes
  */
 class AuthorizationCodeOAuthFlow extends ClassStructure
 {
@@ -26,12 +28,6 @@ class AuthorizationCodeOAuthFlow extends ClassStructure
 
     /** @var string */
     public $tokenUrl;
-
-    /** @var string */
-    public $refreshUrl;
-
-    /** @var string[] */
-    public $scopes;
 
     /**
      * @param Properties|static $properties

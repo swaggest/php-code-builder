@@ -13,6 +13,11 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/Encoding
+ * @property string $contentType
+ * @property Header[]|mixed[] $headers
+ * @property string $style
+ * @property bool $explode
+ * @property bool $allowReserved
  */
 class Encoding extends ClassStructure
 {
@@ -23,21 +28,6 @@ class Encoding extends ClassStructure
     const PIPE_DELIMITED = 'pipeDelimited';
 
     const DEEP_OBJECT = 'deepObject';
-
-    /** @var string */
-    public $contentType;
-
-    /** @var Header[]|mixed[] */
-    public $headers;
-
-    /** @var string */
-    public $style;
-
-    /** @var bool */
-    public $explode;
-
-    /** @var bool */
-    public $allowReserved;
 
     /**
      * @param Properties|static $properties

@@ -16,22 +16,14 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/OAuthFlows
+ * @property ImplicitOAuthFlow $implicit
+ * @property PasswordOAuthFlow $password
+ * @property ClientCredentialsFlow $clientCredentials
+ * @property AuthorizationCodeOAuthFlow $authorizationCode
  */
 class OAuthFlows extends ClassStructure
 {
     const X_PROPERTY_PATTERN = '^x-';
-
-    /** @var ImplicitOAuthFlow */
-    public $implicit;
-
-    /** @var PasswordOAuthFlow */
-    public $password;
-
-    /** @var ClientCredentialsFlow */
-    public $clientCredentials;
-
-    /** @var AuthorizationCodeOAuthFlow */
-    public $authorizationCode;
 
     /**
      * @param Properties|static $properties

@@ -18,7 +18,23 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/primitivesItems
+ * @property string $type
+ * @property string $format
+ * @property PrimitivesItems $items
+ * @property string $collectionFormat
  * @property mixed $default
+ * @property float $maximum
+ * @property bool $exclusiveMaximum
+ * @property float $minimum
+ * @property bool $exclusiveMinimum
+ * @property int $maxLength
+ * @property int $minLength
+ * @property string $pattern
+ * @property int $maxItems
+ * @property int $minItems
+ * @property bool $uniqueItems
+ * @property array $enum
+ * @property float $multipleOf
  */
 class PrimitivesItems extends ClassStructure implements SchemaExporter
 {
@@ -33,54 +49,6 @@ class PrimitivesItems extends ClassStructure implements SchemaExporter
     const _ARRAY = 'array';
 
     const X_PROPERTY_PATTERN = '^x-';
-
-    /** @var string */
-    public $type;
-
-    /** @var string */
-    public $format;
-
-    /** @var PrimitivesItems */
-    public $items;
-
-    /** @var string */
-    public $collectionFormat;
-
-    /** @var float */
-    public $maximum;
-
-    /** @var bool */
-    public $exclusiveMaximum;
-
-    /** @var float */
-    public $minimum;
-
-    /** @var bool */
-    public $exclusiveMinimum;
-
-    /** @var int */
-    public $maxLength;
-
-    /** @var int */
-    public $minLength;
-
-    /** @var string */
-    public $pattern;
-
-    /** @var int */
-    public $maxItems;
-
-    /** @var int */
-    public $minItems;
-
-    /** @var bool */
-    public $uniqueItems;
-
-    /** @var array */
-    public $enum;
-
-    /** @var float */
-    public $multipleOf;
 
     /** @var SplObjectStorage Schema storage keeps exported schemas to avoid infinite cycle recursions. */
     private static $schemaStorage;

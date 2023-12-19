@@ -16,6 +16,17 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/operation
+ * @property string[]|array $tags
+ * @property string $summary A brief summary of the operation.
+ * @property string $description A longer description of the operation, GitHub Flavored Markdown is allowed.
+ * @property ExternalDocs $externalDocs information about external documentation
+ * @property string $operationId A unique identifier of the operation.
+ * @property string[]|array $produces A list of MIME types the API can produce.
+ * @property string[]|array $consumes A list of MIME types the API can consume.
+ * @property BodyParameter[]|HeaderParameterSubSchema[]|FormDataParameterSubSchema[]|QueryParameterSubSchema[]|PathParameterSubSchema[]|JsonReference[]|array $parameters The parameters needed to send a valid API call.
+ * @property string[]|array $schemes The transfer protocol of the API.
+ * @property bool $deprecated
+ * @property string[][]|array[][]|array $security
  */
 class Operation extends ClassStructure
 {
@@ -29,41 +40,8 @@ class Operation extends ClassStructure
 
     const X_PROPERTY_PATTERN = '^x-';
 
-    /** @var string[]|array */
-    public $tags;
-
-    /** @var string A brief summary of the operation. */
-    public $summary;
-
-    /** @var string A longer description of the operation, GitHub Flavored Markdown is allowed. */
-    public $description;
-
-    /** @var ExternalDocs information about external documentation */
-    public $externalDocs;
-
-    /** @var string A unique identifier of the operation. */
-    public $operationId;
-
-    /** @var string[]|array A list of MIME types the API can produce. */
-    public $produces;
-
-    /** @var string[]|array A list of MIME types the API can consume. */
-    public $consumes;
-
-    /** @var BodyParameter[]|HeaderParameterSubSchema[]|FormDataParameterSubSchema[]|QueryParameterSubSchema[]|PathParameterSubSchema[]|JsonReference[]|array The parameters needed to send a valid API call. */
-    public $parameters;
-
     /** @var Response[]|JsonReference[] Response objects names can either be any valid HTTP status code or 'default'. */
     public $responses;
-
-    /** @var string[]|array The transfer protocol of the API. */
-    public $schemes;
-
-    /** @var bool */
-    public $deprecated;
-
-    /** @var string[][]|array[][]|array */
-    public $security;
 
     /**
      * @param Properties|static $properties

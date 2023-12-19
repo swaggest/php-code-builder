@@ -16,6 +16,19 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * A JSON Schema for Swagger 2.0 API.
+ * @property string $host The
+ * host (name or ip) of the API. Example: 'swagger.io'
+ * @property string $basePath The base path to the API. Example: '/api'.
+ * @property string[]|array $schemes The transfer protocol of the API.
+ * @property string[]|array $consumes A list of MIME types accepted by the API.
+ * @property string[]|array $produces A list of MIME types the API can produce.
+ * @property DefinitionsSchema[] $definitions One or more JSON objects describing the schemas being consumed and produced by the API.
+ * @property BodyParameter[]|HeaderParameterSubSchema[]|FormDataParameterSubSchema[]|QueryParameterSubSchema[]|PathParameterSubSchema[] $parameters One or more JSON representations for parameters
+ * @property Response[] $responses One or more JSON representations for parameters
+ * @property string[][]|array[][]|array $security
+ * @property BasicAuthenticationSecurity[]|ApiKeySecurity[]|Oauth2ImplicitSecurity[]|Oauth2PasswordSecurity[]|Oauth2ApplicationSecurity[]|Oauth2AccessCodeSecurity[] $securityDefinitions
+ * @property Tag[]|array $tags
+ * @property ExternalDocs $externalDocs information about external documentation
  */
 class SwaggerSchema extends ClassStructure
 {
@@ -37,47 +50,8 @@ class SwaggerSchema extends ClassStructure
     /** @var Info General information about the API. */
     public $info;
 
-    /**
-     * @var string The
-     * host (name or ip) of the API. Example: 'swagger.io'
-     */
-    public $host;
-
-    /** @var string The base path to the API. Example: '/api'. */
-    public $basePath;
-
-    /** @var string[]|array The transfer protocol of the API. */
-    public $schemes;
-
-    /** @var string[]|array A list of MIME types accepted by the API. */
-    public $consumes;
-
-    /** @var string[]|array A list of MIME types the API can produce. */
-    public $produces;
-
     /** @var PathItem[] Relative paths to the individual endpoints. They must be relative to the 'basePath'. */
     public $paths;
-
-    /** @var DefinitionsSchema[] One or more JSON objects describing the schemas being consumed and produced by the API. */
-    public $definitions;
-
-    /** @var BodyParameter[]|HeaderParameterSubSchema[]|FormDataParameterSubSchema[]|QueryParameterSubSchema[]|PathParameterSubSchema[] One or more JSON representations for parameters */
-    public $parameters;
-
-    /** @var Response[] One or more JSON representations for parameters */
-    public $responses;
-
-    /** @var string[][]|array[][]|array */
-    public $security;
-
-    /** @var BasicAuthenticationSecurity[]|ApiKeySecurity[]|Oauth2ImplicitSecurity[]|Oauth2PasswordSecurity[]|Oauth2ApplicationSecurity[]|Oauth2AccessCodeSecurity[] */
-    public $securityDefinitions;
-
-    /** @var Tag[]|array */
-    public $tags;
-
-    /** @var ExternalDocs information about external documentation */
-    public $externalDocs;
 
     /**
      * @param Properties|static $properties

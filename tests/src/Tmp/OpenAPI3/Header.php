@@ -18,43 +18,23 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 /**
  * Built from #/definitions/Header
  * @method static Header import($data, Context $options = null)
+ * @property string $description
+ * @property bool $required
+ * @property bool $deprecated
+ * @property bool $allowEmptyValue
+ * @property string $style
+ * @property bool $explode
+ * @property bool $allowReserved
+ * @property DefinitionsSchema|string[] $schema
+ * @property MediaType[]|mixed[] $content
  * @property mixed $example
+ * @property Example[]|string[][] $examples
  */
 class Header extends ClassStructure
 {
     const SIMPLE = 'simple';
 
     const X_PROPERTY_PATTERN = '^x-';
-
-    /** @var string */
-    public $description;
-
-    /** @var bool */
-    public $required;
-
-    /** @var bool */
-    public $deprecated;
-
-    /** @var bool */
-    public $allowEmptyValue;
-
-    /** @var string */
-    public $style;
-
-    /** @var bool */
-    public $explode;
-
-    /** @var bool */
-    public $allowReserved;
-
-    /** @var DefinitionsSchema|string[] */
-    public $schema;
-
-    /** @var MediaType[]|mixed[] */
-    public $content;
-
-    /** @var Example[]|string[][] */
-    public $examples;
 
     /**
      * @param Properties|static $properties

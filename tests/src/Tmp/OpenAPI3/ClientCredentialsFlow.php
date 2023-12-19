@@ -16,6 +16,8 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Built from #/definitions/ClientCredentialsFlow
+ * @property string $refreshUrl
+ * @property string[] $scopes
  */
 class ClientCredentialsFlow extends ClassStructure
 {
@@ -23,12 +25,6 @@ class ClientCredentialsFlow extends ClassStructure
 
     /** @var string */
     public $tokenUrl;
-
-    /** @var string */
-    public $refreshUrl;
-
-    /** @var string[] */
-    public $scopes;
 
     /**
      * @param Properties|static $properties

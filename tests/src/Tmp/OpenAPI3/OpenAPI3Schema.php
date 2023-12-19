@@ -16,6 +16,11 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 
 /**
  * Validation schema for OpenAPI Specification 3.0.X.
+ * @property ExternalDocumentation $externalDocs
+ * @property Server[]|array $servers
+ * @property string[][]|array[][]|array $security
+ * @property Tag[]|array $tags
+ * @property Components $components
  */
 class OpenAPI3Schema extends ClassStructure
 {
@@ -27,23 +32,8 @@ class OpenAPI3Schema extends ClassStructure
     /** @var Info */
     public $info;
 
-    /** @var ExternalDocumentation */
-    public $externalDocs;
-
-    /** @var Server[]|array */
-    public $servers;
-
-    /** @var string[][]|array[][]|array */
-    public $security;
-
-    /** @var Tag[]|array */
-    public $tags;
-
     /** @var PathItem[]|Operation[][] */
     public $paths;
-
-    /** @var Components */
-    public $components;
 
     /**
      * @param Properties|static $properties
