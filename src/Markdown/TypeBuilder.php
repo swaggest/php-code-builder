@@ -30,11 +30,45 @@ class TypeBuilder
 
     public $file = '';
 
+    public $confluence = false;
+
     public function __construct()
     {
         $this->processed = new \SplObjectStorage();
     }
 
+    public function anchorLink($destinationHeader, $anchor = null)
+    {
+        if ($this->confluence) {
+            $l = str_replace('`', '', $destinationHeader);
+            $l = str_replace(' ', '-', $l);
+            $l = urlencode($l);
+
+            return '#' . $l;
+        }
+
+        if (!empty($anchor)) {
+            $l = strtolower($anchor);
+        } else {
+            $l = strtolower($destinationHeader);
+        }
+
+        return '#' . $l;
+    }
+
+    public function header($text, $anchor = null)
+    {
+        if ($this->confluence) {
+            return $text;
+        }
+
+        if (!empty($anchor)) {
+            $l = strtolower($anchor);
+        } else {
+            $l = strtolower($text);
+        }
+        return '<a id="' . $l . '">' . '</a> ' . $text;
+    }
 
     /**
      * @param Schema|boolean|null $schema
@@ -62,10 +96,17 @@ class TypeBuilder
 
         if (!empty($schema->enum)) {
             $res = '';
-            foreach ($schema->enum as $value) {
-                $res .= '<br>`' . var_export($value, true) . '`, ';
+            if ($this->confluence) {
+                foreach ($schema->enum as $value) {
+                    $res .= '`' . var_export($value, true) . '`, ';
+                }
+                return substr($res, 0, -2);
+            } else {
+                foreach ($schema->enum as $value) {
+                    $res .= '<br>`' . var_export($value, true) . '`, ';
+                }
+                return substr($res, 4, -2);
             }
-            return substr($res, 4, -2);
         }
 
         if (!empty($schema->getFromRefs())) {
@@ -246,6 +287,10 @@ class TypeBuilder
             $res = '`*`';
         }
 
+        if (empty($res)) {
+            $res = '';
+        }
+
         $res = str_replace('``', '', $res);
 
         return $res;
@@ -273,7 +318,11 @@ class TypeBuilder
             return $name;
         }
 
-        return '[`' . $name . '`](#' . strtolower($name) . ')';
+        if ($this->confluence) {
+            return '[' . $name . '](' . $this->anchorLink($name) . ')';
+        }
+
+        return '[`' . $name . '`](' . $this->anchorLink($name) . ')';
     }
 
     private static function constraints()
@@ -350,12 +399,10 @@ MD;
             }
         }
 
-        $tnl = strtolower($typeName);
-
         $res = <<<MD
 
 
-### <a id="$tnl"></a>$typeName
+### {$this->header($typeName)}
 $head
 
 MD;
@@ -376,13 +423,18 @@ MD;
                 ];
             }
         }
-        $res .= TableRenderer::create(new \ArrayIterator($rows))
+        $tr = TableRenderer::create(new \ArrayIterator($rows))
             ->stripEmptyColumns()
             ->setColDelimiter('|')
             ->setHeadRowDelimiter('-')
             ->setOutlineVertical(true)
-            ->multilineCellDelimiter('<br>')
             ->setShowHeader();
+
+        if (!$this->confluence) {
+            $tr->multilineCellDelimiter('<br>');
+        }
+
+        $res .= $tr;
 
         $res .= "\n\n";
 
@@ -412,14 +464,18 @@ MD;
                 }
             }
 
-            $res .= TableRenderer::create(new \ArrayIterator($rows))
+            $tr = TableRenderer::create(new \ArrayIterator($rows))
                 ->stripEmptyColumns()
                 ->setColDelimiter('|')
                 ->setHeadRowDelimiter('-')
                 ->setOutlineVertical(true)
-                ->multilineCellDelimiter('<br>')
                 ->setShowHeader();
 
+            if (!$this->confluence) {
+                $tr->multilineCellDelimiter('<br>');
+            }
+
+            $res .= $tr;
         }
 
         $res .= <<<MD
@@ -470,15 +526,24 @@ MD;
         return $res;
     }
 
+    private function trim($s)
+    {
+        if (empty($s)) {
+            return '';
+        }
+
+        return trim($s);
+    }
+
     private function description(Schema $schema)
     {
-        $res = str_replace("\n", " ", trim($schema->title));
-        if (trim($schema->description)) {
+        $res = str_replace("\n", " ", $this->trim($schema->title));
+        if ($this->trim($schema->description)) {
             if ($res) {
                 $res .= ". ";
             }
 
-            $res .= str_replace("\n", " ", trim($schema->description));
+            $res .= str_replace("\n", " ", $this->trim($schema->description));
         }
         if ($res) {
             return rtrim($res, '.') . '.';
