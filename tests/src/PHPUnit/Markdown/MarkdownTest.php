@@ -44,7 +44,7 @@ JSON;
         $this->assertSame(<<<'MD'
 
 
-### <a id="person"></a>Person
+### <a id="person"></a> Person
 
 
 
@@ -57,7 +57,7 @@ JSON;
 |`children`|`Array<`[`Person`](#person)`>`|            |
 
 
-### <a id="unit"></a>Unit
+### <a id="unit"></a> Unit
 This is a unit of something.
 
 
@@ -123,7 +123,7 @@ JSON;
         $this->assertSame(<<<'MD'
 
 
-### <a id="anyof0"></a>AnyOf0
+### <a id="anyof0"></a> AnyOf0
 
 
 
@@ -132,7 +132,7 @@ JSON;
 |`test1` |`String`|
 
 
-### <a id="anyof1"></a>AnyOf1
+### <a id="anyof1"></a> AnyOf1
 
 
 
