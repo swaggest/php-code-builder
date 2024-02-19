@@ -42,7 +42,9 @@ class TypeBuilder
         if ($this->confluence) {
             $l = str_replace('`', '', $destinationHeader);
             $l = str_replace(' ', '-', $l);
-            $l = urlencode($l);
+            if (is_string($l)) {
+                $l = urlencode($l);
+            }
 
             return '#' . $l;
         }
@@ -538,6 +540,10 @@ MD;
     private function description(Schema $schema)
     {
         $res = str_replace("\n", " ", $this->trim($schema->title));
+        if (!is_string($res)) {
+            return '';
+        }
+
         if ($this->trim($schema->description)) {
             if ($res) {
                 $res .= ". ";
