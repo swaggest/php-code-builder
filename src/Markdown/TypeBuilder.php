@@ -42,9 +42,11 @@ class TypeBuilder
         if ($this->confluence) {
             $l = str_replace('`', '', $destinationHeader);
             $l = str_replace(' ', '-', $l);
-            if (is_string($l)) {
-                $l = urlencode($l);
+            if (!is_string($l)) {
+                return '#';
             }
+
+            $l = urlencode($l);
 
             return '#' . $l;
         }
